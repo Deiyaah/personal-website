@@ -1,7 +1,7 @@
 {
   "name": "personal-portfolio-website",
   "version": "1.0.0",
-  "description": "A beautiful pastel gamer-themed personal portfolio website",
+  "description": "Cosmic yarn-themed personal portfolio — vanilla HTML/CSS/JS with GSAP motion",
   "main": "index.html",
   "scripts": {
     "start": "npx serve .",
@@ -10,11 +10,11 @@
   "keywords": [
     "portfolio",
     "website",
-    "gamer",
-    "pastel",
+    "cosmic",
+    "yarn",
     "personal"
   ],
-  "author": "",
+  "author": "Diyaa Yadav",
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {}

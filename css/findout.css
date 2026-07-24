@@ -2,11 +2,11 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 .findout {
-    --bg: #0a0d24;
-    --bg-2: #131a3d;
-    --ink: #eef0ff;
-    --muted: #a9aed3;
-    --accent: #5ea2ef;
+    --bg: #07091a;
+    --bg-2: #10163a;
+    --ink: #f0f1ff;
+    --muted: #a2a8d0;
+    --accent: #64a6f5;
     --primary: #8b7ff0;
     --claude: #c4b5fd;
     --cook: #ef8fd0;

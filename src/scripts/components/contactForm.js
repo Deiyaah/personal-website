@@ -1,44 +1,47 @@
 /**
- * Contact Form Component
- * Handles contact form submission and validation
+ * Contact form — validates, then composes an email in the visitor's
+ * mail app (no backend required). Status shown inline, never alert().
  */
 
-/**
- * Initialize contact form
- */
+const CONTACT_EMAIL = 'diyaa@ualberta.ca';
+
 export function initContactForm() {
-    const contactForm = document.querySelector('.contact-form');
-    
-    if (!contactForm) return;
+    const form = document.querySelector('.contact-form');
+    if (!form) return;
 
-    contactForm.addEventListener('submit', (e) => {
+    const status = form.querySelector('.form-status');
+
+    const setStatus = (message, isError = false) => {
+        if (!status) return;
+        status.textContent = message;
+        status.classList.toggle('is-error', isError);
+    };
+
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const message = formData.get('message');
-        
-        // Basic validation
+
+        const data = new FormData(form);
+        const name = (data.get('name') || '').toString().trim();
+        const email = (data.get('email') || '').toString().trim();
+        const message = (data.get('message') || '').toString().trim();
+
         if (!name || !email || !message) {
-            alert('Please fill in all fields.');
+            setStatus('please fill in every field ✂', true);
             return;
         }
 
-        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            alert('Please enter a valid email address.');
+            setStatus('that email doesn’t look right ✂', true);
             return;
         }
-        
-        // Here you would typically send the data to a server
-        // For now, we'll just show an alert
-        alert(`Thank you, ${name}! Your message has been received. I'll get back to you at ${email} soon!`);
-        
-        // Reset form
-        contactForm.reset();
+
+        const subject = `Hello from ${name} — via your site`;
+        const body = `${message}\n\n— ${name} (${email})`;
+        window.location.href =
+            `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        setStatus(`opening your mail app… or write me directly at ${CONTACT_EMAIL} ♡`);
+        form.reset();
     });
 }
-

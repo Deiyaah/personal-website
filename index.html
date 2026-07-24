@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diyaa Yadav — Personal Website</title>
+    <title>Diyaa Yadav — Software Engineer</title>
+    <meta name="description" content="Diyaa Yadav — Computer Engineering (Software) at the University of Alberta. Building multi-tenant SaaS, cloud infrastructure, and playful full-stack tools.">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#07091a" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f5f4fd" media="(prefers-color-scheme: light)">
+    <meta property="og:title" content="Diyaa Yadav — Software Engineer">
+    <meta property="og:description" content="Multi-tenant SaaS, cloud infrastructure, and playful full-stack tools — stitched with code.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><radialGradient id="g" cx="32%25" cy="28%25" r="72%25"><stop offset="0%25" stop-color="%23d8ccff"/><stop offset="55%25" stop-color="%238b7ff0"/><stop offset="100%25" stop-color="%23372a85"/></radialGradient></defs><circle cx="20" cy="20" r="16" fill="url(%23g)"/><g fill="none" stroke="%23241a5e" stroke-opacity="0.55" stroke-width="1.4" stroke-linecap="round"><path d="M8 17 C13 8, 20 7, 26 10 C31 13, 33 18, 32 23"/><path d="M9 25 C15 31, 24 32, 30 27"/><path d="M10 12 C17 15, 25 15, 31 13"/></g></svg>'>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="assets/vendor/gsap.min.js" defer></script>
+    <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
     <script>
         (function () {
             const theme = localStorage.getItem('portfolio-theme');
@@ -22,49 +30,41 @@
     </script>
 </head>
 <body>
+    <!-- Depth-layered canvas starfield (JS-driven, reduced-motion aware) -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
+
+    <!-- Floating cosmos decorations -->
     <div class="cosmos" aria-hidden="true">
         <svg class="cosmo cosmo-planet-a float-slow" viewBox="0 0 100 100" data-parallax="0.12">
             <defs>
                 <radialGradient id="cpA" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#c4b5fd"/>
+                    <stop offset="0%" stop-color="#cfc3ff"/>
                     <stop offset="60%" stop-color="#8b7ff0"/>
-                    <stop offset="100%" stop-color="#4c3cc0"/>
+                    <stop offset="100%" stop-color="#3b2d99"/>
                 </radialGradient>
             </defs>
             <circle cx="50" cy="50" r="26" fill="url(#cpA)"/>
-            <ellipse cx="50" cy="52" rx="42" ry="10" fill="none" stroke="#5ea2ef" stroke-width="2.5" stroke-opacity="0.7" transform="rotate(-18 50 52)"/>
-            <circle cx="42" cy="42" r="4" fill="#ded6ff" opacity="0.5"/>
+            <ellipse cx="50" cy="52" rx="42" ry="10" fill="none" stroke="#e8c49a" stroke-width="2.5" stroke-opacity="0.65" transform="rotate(-18 50 52)"/>
+            <circle cx="42" cy="42" r="4" fill="#e9e3ff" opacity="0.45"/>
         </svg>
         <svg class="cosmo cosmo-planet-b float-med" viewBox="0 0 100 100" data-parallax="0.2">
             <defs>
                 <radialGradient id="cpB" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#9fd0ff"/>
+                    <stop offset="0%" stop-color="#a5d3ff"/>
                     <stop offset="60%" stop-color="#5ea2ef"/>
-                    <stop offset="100%" stop-color="#2c5aa8"/>
+                    <stop offset="100%" stop-color="#25518f"/>
                 </radialGradient>
             </defs>
             <circle cx="50" cy="50" r="30" fill="url(#cpB)"/>
-            <path d="M24 44 C34 38, 44 40, 52 44 S 70 50, 78 46" fill="none" stroke="#dcecff" stroke-width="3" stroke-linecap="round" stroke-opacity="0.45"/>
-            <path d="M26 58 C36 54, 48 56, 58 60 S 72 62, 76 58" fill="none" stroke="#dcecff" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.3"/>
+            <path d="M24 44 C34 38, 44 40, 52 44 S 70 50, 78 46" fill="none" stroke="#ddedff" stroke-width="3" stroke-linecap="round" stroke-opacity="0.4"/>
+            <path d="M26 58 C36 54, 48 56, 58 60 S 72 62, 76 58" fill="none" stroke="#ddedff" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.26"/>
         </svg>
-        <svg class="cosmo cosmo-planet-c float-soft" viewBox="0 0 100 100" data-parallax="0.16">
-            <defs>
-                <radialGradient id="cpC" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#f7c2e4"/>
-                    <stop offset="60%" stop-color="#ef8fd0"/>
-                    <stop offset="100%" stop-color="#b04a90"/>
-                </radialGradient>
-            </defs>
-            <circle cx="50" cy="50" r="28" fill="url(#cpC)"/>
-            <circle cx="40" cy="44" r="6" fill="#ffe1f3" opacity="0.4"/>
-            <circle cx="58" cy="60" r="4" fill="#8a3570" opacity="0.35"/>
-        </svg>
-        <svg class="cosmo cosmo-moon float-med" viewBox="0 0 100 100" data-parallax="0.24">
+        <svg class="cosmo cosmo-moon float-soft" viewBox="0 0 100 100" data-parallax="0.16">
             <defs>
                 <radialGradient id="cMoon" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#f2f0ff"/>
+                    <stop offset="0%" stop-color="#f4f1ff"/>
                     <stop offset="70%" stop-color="#b7b3d8"/>
-                    <stop offset="100%" stop-color="#7b76a8"/>
+                    <stop offset="100%" stop-color="#6f6a9e"/>
                 </radialGradient>
             </defs>
             <circle cx="50" cy="50" r="30" fill="url(#cMoon)"/>
@@ -72,70 +72,40 @@
             <circle cx="60" cy="58" r="5" fill="#8f8ab8" opacity="0.35"/>
             <circle cx="52" cy="34" r="3.5" fill="#8f8ab8" opacity="0.3"/>
         </svg>
-        <svg class="cosmo cosmo-star-a twinkle" viewBox="0 0 24 24" data-parallax="0.3">
-            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#ded6ff"/>
-        </svg>
-        <svg class="cosmo cosmo-star-b twinkle-2" viewBox="0 0 24 24" data-parallax="0.26">
-            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#9fd0ff"/>
-        </svg>
-        <svg class="cosmo cosmo-star-c twinkle-3" viewBox="0 0 24 24" data-parallax="0.34">
-            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#f7c2e4"/>
-        </svg>
-        <svg class="cosmo cosmo-star-d twinkle-2" viewBox="0 0 24 24" data-parallax="0.22">
-            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#ded6ff"/>
-        </svg>
-        <svg class="cosmo cosmo-star-e twinkle" viewBox="0 0 24 24" data-parallax="0.28">
-            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#9fd0ff"/>
-        </svg>
         <div class="cosmo cosmo-glow-a" data-parallax="0.08"></div>
         <div class="cosmo cosmo-glow-b" data-parallax="0.1"></div>
     </div>
 
-    <div class="cookie-journey" aria-hidden="true">
-        <svg class="journey-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path id="journey-path" class="journey-path"
-                d="M 18 4 C 40 8, 55 14, 72 12 S 92 22, 78 32 S 42 38, 28 48 S 12 58, 35 66 S 78 72, 70 82 S 40 90, 50 96" />
+    <!-- Yarn thread stitched down the page as you scroll (path generated in JS) -->
+    <div class="thread-journey" aria-hidden="true">
+        <svg id="thread-svg" class="thread-svg" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="threadGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#c7b9ff"/>
+                    <stop offset="45%" stop-color="#64a6f5"/>
+                    <stop offset="100%" stop-color="#ef8fd0"/>
+                </linearGradient>
+            </defs>
+            <path id="thread-guide" class="thread-guide" d=""/>
+            <path id="thread-draw" class="thread-draw" d="" stroke="url(#threadGrad)"/>
         </svg>
     </div>
-    <div class="journey-cookie" id="journey-cookie" aria-hidden="true">
-        <svg viewBox="0 0 80 80" class="cookie-svg">
+    <div class="thread-ball" id="thread-ball" aria-hidden="true">
+        <svg viewBox="0 0 48 48">
             <defs>
-                <radialGradient id="cookieBase" cx="38%" cy="32%" r="68%">
-                    <stop offset="0%" stop-color="#6b3d1c"/>
-                    <stop offset="40%" stop-color="#3f2210"/>
-                    <stop offset="100%" stop-color="#1a0e07"/>
-                </radialGradient>
-                <radialGradient id="chipGrad" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#2c1810"/>
-                    <stop offset="55%" stop-color="#140a06"/>
-                    <stop offset="100%" stop-color="#0a0503"/>
+                <radialGradient id="tBall" cx="34%" cy="28%" r="72%">
+                    <stop offset="0%" stop-color="#ffe6f6"/>
+                    <stop offset="55%" stop-color="#ef8fd0"/>
+                    <stop offset="100%" stop-color="#93397a"/>
                 </radialGradient>
             </defs>
-            <ellipse cx="40" cy="48" rx="26" ry="8" fill="#000" opacity="0.28"/>
-            <path d="M18 38 C16 24, 28 14, 40 15 C52 13, 66 22, 64 36 C67 48, 58 62, 42 64 C28 66, 16 56, 18 38 Z" fill="url(#cookieBase)"/>
-            <path d="M20 36 C19 25, 29 17, 40 18 C51 16, 62 24, 61 36 C63 47, 55 58, 42 59 C29 61, 19 51, 20 36 Z" fill="url(#cookieBase)" opacity="0.9"/>
-            <ellipse cx="28" cy="30" rx="6" ry="5" fill="url(#chipGrad)" transform="rotate(-18 28 30)"/>
-            <ellipse cx="49" cy="27" rx="5.5" ry="4.5" fill="url(#chipGrad)" transform="rotate(22 49 27)"/>
-            <ellipse cx="38" cy="42" rx="6.2" ry="5.2" fill="url(#chipGrad)" transform="rotate(-6 38 42)"/>
-            <ellipse cx="53" cy="44" rx="5.4" ry="4.6" fill="url(#chipGrad)" transform="rotate(30 53 44)"/>
-            <ellipse cx="27" cy="50" rx="5" ry="4.2" fill="url(#chipGrad)" transform="rotate(-28 27 50)"/>
-            <ellipse cx="44" cy="54" rx="4.6" ry="3.8" fill="url(#chipGrad)"/>
-            <ellipse cx="55" cy="34" rx="4" ry="3.4" fill="url(#chipGrad)" transform="rotate(48 55 34)"/>
-            <ellipse cx="26" cy="28" rx="1.8" ry="1.2" fill="#4a3020" opacity="0.7" transform="rotate(-18 26 28)"/>
-            <ellipse cx="36" cy="40" rx="2" ry="1.3" fill="#4a3020" opacity="0.65"/>
-            <g fill="#f7f4ec">
-                <rect x="22" y="23" width="3.6" height="1.3" rx="0.45" transform="rotate(28 22 23)"/>
-                <rect x="43" y="21" width="3.2" height="1.2" rx="0.45" transform="rotate(-18 43 21)"/>
-                <rect x="58" y="37" width="3.4" height="1.2" rx="0.45" transform="rotate(52 58 37)"/>
-                <rect x="23" y="43" width="3" height="1.15" rx="0.45" transform="rotate(-42 23 43)"/>
-                <rect x="46" y="48" width="3.5" height="1.25" rx="0.45" transform="rotate(14 46 48)"/>
-                <rect x="34" y="33" width="2.8" height="1.1" rx="0.45" transform="rotate(64 34 33)"/>
-                <rect x="50" y="54" width="3.1" height="1.15" rx="0.45" transform="rotate(-22 50 54)"/>
-                <rect x="19" y="35" width="2.9" height="1.1" rx="0.45" transform="rotate(10 19 35)"/>
-                <rect x="40" y="26" width="2.4" height="1" rx="0.4" transform="rotate(-55 40 26)"/>
-                <rect x="31" y="55" width="2.6" height="1" rx="0.4" transform="rotate(35 31 55)"/>
+            <circle cx="24" cy="24" r="17" fill="url(#tBall)"/>
+            <g fill="none" stroke="#7c2c63" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round">
+                <path d="M11 20 C16 10, 26 8, 33 13 C38 17, 39 23, 37 28"/>
+                <path d="M12 29 C19 36, 30 36, 36 30"/>
+                <path d="M13 14 C21 18, 30 18, 36 15"/>
             </g>
-            <ellipse cx="33" cy="27" rx="11" ry="6.5" fill="#fff" opacity="0.1" transform="rotate(-28 33 27)"/>
+            <ellipse cx="18" cy="17" rx="6" ry="4" fill="#fff" opacity="0.28" transform="rotate(-24 18 17)"/>
         </svg>
     </div>
 
@@ -170,7 +140,7 @@
             <button class="theme-color-toggle" type="button" aria-label="Toggle light/dark mode" title="Switch theme">
                 <span class="theme-icon">☀️</span>
             </button>
-            <button class="menu-toggle" type="button" aria-label="Toggle menu">
+            <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -179,115 +149,133 @@
     <header class="hero" id="top">
         <div class="hero-stage">
             <div class="hero-scene" aria-hidden="true">
-                <!-- Jupiter ring back (behind yarn) -->
-                <svg class="hero-scene-ring hero-scene-ring--back" viewBox="0 0 420 420" aria-hidden="true">
+                <svg class="hero-scene-svg" viewBox="0 0 440 440">
                     <defs>
-                        <linearGradient id="jupiterRing" x1="0%" y1="50%" x2="100%" y2="50%">
-                            <stop offset="0%" stop-color="#d4a574" stop-opacity="0"/>
-                            <stop offset="12%" stop-color="#e8c49a" stop-opacity="0.9"/>
-                            <stop offset="28%" stop-color="#c49a6c" stop-opacity="1"/>
-                            <stop offset="42%" stop-color="#8b6b4a" stop-opacity="0.75"/>
-                            <stop offset="55%" stop-color="#f0d8b0" stop-opacity="0.95"/>
-                            <stop offset="70%" stop-color="#a67c52" stop-opacity="0.9"/>
-                            <stop offset="88%" stop-color="#e8c49a" stop-opacity="0.85"/>
-                            <stop offset="100%" stop-color="#d4a574" stop-opacity="0"/>
-                        </linearGradient>
-                        <linearGradient id="jupiterRingInner" x1="0%" y1="50%" x2="100%" y2="50%">
-                            <stop offset="0%" stop-color="#5c4030" stop-opacity="0"/>
-                            <stop offset="30%" stop-color="#3d2a1f" stop-opacity="0.65"/>
-                            <stop offset="70%" stop-color="#5c4030" stop-opacity="0.55"/>
-                            <stop offset="100%" stop-color="#5c4030" stop-opacity="0"/>
-                        </linearGradient>
-                    </defs>
-                    <g transform="rotate(-18 210 215)">
-                        <ellipse cx="210" cy="215" rx="178" ry="48" fill="none" stroke="url(#jupiterRing)" stroke-width="18" opacity="0.55" stroke-dasharray="340 420" stroke-dashoffset="210"/>
-                        <ellipse cx="210" cy="215" rx="178" ry="48" fill="none" stroke="url(#jupiterRingInner)" stroke-width="7" opacity="0.5" stroke-dasharray="340 420" stroke-dashoffset="210"/>
-                    </g>
-                </svg>
-
-                <!-- realistic spinning yarn ball -->
-                <div class="hero-scene-ball-wrap">
-                    <img class="hero-scene-ball" src="assets/yarn-ball.png" alt="" width="280" height="280">
-                </div>
-
-                <!-- Jupiter ring front -->
-                <svg class="hero-scene-ring hero-scene-ring--front" viewBox="0 0 420 420" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="jupiterRingFront" x1="0%" y1="50%" x2="100%" y2="50%">
-                            <stop offset="0%" stop-color="#d4a574" stop-opacity="0"/>
-                            <stop offset="12%" stop-color="#e8c49a" stop-opacity="0.9"/>
-                            <stop offset="28%" stop-color="#c49a6c" stop-opacity="1"/>
-                            <stop offset="42%" stop-color="#8b6b4a" stop-opacity="0.75"/>
-                            <stop offset="55%" stop-color="#f0d8b0" stop-opacity="0.95"/>
-                            <stop offset="70%" stop-color="#a67c52" stop-opacity="0.9"/>
-                            <stop offset="88%" stop-color="#e8c49a" stop-opacity="0.85"/>
-                            <stop offset="100%" stop-color="#d4a574" stop-opacity="0"/>
-                        </linearGradient>
-                        <linearGradient id="jupiterRingInnerFront" x1="0%" y1="50%" x2="100%" y2="50%">
-                            <stop offset="0%" stop-color="#5c4030" stop-opacity="0"/>
-                            <stop offset="30%" stop-color="#3d2a1f" stop-opacity="0.65"/>
-                            <stop offset="70%" stop-color="#5c4030" stop-opacity="0.55"/>
-                            <stop offset="100%" stop-color="#5c4030" stop-opacity="0"/>
-                        </linearGradient>
-                    </defs>
-                    <g transform="rotate(-18 210 215)">
-                        <ellipse cx="210" cy="215" rx="178" ry="48" fill="none" stroke="url(#jupiterRingFront)" stroke-width="18" opacity="0.95" stroke-dasharray="340 420" stroke-dashoffset="-130"/>
-                        <ellipse cx="210" cy="215" rx="178" ry="48" fill="none" stroke="url(#jupiterRingInnerFront)" stroke-width="6" opacity="0.85" stroke-dasharray="340 420" stroke-dashoffset="-130"/>
-                    </g>
-                </svg>
-
-                <!-- loose yarn strand -->
-                <svg class="hero-scene-loose-svg" viewBox="0 0 160 120" aria-hidden="true">
-                    <path class="hero-scene-loose" d="M10 20 Q50 40, 80 70 Q105 92, 140 105" fill="none" stroke="#c4b5fd" stroke-width="5" stroke-linecap="round"/>
-                    <path d="M10 20 Q50 40, 80 70 Q105 92, 140 105" fill="none" stroke="#8b7ff0" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
-                </svg>
-
-                <!-- playful kitten -->
-                <svg class="hero-scene-kitten-svg" viewBox="0 0 140 130" aria-hidden="true">
-                    <defs>
-                        <radialGradient id="kittenFur" cx="40%" cy="35%" r="65%">
-                            <stop offset="0%" stop-color="#f7f0e8"/>
-                            <stop offset="55%" stop-color="#e8d5c4"/>
-                            <stop offset="100%" stop-color="#c9a992"/>
+                        <radialGradient id="planetGrad" cx="36%" cy="30%" r="72%">
+                            <stop offset="0%" stop-color="#ece6ff"/>
+                            <stop offset="35%" stop-color="#b3a5f7"/>
+                            <stop offset="68%" stop-color="#7c6fe0"/>
+                            <stop offset="100%" stop-color="#3b2d99"/>
                         </radialGradient>
+                        <radialGradient id="planetShade" cx="36%" cy="30%" r="75%">
+                            <stop offset="0%" stop-color="#181040" stop-opacity="0"/>
+                            <stop offset="62%" stop-color="#181040" stop-opacity="0"/>
+                            <stop offset="100%" stop-color="#181040" stop-opacity="0.55"/>
+                        </radialGradient>
+                        <linearGradient id="ringGold" x1="0%" y1="50%" x2="100%" y2="50%">
+                            <stop offset="0%" stop-color="#e8c49a" stop-opacity="0"/>
+                            <stop offset="14%" stop-color="#f0d8b0" stop-opacity="0.9"/>
+                            <stop offset="34%" stop-color="#c49a6c" stop-opacity="1"/>
+                            <stop offset="52%" stop-color="#8b6b4a" stop-opacity="0.7"/>
+                            <stop offset="68%" stop-color="#f0d8b0" stop-opacity="0.95"/>
+                            <stop offset="86%" stop-color="#c49a6c" stop-opacity="0.85"/>
+                            <stop offset="100%" stop-color="#e8c49a" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="needleMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#eef1fb"/>
+                            <stop offset="45%" stop-color="#aab2d0"/>
+                            <stop offset="100%" stop-color="#7c85a8"/>
+                        </linearGradient>
+                        <clipPath id="planetClip">
+                            <circle cx="220" cy="210" r="118"/>
+                        </clipPath>
                     </defs>
-                    <g class="hero-scene-kitten">
-                        <ellipse cx="72" cy="88" rx="42" ry="30" fill="url(#kittenFur)"/>
-                        <ellipse cx="42" cy="108" rx="13" ry="9" fill="#d4b8a0" transform="rotate(-20 42 108)"/>
-                        <ellipse cx="92" cy="108" rx="12" ry="8" fill="#d4b8a0" transform="rotate(15 92 108)"/>
-                        <g class="hero-scene-paw">
-                            <ellipse cx="28" cy="72" rx="10" ry="18" fill="#e8d5c4" transform="rotate(-40 28 72)"/>
-                            <ellipse cx="14" cy="84" rx="8" ry="6" fill="#e8d5c4" transform="rotate(-45 14 84)"/>
-                            <circle cx="11" cy="86" r="1.8" fill="#e8a0b0" opacity="0.75"/>
-                            <circle cx="16" cy="88" r="1.5" fill="#e8a0b0" opacity="0.75"/>
-                        </g>
-                        <path d="M108 82 Q128 64, 132 82 Q134 96, 118 100" fill="none" stroke="#c9a992" stroke-width="9" stroke-linecap="round"/>
-                        <path d="M108 82 Q128 64, 132 82 Q134 96, 118 100" fill="none" stroke="#e8d5c4" stroke-width="4.5" stroke-linecap="round"/>
-                        <circle cx="48" cy="48" r="30" fill="url(#kittenFur)"/>
-                        <path d="M28 30 L22 6 L42 24 Z" fill="#e8d5c4"/>
-                        <path d="M30 26 L26 12 L38 24 Z" fill="#f0b8c8" opacity="0.7"/>
-                        <path d="M64 28 L78 4 L80 32 Z" fill="#e8d5c4"/>
-                        <path d="M66 26 L76 12 L78 30 Z" fill="#f0b8c8" opacity="0.7"/>
-                        <ellipse cx="38" cy="48" rx="5" ry="6.2" fill="#2a2438"/>
-                        <ellipse cx="58" cy="48" rx="5" ry="6.2" fill="#2a2438"/>
-                        <circle cx="39.5" cy="46" r="1.6" fill="#fff" opacity="0.9"/>
-                        <circle cx="59.5" cy="46" r="1.6" fill="#fff" opacity="0.9"/>
-                        <path d="M46 56 L44 60 L48 60 Z" fill="#e8a0b0"/>
-                        <path d="M48 60 Q42 65, 36 62" fill="none" stroke="#2a2438" stroke-width="1.3" stroke-linecap="round"/>
-                        <path d="M48 60 Q54 65, 60 62" fill="none" stroke="#2a2438" stroke-width="1.3" stroke-linecap="round"/>
-                        <g stroke="#2a2438" stroke-width="1.1" stroke-opacity="0.45" stroke-linecap="round">
-                            <path d="M30 58 L12 52"/>
-                            <path d="M30 62 L14 66"/>
-                            <path d="M64 58 L82 52"/>
-                            <path d="M64 62 L80 66"/>
-                        </g>
-                        <ellipse cx="30" cy="58" rx="5.5" ry="3.2" fill="#f0b8c8" opacity="0.4"/>
-                        <ellipse cx="66" cy="58" rx="5.5" ry="3.2" fill="#f0b8c8" opacity="0.4"/>
-                    </g>
-                </svg>
 
-                <svg class="hero-scene-spark hero-scene-spark--a twinkle" viewBox="0 0 24 24"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#ded6ff"/></svg>
-                <svg class="hero-scene-spark hero-scene-spark--b twinkle-2" viewBox="0 0 24 24"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#9fd0ff"/></svg>
+                    <!-- golden thread ring · back half -->
+                    <g class="hero-ring hero-ring--back" transform="rotate(-16 220 214)">
+                        <ellipse cx="220" cy="214" rx="188" ry="50" fill="none" stroke="url(#ringGold)" stroke-width="14" opacity="0.5" stroke-dasharray="360 420" stroke-dashoffset="216"/>
+                        <ellipse cx="220" cy="214" rx="188" ry="50" fill="none" stroke="#5c4030" stroke-width="4" opacity="0.4" stroke-dasharray="360 420" stroke-dashoffset="216"/>
+                    </g>
+
+                    <!-- knitting needles poking through the ball -->
+                    <g class="hero-needles">
+                        <g>
+                            <line x1="118" y1="86" x2="342" y2="322" stroke="url(#needleMetal)" stroke-width="6" stroke-linecap="round"/>
+                            <circle cx="114" cy="82" r="9" fill="#e2b7d8"/>
+                            <circle cx="111" cy="79" r="3" fill="#fff" opacity="0.55"/>
+                        </g>
+                        <g>
+                            <line x1="330" y1="94" x2="108" y2="318" stroke="url(#needleMetal)" stroke-width="6" stroke-linecap="round"/>
+                            <circle cx="334" cy="90" r="9" fill="#9fc6f2"/>
+                            <circle cx="331" cy="87" r="3" fill="#fff" opacity="0.55"/>
+                        </g>
+                    </g>
+
+                    <!-- yarn planet -->
+                    <g class="hero-planet">
+                        <circle cx="220" cy="210" r="118" fill="url(#planetGrad)"/>
+                        <g clip-path="url(#planetClip)">
+                            <g class="hero-strands hero-strands--a" transform="rotate(-24 220 210)">
+                                <g fill="none" stroke="#1e1464" stroke-opacity="0.28" stroke-width="5">
+                                    <ellipse cx="220" cy="210" rx="126" ry="34"/>
+                                    <ellipse cx="220" cy="210" rx="126" ry="64"/>
+                                    <ellipse cx="220" cy="210" rx="126" ry="92"/>
+                                    <ellipse cx="220" cy="210" rx="126" ry="114"/>
+                                </g>
+                                <g fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="2.6">
+                                    <ellipse cx="220" cy="208" rx="126" ry="34"/>
+                                    <ellipse cx="220" cy="208" rx="126" ry="64"/>
+                                    <ellipse cx="220" cy="208" rx="126" ry="92"/>
+                                    <ellipse cx="220" cy="208" rx="126" ry="114"/>
+                                </g>
+                            </g>
+                            <g class="hero-strands hero-strands--b" transform="rotate(38 220 210)">
+                                <g fill="none" stroke="#1e1464" stroke-opacity="0.24" stroke-width="4.6">
+                                    <ellipse cx="220" cy="210" rx="126" ry="30"/>
+                                    <ellipse cx="220" cy="210" rx="126" ry="58"/>
+                                    <ellipse cx="220" cy="210" rx="126" ry="86"/>
+                                    <ellipse cx="220" cy="210" rx="126" ry="108"/>
+                                </g>
+                                <g fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="2.4">
+                                    <ellipse cx="220" cy="208" rx="126" ry="30"/>
+                                    <ellipse cx="220" cy="208" rx="126" ry="58"/>
+                                    <ellipse cx="220" cy="208" rx="126" ry="86"/>
+                                    <ellipse cx="220" cy="208" rx="126" ry="108"/>
+                                </g>
+                            </g>
+                            <g class="hero-strands hero-strands--c" transform="rotate(86 220 210)">
+                                <g fill="none" stroke="#1e1464" stroke-opacity="0.2" stroke-width="4.2">
+                                    <ellipse cx="220" cy="210" rx="126" ry="42"/>
+                                    <ellipse cx="220" cy="210" rx="126" ry="74"/>
+                                    <ellipse cx="220" cy="210" rx="126" ry="102"/>
+                                </g>
+                                <g fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2.2">
+                                    <ellipse cx="220" cy="208" rx="126" ry="42"/>
+                                    <ellipse cx="220" cy="208" rx="126" ry="74"/>
+                                    <ellipse cx="220" cy="208" rx="126" ry="102"/>
+                                </g>
+                            </g>
+                        </g>
+                        <circle cx="220" cy="210" r="118" fill="url(#planetShade)"/>
+                        <ellipse cx="178" cy="152" rx="52" ry="32" fill="#ffffff" opacity="0.14" transform="rotate(-24 178 152)"/>
+                        <ellipse cx="170" cy="144" rx="26" ry="15" fill="#ffffff" opacity="0.16" transform="rotate(-24 170 144)"/>
+                    </g>
+
+                    <!-- golden thread ring · front half -->
+                    <g class="hero-ring hero-ring--front" transform="rotate(-16 220 214)">
+                        <ellipse cx="220" cy="214" rx="188" ry="50" fill="none" stroke="url(#ringGold)" stroke-width="14" opacity="0.95" stroke-dasharray="360 420" stroke-dashoffset="-124"/>
+                        <ellipse cx="220" cy="214" rx="188" ry="50" fill="none" stroke="#5c4030" stroke-width="4" opacity="0.6" stroke-dasharray="360 420" stroke-dashoffset="-124"/>
+                    </g>
+
+                    <!-- orbiting mini yarn moon -->
+                    <g class="hero-orbit">
+                        <g transform="translate(398 226)">
+                            <circle r="14" fill="url(#tBall)"/>
+                            <path d="M-9 -4 C-4 -12, 6 -12, 11 -4" fill="none" stroke="#7c2c63" stroke-opacity="0.5" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M-10 4 C-4 11, 6 11, 10 4" fill="none" stroke="#7c2c63" stroke-opacity="0.5" stroke-width="1.6" stroke-linecap="round"/>
+                            <circle cx="-4" cy="-5" r="3.4" fill="#fff" opacity="0.3"/>
+                        </g>
+                    </g>
+
+                    <!-- loose strand trailing off the ball -->
+                    <path class="hero-loose" d="M318 288 C 352 318, 356 356, 330 396 C 316 418, 296 428, 276 432" fill="none" stroke="#c7b9ff" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+                    <path class="hero-loose-core" d="M318 288 C 352 318, 356 356, 330 396 C 316 418, 296 428, 276 432" fill="none" stroke="#8b7ff0" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
+
+                    <!-- sparkles -->
+                    <g class="twinkle"><path d="M84 120 l3.2 10 10 3.2 -10 3.2 -3.2 10 -3.2 -10 -10 -3.2 10 -3.2 Z" fill="#e9e3ff"/></g>
+                    <g class="twinkle-2"><path d="M368 128 l2.4 7.6 7.6 2.4 -7.6 2.4 -2.4 7.6 -2.4 -7.6 -7.6 -2.4 7.6 -2.4 Z" fill="#9fd0ff"/></g>
+                    <g class="twinkle-3"><path d="M120 330 l2 6.4 6.4 2 -6.4 2 -2 6.4 -2 -6.4 -6.4 -2 6.4 -2 Z" fill="#f7c2e4"/></g>
+                </svg>
             </div>
 
             <div class="hero-copy">
@@ -300,6 +288,10 @@
                 </div>
             </div>
         </div>
+        <a class="hero-scroll" href="#about" aria-label="Scroll to about section">
+            <span>scroll</span>
+            <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M1.5 1.5 L8 8 L14.5 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
     </header>
 
     <section id="about" class="section about">
@@ -434,6 +426,7 @@
                     <label><span>email</span><input id="email" name="email" type="email" autocomplete="email" required></label>
                     <label><span>message</span><textarea id="message" name="message" rows="5" required></textarea></label>
                     <button class="btn btn-primary" type="submit">send</button>
+                    <p class="form-status" role="status" aria-live="polite"></p>
                 </form>
             </div>
         </div>
@@ -452,6 +445,6 @@
         </div>
     </footer>
 
-    <script type="module" src="src/scripts/core/main.js?v=20260723"></script>
+    <script type="module" src="src/scripts/core/main.js"></script>
 </body>
 </html>
