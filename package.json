@@ -1,0 +1,22 @@
+{
+  "name": "personal-portfolio-website",
+  "version": "1.0.0",
+  "description": "A beautiful pastel gamer-themed personal portfolio website",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server --port=3000 --open=/index.html"
+  },
+  "keywords": [
+    "portfolio",
+    "website",
+    "gamer",
+    "pastel",
+    "personal"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
+

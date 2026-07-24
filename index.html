@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diyaa Yadav — Personal Website</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        (function () {
+            const theme = localStorage.getItem('portfolio-theme');
+            let scheme = 'dark';
+            if (theme) {
+                try { scheme = JSON.parse(theme).colorScheme || 'dark'; } catch (e) {}
+            }
+            document.documentElement.classList.add(`theme-${scheme}`);
+        })();
+    </script>
+</head>
+<body>
+    <div class="cosmos" aria-hidden="true">
+        <svg class="cosmo cosmo-planet-a float-slow" viewBox="0 0 100 100" data-parallax="0.12">
+            <defs>
+                <radialGradient id="cpA" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#c4b5fd"/>
+                    <stop offset="60%" stop-color="#8b7ff0"/>
+                    <stop offset="100%" stop-color="#4c3cc0"/>
+                </radialGradient>
+            </defs>
+            <circle cx="50" cy="50" r="26" fill="url(#cpA)"/>
+            <ellipse cx="50" cy="52" rx="42" ry="10" fill="none" stroke="#5ea2ef" stroke-width="2.5" stroke-opacity="0.7" transform="rotate(-18 50 52)"/>
+            <circle cx="42" cy="42" r="4" fill="#ded6ff" opacity="0.5"/>
+        </svg>
+        <svg class="cosmo cosmo-planet-b float-med" viewBox="0 0 100 100" data-parallax="0.2">
+            <defs>
+                <radialGradient id="cpB" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#9fd0ff"/>
+                    <stop offset="60%" stop-color="#5ea2ef"/>
+                    <stop offset="100%" stop-color="#2c5aa8"/>
+                </radialGradient>
+            </defs>
+            <circle cx="50" cy="50" r="30" fill="url(#cpB)"/>
+            <path d="M24 44 C34 38, 44 40, 52 44 S 70 50, 78 46" fill="none" stroke="#dcecff" stroke-width="3" stroke-linecap="round" stroke-opacity="0.45"/>
+            <path d="M26 58 C36 54, 48 56, 58 60 S 72 62, 76 58" fill="none" stroke="#dcecff" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.3"/>
+        </svg>
+        <svg class="cosmo cosmo-planet-c float-soft" viewBox="0 0 100 100" data-parallax="0.16">
+            <defs>
+                <radialGradient id="cpC" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#f7c2e4"/>
+                    <stop offset="60%" stop-color="#ef8fd0"/>
+                    <stop offset="100%" stop-color="#b04a90"/>
+                </radialGradient>
+            </defs>
+            <circle cx="50" cy="50" r="28" fill="url(#cpC)"/>
+            <circle cx="40" cy="44" r="6" fill="#ffe1f3" opacity="0.4"/>
+            <circle cx="58" cy="60" r="4" fill="#8a3570" opacity="0.35"/>
+        </svg>
+        <svg class="cosmo cosmo-moon float-med" viewBox="0 0 100 100" data-parallax="0.24">
+            <defs>
+                <radialGradient id="cMoon" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#f2f0ff"/>
+                    <stop offset="70%" stop-color="#b7b3d8"/>
+                    <stop offset="100%" stop-color="#7b76a8"/>
+                </radialGradient>
+            </defs>
+            <circle cx="50" cy="50" r="30" fill="url(#cMoon)"/>
+            <circle cx="40" cy="42" r="7" fill="#8f8ab8" opacity="0.4"/>
+            <circle cx="60" cy="58" r="5" fill="#8f8ab8" opacity="0.35"/>
+            <circle cx="52" cy="34" r="3.5" fill="#8f8ab8" opacity="0.3"/>
+        </svg>
+        <svg class="cosmo cosmo-star-a twinkle" viewBox="0 0 24 24" data-parallax="0.3">
+            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#ded6ff"/>
+        </svg>
+        <svg class="cosmo cosmo-star-b twinkle-2" viewBox="0 0 24 24" data-parallax="0.26">
+            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#9fd0ff"/>
+        </svg>
+        <svg class="cosmo cosmo-star-c twinkle-3" viewBox="0 0 24 24" data-parallax="0.34">
+            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#f7c2e4"/>
+        </svg>
+        <svg class="cosmo cosmo-star-d twinkle-2" viewBox="0 0 24 24" data-parallax="0.22">
+            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#ded6ff"/>
+        </svg>
+        <svg class="cosmo cosmo-star-e twinkle" viewBox="0 0 24 24" data-parallax="0.28">
+            <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#9fd0ff"/>
+        </svg>
+        <div class="cosmo cosmo-glow-a" data-parallax="0.08"></div>
+        <div class="cosmo cosmo-glow-b" data-parallax="0.1"></div>
+    </div>
+
+    <div class="cookie-journey" aria-hidden="true">
+        <svg class="journey-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path id="journey-path" class="journey-path"
+                d="M 18 4 C 40 8, 55 14, 72 12 S 92 22, 78 32 S 42 38, 28 48 S 12 58, 35 66 S 78 72, 70 82 S 40 90, 50 96" />
+        </svg>
+    </div>
+    <div class="journey-cookie" id="journey-cookie" aria-hidden="true">
+        <svg viewBox="0 0 80 80" class="cookie-svg">
+            <defs>
+                <radialGradient id="cookieBase" cx="38%" cy="32%" r="68%">
+                    <stop offset="0%" stop-color="#6b3d1c"/>
+                    <stop offset="40%" stop-color="#3f2210"/>
+                    <stop offset="100%" stop-color="#1a0e07"/>
+                </radialGradient>
+                <radialGradient id="chipGrad" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#2c1810"/>
+                    <stop offset="55%" stop-color="#140a06"/>
+                    <stop offset="100%" stop-color="#0a0503"/>
+                </radialGradient>
+            </defs>
+            <ellipse cx="40" cy="48" rx="26" ry="8" fill="#000" opacity="0.28"/>
+            <path d="M18 38 C16 24, 28 14, 40 15 C52 13, 66 22, 64 36 C67 48, 58 62, 42 64 C28 66, 16 56, 18 38 Z" fill="url(#cookieBase)"/>
+            <path d="M20 36 C19 25, 29 17, 40 18 C51 16, 62 24, 61 36 C63 47, 55 58, 42 59 C29 61, 19 51, 20 36 Z" fill="url(#cookieBase)" opacity="0.9"/>
+            <ellipse cx="28" cy="30" rx="6" ry="5" fill="url(#chipGrad)" transform="rotate(-18 28 30)"/>
+            <ellipse cx="49" cy="27" rx="5.5" ry="4.5" fill="url(#chipGrad)" transform="rotate(22 49 27)"/>
+            <ellipse cx="38" cy="42" rx="6.2" ry="5.2" fill="url(#chipGrad)" transform="rotate(-6 38 42)"/>
+            <ellipse cx="53" cy="44" rx="5.4" ry="4.6" fill="url(#chipGrad)" transform="rotate(30 53 44)"/>
+            <ellipse cx="27" cy="50" rx="5" ry="4.2" fill="url(#chipGrad)" transform="rotate(-28 27 50)"/>
+            <ellipse cx="44" cy="54" rx="4.6" ry="3.8" fill="url(#chipGrad)"/>
+            <ellipse cx="55" cy="34" rx="4" ry="3.4" fill="url(#chipGrad)" transform="rotate(48 55 34)"/>
+            <ellipse cx="26" cy="28" rx="1.8" ry="1.2" fill="#4a3020" opacity="0.7" transform="rotate(-18 26 28)"/>
+            <ellipse cx="36" cy="40" rx="2" ry="1.3" fill="#4a3020" opacity="0.65"/>
+            <g fill="#f7f4ec">
+                <rect x="22" y="23" width="3.6" height="1.3" rx="0.45" transform="rotate(28 22 23)"/>
+                <rect x="43" y="21" width="3.2" height="1.2" rx="0.45" transform="rotate(-18 43 21)"/>
+                <rect x="58" y="37" width="3.4" height="1.2" rx="0.45" transform="rotate(52 58 37)"/>
+                <rect x="23" y="43" width="3" height="1.15" rx="0.45" transform="rotate(-42 23 43)"/>
+                <rect x="46" y="48" width="3.5" height="1.25" rx="0.45" transform="rotate(14 46 48)"/>
+                <rect x="34" y="33" width="2.8" height="1.1" rx="0.45" transform="rotate(64 34 33)"/>
+                <rect x="50" y="54" width="3.1" height="1.15" rx="0.45" transform="rotate(-22 50 54)"/>
+                <rect x="19" y="35" width="2.9" height="1.1" rx="0.45" transform="rotate(10 19 35)"/>
+                <rect x="40" y="26" width="2.4" height="1" rx="0.4" transform="rotate(-55 40 26)"/>
+                <rect x="31" y="55" width="2.6" height="1" rx="0.4" transform="rotate(35 31 55)"/>
+            </g>
+            <ellipse cx="33" cy="27" rx="11" ry="6.5" fill="#fff" opacity="0.1" transform="rotate(-28 33 27)"/>
+        </svg>
+    </div>
+
+    <nav class="navbar">
+        <a class="nav-brand" href="#top" aria-label="Diyaa home">
+            <svg class="brand-yarn" viewBox="0 0 40 40" aria-hidden="true">
+                <defs>
+                    <radialGradient id="navYarn" cx="32%" cy="28%" r="72%">
+                        <stop offset="0%" stop-color="#d8ccff"/>
+                        <stop offset="55%" stop-color="#8b7ff0"/>
+                        <stop offset="100%" stop-color="#372a85"/>
+                    </radialGradient>
+                </defs>
+                <circle cx="20" cy="20" r="14" fill="url(#navYarn)"/>
+                <g fill="none" stroke="#241a5e" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round">
+                    <path d="M10 18 C14 10, 18 9, 20 9 C24 9, 28 12, 30 20 C28 28, 24 31, 20 31 C16 31, 12 28, 10 20"/>
+                    <path d="M11 14 C16 12, 20 12, 25 16"/>
+                    <path d="M11 24 C16 28, 20 28, 25 24"/>
+                </g>
+            </svg>
+            <span>diyaa</span>
+        </a>
+        <ul class="nav-menu">
+            <li><a class="nav-link" href="#about">about</a></li>
+            <li><a class="nav-link" href="#experience">experience</a></li>
+            <li><a class="nav-link" href="#projects">projects</a></li>
+            <li><a class="nav-link" href="#skills">skills</a></li>
+            <li><a class="nav-link" href="findout.html">find out</a></li>
+            <li><a class="nav-link" href="#contact">contact</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="theme-color-toggle" type="button" aria-label="Toggle light/dark mode" title="Switch theme">
+                <span class="theme-icon">☀️</span>
+            </button>
+            <button class="menu-toggle" type="button" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero" id="top">
+        <div class="hero-stage">
+            <div class="hero-scene" aria-hidden="true">
+                <!-- Jupiter ring back (behind yarn) -->
+                <svg class="hero-scene-ring hero-scene-ring--back" viewBox="0 0 420 420" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="jupiterRing" x1="0%" y1="50%" x2="100%" y2="50%">
+                            <stop offset="0%" stop-color="#d4a574" stop-opacity="0"/>
+                            <stop offset="12%" stop-color="#e8c49a" stop-opacity="0.9"/>
+                            <stop offset="28%" stop-color="#c49a6c" stop-opacity="1"/>
+                            <stop offset="42%" stop-color="#8b6b4a" stop-opacity="0.75"/>
+                            <stop offset="55%" stop-color="#f0d8b0" stop-opacity="0.95"/>
+                            <stop offset="70%" stop-color="#a67c52" stop-opacity="0.9"/>
+                            <stop offset="88%" stop-color="#e8c49a" stop-opacity="0.85"/>
+                            <stop offset="100%" stop-color="#d4a574" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="jupiterRingInner" x1="0%" y1="50%" x2="100%" y2="50%">
+                            <stop offset="0%" stop-color="#5c4030" stop-opacity="0"/>
+                            <stop offset="30%" stop-color="#3d2a1f" stop-opacity="0.65"/>
+                            <stop offset="70%" stop-color="#5c4030" stop-opacity="0.55"/>
+                            <stop offset="100%" stop-color="#5c4030" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <g transform="rotate(-18 210 215)">
+                        <ellipse cx="210" cy="215" rx="178" ry="48" fill="none" stroke="url(#jupiterRing)" stroke-width="18" opacity="0.55" stroke-dasharray="340 420" stroke-dashoffset="210"/>
+                        <ellipse cx="210" cy="215" rx="178" ry="48" fill="none" stroke="url(#jupiterRingInner)" stroke-width="7" opacity="0.5" stroke-dasharray="340 420" stroke-dashoffset="210"/>
+                    </g>
+                </svg>
+
+                <!-- realistic spinning yarn ball -->
+                <div class="hero-scene-ball-wrap">
+                    <img class="hero-scene-ball" src="assets/yarn-ball.png" alt="" width="280" height="280">
+                </div>
+
+                <!-- Jupiter ring front -->
+                <svg class="hero-scene-ring hero-scene-ring--front" viewBox="0 0 420 420" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="jupiterRingFront" x1="0%" y1="50%" x2="100%" y2="50%">
+                            <stop offset="0%" stop-color="#d4a574" stop-opacity="0"/>
+                            <stop offset="12%" stop-color="#e8c49a" stop-opacity="0.9"/>
+                            <stop offset="28%" stop-color="#c49a6c" stop-opacity="1"/>
+                            <stop offset="42%" stop-color="#8b6b4a" stop-opacity="0.75"/>
+                            <stop offset="55%" stop-color="#f0d8b0" stop-opacity="0.95"/>
+                            <stop offset="70%" stop-color="#a67c52" stop-opacity="0.9"/>
+                            <stop offset="88%" stop-color="#e8c49a" stop-opacity="0.85"/>
+                            <stop offset="100%" stop-color="#d4a574" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="jupiterRingInnerFront" x1="0%" y1="50%" x2="100%" y2="50%">
+                            <stop offset="0%" stop-color="#5c4030" stop-opacity="0"/>
+                            <stop offset="30%" stop-color="#3d2a1f" stop-opacity="0.65"/>
+                            <stop offset="70%" stop-color="#5c4030" stop-opacity="0.55"/>
+                            <stop offset="100%" stop-color="#5c4030" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <g transform="rotate(-18 210 215)">
+                        <ellipse cx="210" cy="215" rx="178" ry="48" fill="none" stroke="url(#jupiterRingFront)" stroke-width="18" opacity="0.95" stroke-dasharray="340 420" stroke-dashoffset="-130"/>
+                        <ellipse cx="210" cy="215" rx="178" ry="48" fill="none" stroke="url(#jupiterRingInnerFront)" stroke-width="6" opacity="0.85" stroke-dasharray="340 420" stroke-dashoffset="-130"/>
+                    </g>
+                </svg>
+
+                <!-- loose yarn strand -->
+                <svg class="hero-scene-loose-svg" viewBox="0 0 160 120" aria-hidden="true">
+                    <path class="hero-scene-loose" d="M10 20 Q50 40, 80 70 Q105 92, 140 105" fill="none" stroke="#c4b5fd" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M10 20 Q50 40, 80 70 Q105 92, 140 105" fill="none" stroke="#8b7ff0" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
+                </svg>
+
+                <!-- playful kitten -->
+                <svg class="hero-scene-kitten-svg" viewBox="0 0 140 130" aria-hidden="true">
+                    <defs>
+                        <radialGradient id="kittenFur" cx="40%" cy="35%" r="65%">
+                            <stop offset="0%" stop-color="#f7f0e8"/>
+                            <stop offset="55%" stop-color="#e8d5c4"/>
+                            <stop offset="100%" stop-color="#c9a992"/>
+                        </radialGradient>
+                    </defs>
+                    <g class="hero-scene-kitten">
+                        <ellipse cx="72" cy="88" rx="42" ry="30" fill="url(#kittenFur)"/>
+                        <ellipse cx="42" cy="108" rx="13" ry="9" fill="#d4b8a0" transform="rotate(-20 42 108)"/>
+                        <ellipse cx="92" cy="108" rx="12" ry="8" fill="#d4b8a0" transform="rotate(15 92 108)"/>
+                        <g class="hero-scene-paw">
+                            <ellipse cx="28" cy="72" rx="10" ry="18" fill="#e8d5c4" transform="rotate(-40 28 72)"/>
+                            <ellipse cx="14" cy="84" rx="8" ry="6" fill="#e8d5c4" transform="rotate(-45 14 84)"/>
+                            <circle cx="11" cy="86" r="1.8" fill="#e8a0b0" opacity="0.75"/>
+                            <circle cx="16" cy="88" r="1.5" fill="#e8a0b0" opacity="0.75"/>
+                        </g>
+                        <path d="M108 82 Q128 64, 132 82 Q134 96, 118 100" fill="none" stroke="#c9a992" stroke-width="9" stroke-linecap="round"/>
+                        <path d="M108 82 Q128 64, 132 82 Q134 96, 118 100" fill="none" stroke="#e8d5c4" stroke-width="4.5" stroke-linecap="round"/>
+                        <circle cx="48" cy="48" r="30" fill="url(#kittenFur)"/>
+                        <path d="M28 30 L22 6 L42 24 Z" fill="#e8d5c4"/>
+                        <path d="M30 26 L26 12 L38 24 Z" fill="#f0b8c8" opacity="0.7"/>
+                        <path d="M64 28 L78 4 L80 32 Z" fill="#e8d5c4"/>
+                        <path d="M66 26 L76 12 L78 30 Z" fill="#f0b8c8" opacity="0.7"/>
+                        <ellipse cx="38" cy="48" rx="5" ry="6.2" fill="#2a2438"/>
+                        <ellipse cx="58" cy="48" rx="5" ry="6.2" fill="#2a2438"/>
+                        <circle cx="39.5" cy="46" r="1.6" fill="#fff" opacity="0.9"/>
+                        <circle cx="59.5" cy="46" r="1.6" fill="#fff" opacity="0.9"/>
+                        <path d="M46 56 L44 60 L48 60 Z" fill="#e8a0b0"/>
+                        <path d="M48 60 Q42 65, 36 62" fill="none" stroke="#2a2438" stroke-width="1.3" stroke-linecap="round"/>
+                        <path d="M48 60 Q54 65, 60 62" fill="none" stroke="#2a2438" stroke-width="1.3" stroke-linecap="round"/>
+                        <g stroke="#2a2438" stroke-width="1.1" stroke-opacity="0.45" stroke-linecap="round">
+                            <path d="M30 58 L12 52"/>
+                            <path d="M30 62 L14 66"/>
+                            <path d="M64 58 L82 52"/>
+                            <path d="M64 62 L80 66"/>
+                        </g>
+                        <ellipse cx="30" cy="58" rx="5.5" ry="3.2" fill="#f0b8c8" opacity="0.4"/>
+                        <ellipse cx="66" cy="58" rx="5.5" ry="3.2" fill="#f0b8c8" opacity="0.4"/>
+                    </g>
+                </svg>
+
+                <svg class="hero-scene-spark hero-scene-spark--a twinkle" viewBox="0 0 24 24"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#ded6ff"/></svg>
+                <svg class="hero-scene-spark hero-scene-spark--b twinkle-2" viewBox="0 0 24 24"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#9fd0ff"/></svg>
+            </div>
+
+            <div class="hero-copy">
+                <p class="hero-kicker">software engineering · ualberta</p>
+                <h1 class="hero-brand">diyaa</h1>
+                <p class="hero-line">Building friendly products — stitched with code.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#projects">see projects</a>
+                    <a class="btn btn-ghost" href="findout.html">find out →</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title">about</h2>
+            <div class="about-grid">
+                <p class="about-lead">
+                    Computer Engineering (Software) at the University of Alberta.
+                    I ship multi-tenant SaaS, cloud infrastructure, and playful full-stack tools —
+                    from Spring Boot + React platforms to Rust multiplayer games.
+                </p>
+                <div class="about-points">
+                    <div class="about-point">
+                        <h3>study</h3>
+                        <p>BSc Computer Engineering, Software Option Co-op · graduating May 2026. AWS Cloud Practitioner.</p>
+                    </div>
+                    <div class="about-point">
+                        <h3>lead</h3>
+                        <p>VP Community, Engineering Students’ Society — 22 volunteers, orientation for 850+ first-years.</p>
+                    </div>
+                    <div class="about-point">
+                        <h3>build</h3>
+                        <p>AWS SaaS, Flutter + Firebase, Stripe Connect, real-time systems, AI-assisted engineering.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stats" aria-label="Quick stats">
+                <div class="stat"><span class="stat-num">3</span><span class="stat-label">internships</span></div>
+                <div class="stat"><span class="stat-num">4</span><span class="stat-label">featured projects</span></div>
+                <div class="stat"><span class="stat-num">100+</span><span class="stat-label">saas users shipped</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section experience">
+        <div class="container">
+            <h2 class="section-title">experience</h2>
+            <ol class="timeline">
+                <li class="timeline-item">
+                    <div class="timeline-dot" aria-hidden="true"></div>
+                    <div class="timeline-meta">
+                        <span class="timeline-dates">May 2025 – Dec 2025</span>
+                        <span class="timeline-place">Edmonton, AB</span>
+                    </div>
+                    <h3 class="timeline-role">Software Engineering Intern</h3>
+                    <p class="timeline-org">WheelsCoach Inc.</p>
+                    <ul class="timeline-points">
+                        <li>Architected production SaaS on AWS (EC2, S3, CloudFront, ALB) for 100+ users</li>
+                        <li>Java Spring Boot backend — 120+ REST endpoints, JWT role access</li>
+                        <li>React + TypeScript multi-tenant UI — 3 roles, 20+ flows; Stripe Connect payouts</li>
+                        <li>20+ table PostgreSQL schema with Liquibase multi-tenant isolation</li>
+                    </ul>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-dot" aria-hidden="true"></div>
+                    <div class="timeline-meta">
+                        <span class="timeline-dates">Jan 2024 – Sep 2024</span>
+                        <span class="timeline-place">Edmonton, AB</span>
+                    </div>
+                    <h3 class="timeline-role">Software Engineering Intern</h3>
+                    <p class="timeline-org">Umay Care Inc.</p>
+                    <ul class="timeline-points">
+                        <li>Firebase Auth for Flutter app supporting 2000+ users</li>
+                        <li>Shopify webhooks + Firebase pipelines for IoT device data</li>
+                        <li>SQL + BigQuery modeling for faster analytics insights</li>
+                    </ul>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-dot" aria-hidden="true"></div>
+                    <div class="timeline-meta">
+                        <span class="timeline-dates">Jun 2023 – Sep 2023</span>
+                        <span class="timeline-place">Edmonton, AB</span>
+                    </div>
+                    <h3 class="timeline-role">Business Coordinator Intern</h3>
+                    <p class="timeline-org">Alberta Innovates</p>
+                    <ul class="timeline-points">
+                        <li>Automated RFP document creation with VBA in MS Word</li>
+                        <li>Updated WeConnect intranet (HTML/CSS/JS) for 1000+ members</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="projects" class="section projects">
+        <div class="container">
+            <h2 class="section-title">projects</h2>
+            <div class="projects-grid" aria-label="Project list"></div>
+        </div>
+    </section>
+
+    <section id="skills" class="section skills">
+        <div class="container">
+            <h2 class="section-title">skills</h2>
+            <div class="skills-layout">
+                <div class="skill-block">
+                    <h3 class="skill-heading">core</h3>
+                    <ul class="skill-bars">
+                        <li><span>TypeScript / JavaScript</span><div class="bar"><div class="bar-fill" style="--w: 90%"></div></div></li>
+                        <li><span>Java / Spring Boot</span><div class="bar"><div class="bar-fill" style="--w: 88%"></div></div></li>
+                        <li><span>React</span><div class="bar"><div class="bar-fill" style="--w: 88%"></div></div></li>
+                        <li><span>Python</span><div class="bar"><div class="bar-fill" style="--w: 85%"></div></div></li>
+                    </ul>
+                </div>
+                <div class="skill-block">
+                    <h3 class="skill-heading">toolbox</h3>
+                    <div class="skill-pills">
+                        <span>AWS</span><span>PostgreSQL</span><span>Rust</span><span>Flutter</span>
+                        <span>Firebase</span><span>Stripe</span><span>Docker</span><span>GCP</span>
+                        <span>WebSockets</span><span>JWT</span><span>BigQuery</span><span>Figma</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">contact</h2>
+            <div class="contact-layout">
+                <div class="contact-aside">
+                    <p>Want to collaborate, chat, or say hi? Send a message — I read everything.</p>
+                    <div class="contact-links">
+                        <a href="mailto:diyaa@ualberta.ca">diyaa@ualberta.ca</a>
+                        <a href="https://www.linkedin.com/in/diyaayadav/" target="_blank" rel="noreferrer">linkedin</a>
+                        <a href="https://github.com/Deiyaah" target="_blank" rel="noreferrer">github</a>
+                        <a href="findout.html">find out →</a>
+                    </div>
+                </div>
+                <form class="contact-form" aria-label="Contact form">
+                    <label><span>name</span><input id="name" name="name" type="text" autocomplete="name" required></label>
+                    <label><span>email</span><input id="email" name="email" type="email" autocomplete="email" required></label>
+                    <label><span>message</span><textarea id="message" name="message" rows="5" required></textarea></label>
+                    <button class="btn btn-primary" type="submit">send</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p class="footer-mark">made with care by diyaa</p>
+            <div class="footer-links">
+                <a href="#top">top</a>
+                <a href="#experience">experience</a>
+                <a href="#projects">projects</a>
+                <a href="findout.html">find out</a>
+                <a href="#contact">contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="src/scripts/core/main.js?v=20260723"></script>
+</body>
+</html>

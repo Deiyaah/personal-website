@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Soft blush pink palette matching reference -->
+    <!-- Highlight: #F5E1E1, Light: #EACECE, Base: #DDB8B8, Shadow: #C49999, Deep: #A67B7B -->
+    
+    <radialGradient id="sphereBase" cx="40%" cy="35%" r="60%" fx="40%" fy="35%">
+      <stop offset="0%" stop-color="#F5E1E1"/>
+      <stop offset="35%" stop-color="#EACECE"/>
+      <stop offset="70%" stop-color="#DDB8B8"/>
+      <stop offset="100%" stop-color="#C49999"/>
+    </radialGradient>
+    
+    <radialGradient id="dropShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#000000" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Drop shadow -->
+  <ellipse cx="200" cy="355" rx="85" ry="16" fill="url(#dropShadow)"/>
+  
+  <!-- Base sphere -->
+  <circle cx="200" cy="195" r="130" fill="url(#sphereBase)"/>
+  
+  <!-- === YARN STRAND LAYERS === -->
+  
+  <!-- Layer 1: Deep shadow strands (back/bottom-right) -->
+  <g fill="none" stroke="#A67B7B" stroke-width="3.5" stroke-linecap="round">
+    <!-- Bottom-right horizontal curves -->
+    <path d="M85 260 Q150 280, 200 275 Q260 268, 315 245"/>
+    <path d="M90 275 Q155 295, 200 290 Q265 282, 310 258"/>
+    <path d="M100 290 Q160 305, 200 300 Q255 293, 300 272"/>
+    <!-- Diagonal going down-right -->
+    <path d="M250 80 Q220 140, 200 195 Q175 260, 140 310"/>
+    <path d="M270 95 Q235 155, 210 200 Q180 255, 155 300"/>
+    <path d="M290 115 Q255 170, 225 210 Q190 260, 165 295"/>
+  </g>
+  
+  <!-- Layer 2: Shadow strands -->
+  <g fill="none" stroke="#C49999" stroke-width="3" stroke-linecap="round">
+    <!-- Horizontal wraps - lower half -->
+    <path d="M75 215 Q140 195, 200 200 Q270 207, 325 230"/>
+    <path d="M78 235 Q145 215, 200 220 Q265 228, 322 250"/>
+    <path d="M82 255 Q150 240, 200 245 Q260 252, 318 268"/>
+    <path d="M88 270 Q155 258, 200 262 Q255 268, 312 282"/>
+    <!-- Diagonal strands going upper-left to lower-right -->
+    <path d="M130 75 Q155 130, 175 195 Q195 270, 230 320"/>
+    <path d="M155 70 Q175 130, 190 195 Q208 268, 245 315"/>
+    <path d="M180 68 Q195 130, 205 195 Q218 265, 255 312"/>
+    <!-- Diagonal strands going upper-right to lower-left -->
+    <path d="M305 130 Q270 175, 235 215 Q195 260, 150 295"/>
+    <path d="M295 150 Q260 190, 225 225 Q185 265, 145 295"/>
+  </g>
+  
+  <!-- Layer 3: Mid-tone strands -->
+  <g fill="none" stroke="#DDB8B8" stroke-width="3" stroke-linecap="round">
+    <!-- Dense horizontal wraps -->
+    <path d="M72 175 Q140 155, 200 160 Q270 168, 328 195"/>
+    <path d="M70 190 Q140 170, 200 175 Q272 183, 330 210"/>
+    <path d="M72 205 Q142 188, 200 192 Q268 200, 328 225"/>
+    <path d="M74 220 Q143 205, 200 208 Q265 216, 326 240"/>
+    <path d="M76 238 Q145 222, 200 226 Q262 234, 324 255"/>
+    <path d="M80 252 Q148 240, 200 244 Q258 252, 320 270"/>
+    <!-- Diagonal upper-left to lower-right -->
+    <path d="M100 80 Q130 140, 155 200 Q185 275, 210 320"/>
+    <path d="M120 72 Q148 135, 170 200 Q198 272, 225 318"/>
+    <path d="M145 68 Q170 132, 185 200 Q210 270, 242 315"/>
+    <path d="M170 65 Q190 130, 200 195 Q218 265, 255 312"/>
+    <path d="M200 65 Q210 130, 215 195 Q228 262, 268 308"/>
+    <!-- Diagonal upper-right to lower-left -->
+    <path d="M300 100 Q260 155, 220 200 Q175 250, 125 290"/>
+    <path d="M310 125 Q270 170, 230 210 Q185 255, 140 292"/>
+    <path d="M315 150 Q275 190, 235 225 Q190 265, 150 295"/>
+    <path d="M312 175 Q275 205, 240 235 Q198 270, 160 298"/>
+  </g>
+  
+  <!-- Layer 4: Light strands -->
+  <g fill="none" stroke="#EACECE" stroke-width="2.5" stroke-linecap="round">
+    <!-- Upper horizontal wraps -->
+    <path d="M80 130 Q145 108, 200 115 Q265 124, 320 155"/>
+    <path d="M75 145 Q142 125, 200 130 Q268 140, 325 170"/>
+    <path d="M72 160 Q140 142, 200 147 Q270 157, 328 185"/>
+    <path d="M70 178 Q140 158, 200 163 Q272 173, 330 200"/>
+    <path d="M70 195 Q142 178, 200 182 Q270 192, 330 218"/>
+    <!-- More diagonal strands -->
+    <path d="M90 95 Q125 155, 150 210 Q180 280, 200 320"/>
+    <path d="M110 82 Q140 145, 165 205 Q195 275, 218 318"/>
+    <path d="M135 72 Q162 138, 182 200 Q208 270, 238 315"/>
+    <!-- Upper-right to lower-left -->
+    <path d="M290 85 Q250 135, 210 185 Q165 240, 115 285"/>
+    <path d="M305 110 Q265 155, 225 200 Q180 250, 130 292"/>
+    <path d="M315 135 Q275 178, 235 218 Q190 262, 145 298"/>
+  </g>
+  
+  <!-- Layer 5: Highlight strands (top-left area) -->
+  <g fill="none" stroke="#F5E1E1" stroke-width="2.5" stroke-linecap="round">
+    <!-- Top highlight curves -->
+    <path d="M90 100 Q145 78, 200 85 Q260 95, 305 125"/>
+    <path d="M82 115 Q142 95, 200 100 Q262 110, 315 140"/>
+    <path d="M78 132 Q140 112, 200 118 Q265 128, 322 158"/>
+    <path d="M75 150 Q140 132, 200 137 Q268 148, 325 175"/>
+    <!-- Diagonal highlights -->
+    <path d="M95 105 Q130 160, 155 215 Q182 278, 205 318"/>
+    <path d="M115 90 Q148 150, 172 210 Q200 275, 225 318"/>
+    <path d="M280 75 Q245 125, 205 175 Q160 230, 110 275"/>
+  </g>
+  
+  <!-- Layer 6: Brightest highlights -->
+  <g fill="none" stroke="#FAF0F0" stroke-width="2" stroke-linecap="round">
+    <path d="M95 90 Q145 70, 195 78 Q250 88, 295 115"/>
+    <path d="M88 108 Q140 88, 195 95 Q255 105, 305 132"/>
+    <path d="M85 125 Q138 108, 195 113 Q258 123, 310 150"/>
+    <path d="M100 100 Q135 150, 160 205 Q188 268, 210 310"/>
+  </g>
+  
+  <!-- === LOOSE TRAILING YARN END === -->
+  <!-- Shadow layer of loose end -->
+  <path 
+    d="M215 318 Q230 340, 220 360 Q205 382, 215 400 Q228 420, 218 440 Q205 458, 215 475" 
+    fill="none" 
+    stroke="#A67B7B" 
+    stroke-width="5" 
+    stroke-linecap="round"
+  />
+  <!-- Mid-tone layer -->
+  <path 
+    d="M215 318 Q230 340, 220 360 Q205 382, 215 400 Q228 420, 218 440 Q205 458, 215 475" 
+    fill="none" 
+    stroke="#C49999" 
+    stroke-width="4" 
+    stroke-linecap="round"
+  />
+  <!-- Highlight layer -->
+  <path 
+    d="M215 318 Q230 340, 220 360 Q205 382, 215 400 Q228 420, 218 440 Q205 458, 215 475" 
+    fill="none" 
+    stroke="#DDB8B8" 
+    stroke-width="3" 
+    stroke-linecap="round"
+  />
+  <!-- Top highlight on loose end -->
+  <path 
+    d="M215 318 Q230 340, 220 360 Q205 382, 215 400" 
+    fill="none" 
+    stroke="#EACECE" 
+    stroke-width="1.5" 
+    stroke-linecap="round"
+  />
+  
+  <!-- Small loop detail where strand exits ball -->
+  <path 
+    d="M205 310 Q200 320, 210 325 Q222 322, 218 315" 
+    fill="none" 
+    stroke="#C49999" 
+    stroke-width="3" 
+    stroke-linecap="round"
+  />
+  <path 
+    d="M205 310 Q200 320, 210 325 Q222 322, 218 315" 
+    fill="none" 
+    stroke="#DDB8B8" 
+    stroke-width="2" 
+    stroke-linecap="round"
+  />
+</svg>
