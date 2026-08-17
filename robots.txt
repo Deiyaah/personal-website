@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /styleguide
+Disallow: /flow-wave/
+
+Sitemap: https://diyaayadav.com/sitemap.xml

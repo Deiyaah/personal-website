@@ -16,7 +16,7 @@
   ],
   "author": "Diyaa Yadav",
   "license": "MIT",
-  "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
 }
-
