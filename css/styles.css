@@ -418,15 +418,6 @@ a {
     max-width: 30rem;
 }
 
-.hero-kicker {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--secondary);
-    letter-spacing: 0.08em;
-    text-transform: lowercase;
-    margin-bottom: 0.75rem;
-}
-
 .hero-brand {
     font-family: var(--font-display);
     font-size: clamp(4rem, 12vw, 7rem);
