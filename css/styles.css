@@ -914,130 +914,24 @@ a {
     transform: translateY(-2px);
 }
 
-/* Projects — cinematic 3D carousel */
-.cinema {
-    position: relative;
-}
 
-.cinema-stage {
-    position: relative;
-    height: min(58vh, 560px);
-    perspective: 1500px;
-    perspective-origin: 50% 42%;
-}
 
-.cinema-ring {
-    position: absolute;
-    inset: 0;
-    transform-style: preserve-3d;
-    will-change: transform;
-}
 
-.cinema-face {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: var(--cardw, 480px);
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-}
 
-.cinema-face .project-card {
-    background: rgba(19, 26, 61, 0.92);
-    box-shadow: var(--shadow), inset 0 1px 0 var(--surface-edge);
-}
 
-.theme-light .cinema-face .project-card {
-    background: rgba(255, 255, 255, 0.94);
-}
 
-.cinema-hud {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-    font-family: var(--font-mono);
-    color: var(--ink-soft);
-}
 
-.cinema-counter {
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-}
 
-.cinema-counter b {
-    color: var(--primary-soft);
-    font-weight: 500;
-}
 
-.theme-light .cinema-counter b {
-    color: var(--primary);
-}
 
-.cinema-stage {
-    touch-action: pan-y;      /* horizontal drag spins, vertical still scrolls */
-    user-select: none;
-}
 
-.cinema-dots {
-    display: flex;
-    gap: 0.5rem;
-}
 
-.cinema-dots button {
-    width: 10px;
-    height: 10px;
-    padding: 0;
-    border-radius: 50%;
-    background: transparent;
-    border: 1.5px dashed var(--line-strong);
-    cursor: pointer;
-    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
-}
 
-.cinema-dots button:hover {
-    transform: scale(1.25);
-    border-color: var(--primary);
-}
 
-.cinema-dots button.is-on {
-    background: var(--primary);
-    border-style: solid;
-    border-color: var(--primary);
-    box-shadow: 0 0 10px rgba(139, 127, 240, 0.7);
-}
 
-.cinema-arrow {
-    width: 38px;
-    height: 38px;
-    border-radius: 999px;
-    border: 1.5px dashed var(--line-strong);
-    background: var(--felt);
-    color: var(--ink);
-    font-size: 1.15rem;
-    line-height: 1;
-    cursor: pointer;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
 
-.cinema-arrow:hover {
-    border-color: var(--primary);
-    box-shadow: var(--glow);
-    transform: scale(1.08);
-}
 
-.cinema-arrow:active {
-    transform: scale(0.95);
-}
 
-.cinema-hint {
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    opacity: 0.7;
-}
 
 /* Projects */
 .projects-grid {
@@ -1644,20 +1538,6 @@ li,
     border-radius: 4px;
 }
 
-/* =========================================================
-   Cinematic motion layer
-   ========================================================= */
-
-/* Fabric ripple pushed into the knit on button press */
-.knit-ripple {
-    position: fixed;
-    z-index: 90;
-    pointer-events: none;
-    border-radius: 50%;
-    border: 2px solid rgba(139, 127, 240, 0.35);
-    box-shadow: inset 0 0 18px rgba(10, 8, 24, 0.25), 0 0 12px rgba(139, 127, 240, 0.2);
-    will-change: transform, opacity;
-}
 
 /* Satin border specular sweep on hover */
 .btn.is-patch {
@@ -1682,33 +1562,11 @@ li,
     to { transform: translateX(620%) skewX(-18deg); }
 }
 
-/* Project ring: motion blur while scrubbing, depth-of-field tiers */
-.cinema-ring {
-    transition: filter 0.28s ease;
-}
 
-.cinema.is-scrubbing .cinema-ring {
-    filter: blur(2.5px);
-}
 
-.cinema-face .project-card {
-    transition: filter 0.35s ease;
-    will-change: transform;
-}
 
-.cinema-face[data-tier="1"] .project-card { filter: blur(1px) brightness(0.92); }
-.cinema-face[data-tier="2"] .project-card { filter: blur(2.2px) brightness(0.8); }
 
-/* Crochet hook cursor over the draggable ring */
-.theme-dark body.needle-cursor .cinema,
-.theme-dark body.needle-cursor .cinema * {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M4 22 L16 10 Q19 7 21 9 Q23 11 20 13 L17 12' fill='none' stroke='%23d9dbe8' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4 22 C 8 24, 12 23, 14 20' fill='none' stroke='%23a99af0' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") 4 22, auto;
-}
 
-.theme-light body.needle-cursor .cinema,
-.theme-light body.needle-cursor .cinema * {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M4 22 L16 10 Q19 7 21 9 Q23 11 20 13 L17 12' fill='none' stroke='%23fffdf5' stroke-width='4.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4 22 L16 10 Q19 7 21 9 Q23 11 20 13 L17 12' fill='none' stroke='%234a4560' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4 22 C 8 24, 12 23, 14 20' fill='none' stroke='%236c5fa3' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") 4 22, auto;
-}
 
 /* Thread fuzz halo along the drawn yarn */
 .thread-fuzz {
@@ -1852,11 +1710,6 @@ li,
         animation: none;
     }
 
-    .cinema.is-scrubbing .cinema-ring,
-    .cinema-face[data-tier="1"] .project-card,
-    .cinema-face[data-tier="2"] .project-card {
-        filter: none;
-    }
 
     .knit-ripple {
         display: none;

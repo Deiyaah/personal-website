@@ -69,7 +69,6 @@ function initEdgeHover() {
     const maxTilt = 3.5;
 
     document.querySelectorAll('.project-card, .about-point').forEach((card) => {
-        if (card.closest('.cinema')) return;   // ring faces manage their own 3D
         const rx = gsap.quickTo(card, 'rotationX', { duration: 0.5, ease: 'power2.out' });
         const ry = gsap.quickTo(card, 'rotationY', { duration: 0.5, ease: 'power2.out' });
         gsap.set(card, { transformPerspective: 900 });
