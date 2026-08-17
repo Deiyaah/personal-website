@@ -40,7 +40,25 @@ html {
     --stitch: rgba(199, 185, 255, 0.3);
     --stitch-strong: rgba(199, 185, 255, 0.58);
     --spot: rgba(139, 127, 240, 0.14);
-    --star-opacity: 0.95;
+    --knit-veil: rgba(7, 9, 26, 0.88);
+
+    /* DMC floss palette (dark theme = midnight dye lot) */
+    --dmc-ecru: #f0ead6;
+    --dmc-3866: #f5efe3;
+    --dmc-640: #857b61;
+    --dmc-3746: #6c5fa3;
+    --dmc-3371: #2e2417;
+    --dmc-321: #b33b4b;
+    --thread-ground: var(--dmc-ecru);
+    --thread-neutral: rgba(240, 234, 214, 0.55);
+    --thread-accent: #a99af0;
+    --thread-shadow: rgba(10, 8, 24, 0.7);
+    --thread-error: #d4707e;
+    --felt: rgba(31, 29, 54, 0.92);
+    --felt-edge: rgba(240, 234, 214, 0.08);
+    --seam-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='3'%3E%3Cline x1='1.4' y1='1.5' x2='9.6' y2='1.5' stroke='%23f0ead6' stroke-opacity='0.4' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    --seam-line-focus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='3'%3E%3Cline x1='1.2' y1='1.5' x2='7.8' y2='1.5' stroke='%23a99af0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    --seam-line-error: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='4'%3E%3Cline x1='1.5' y1='1.4' x2='11' y2='2.6' stroke='%23d4707e' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
     --font-display: "Syne", sans-serif;
     --font-body: "Outfit", sans-serif;
     --font-mono: "IBM Plex Mono", monospace;
@@ -68,7 +86,17 @@ html {
     --stitch: rgba(106, 90, 224, 0.34);
     --stitch-strong: rgba(106, 90, 224, 0.62);
     --spot: rgba(106, 90, 224, 0.1);
-    --star-opacity: 0.3;
+    --knit-veil: rgba(240, 234, 214, 0.6);
+    --thread-ground: var(--dmc-ecru);
+    --thread-neutral: rgba(133, 123, 97, 0.75);
+    --thread-accent: var(--dmc-3746);
+    --thread-shadow: rgba(46, 36, 23, 0.35);
+    --thread-error: var(--dmc-321);
+    --felt: rgba(245, 239, 227, 0.94);
+    --felt-edge: rgba(46, 36, 23, 0.06);
+    --seam-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='3'%3E%3Cline x1='1.4' y1='1.5' x2='9.6' y2='1.5' stroke='%23857b61' stroke-opacity='0.7' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    --seam-line-focus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='3'%3E%3Cline x1='1.2' y1='1.5' x2='7.8' y2='1.5' stroke='%236c5fa3' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    --seam-line-error: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='4'%3E%3Cline x1='1.5' y1='1.4' x2='11' y2='2.6' stroke='%23b33b4b' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 body {
@@ -84,42 +112,18 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-/* Nebula depth */
+/* Knitted fabric background — tiled wool under a theme-tinted veil */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: -3;
-    background:
-        radial-gradient(1000px 700px at 12% 8%, rgba(139, 127, 240, 0.16), transparent 60%),
-        radial-gradient(850px 550px at 92% 18%, rgba(100, 166, 245, 0.12), transparent 55%),
-        radial-gradient(750px 550px at 45% 95%, rgba(239, 143, 208, 0.09), transparent 60%),
-        linear-gradient(170deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
-}
-
-/* Canvas starfield sits above the nebula, below content */
-#starfield {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
     z-index: -2;
-    pointer-events: none;
-    opacity: var(--star-opacity);
-    transition: opacity 0.35s ease;
-}
-
-/* Film grain so gradients never band */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 50;
-    opacity: 0.05;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    background-image:
+        linear-gradient(var(--knit-veil), var(--knit-veil)),
+        url("../assets/knit.jpg");
+    background-size: auto, 460px 460px;
+    background-repeat: no-repeat, repeat;
 }
 
 .container {
@@ -149,77 +153,6 @@ a {
     }
 }
 
-/* ---------- Floating cosmos decorations ---------- */
-.cosmos {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-}
-
-.cosmo {
-    position: absolute;
-    will-change: transform;
-}
-
-.cosmo-planet-a { top: 13%; left: 5%; width: 72px; opacity: 0.8; }
-.cosmo-planet-b { top: 40%; right: 4%; width: 92px; opacity: 0.75; }
-.cosmo-moon     { top: 78%; left: 4%; width: 46px; opacity: 0.7; }
-
-.cosmo-glow-a,
-.cosmo-glow-b {
-    border-radius: 50%;
-    filter: blur(60px);
-}
-
-.cosmo-glow-a {
-    top: 18%;
-    right: 8%;
-    width: 260px;
-    height: 260px;
-    background: radial-gradient(circle, rgba(139, 127, 240, 0.2), transparent 70%);
-}
-
-.cosmo-glow-b {
-    top: 68%;
-    left: 5%;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(100, 166, 245, 0.14), transparent 70%);
-}
-
-/* ---------- Float / twinkle animations ---------- */
-@keyframes floaty {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-14px) rotate(1.5deg); }
-}
-
-@keyframes floaty-soft {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.9; transform: scale(1); }
-    50% { opacity: 0.3; transform: scale(0.8); }
-}
-
-.float-slow { animation: floaty 9s ease-in-out infinite; }
-.float-med { animation: floaty 6.5s ease-in-out infinite; }
-.float-soft { animation: floaty-soft 5s ease-in-out infinite; }
-
-.twinkle,
-.twinkle-2,
-.twinkle-3 {
-    transform-box: fill-box;
-    transform-origin: center;
-}
-
-.twinkle { animation: twinkle 3.4s ease-in-out infinite; }
-.twinkle-2 { animation: twinkle 4.6s ease-in-out infinite 0.8s; }
-.twinkle-3 { animation: twinkle 5.4s ease-in-out infinite 1.6s; }
-
 /* ---------- Yarn thread journey ---------- */
 .thread-journey {
     position: absolute;
@@ -234,14 +167,6 @@ a {
     inset: 0;
     overflow: visible;
     display: block;
-}
-
-.thread-guide {
-    fill: none;
-    stroke: var(--stitch);
-    stroke-width: 2;
-    stroke-dasharray: 6 12;
-    stroke-linecap: round;
 }
 
 .thread-draw {
@@ -615,14 +540,12 @@ a {
 /* ---------- Embroidery stitches ---------- */
 /* Cards read as fabric patches: soft edge + inset running-stitch */
 .about-point,
-.skill-block,
 .contact-form,
 .project-card {
     position: relative;
 }
 
 .about-point::before,
-.skill-block::before,
 .contact-form::before,
 .project-card::before {
     content: "";
@@ -642,7 +565,6 @@ a {
 }
 
 .about-point:hover::before,
-.skill-block:hover::before,
 .contact-form:hover::before,
 .project-card:hover::before {
     border-color: var(--stitch-strong);
@@ -650,7 +572,6 @@ a {
 
 /* Pointer-tracking spotlight wash */
 .about-point::after,
-.skill-block::after,
 .project-card .project-content::after {
     content: "";
     position: absolute;
@@ -664,14 +585,12 @@ a {
 }
 
 .about-point:hover::after,
-.skill-block:hover::after,
 .project-card:hover .project-content::after {
     opacity: 1;
 }
 
 .theme-light .about-point::before,
-.theme-light .skill-block::before,
-.theme-light .contact-form::before,
+.theme-light .theme-light .contact-form::before,
 .theme-light .project-card::before {
     filter: drop-shadow(0 1px 1px rgba(76, 60, 192, 0.18));
 }
@@ -807,81 +726,326 @@ a {
     color: var(--ink-soft);
 }
 
-/* Experience timeline — chain-stitch thread */
-.timeline {
-    list-style: none;
-    position: relative;
+/* Experience explorer — interactive role tabs + detail panel */
+.exp-explorer {
     display: grid;
-    gap: 2rem;
-    padding-left: 1.75rem;
-    margin-left: 0.35rem;
+    grid-template-columns: 0.85fr 1.4fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.exp-tabs {
+    display: grid;
+    gap: 0.6rem;
+    position: relative;
+    padding-left: 1.4rem;
+    /* chain-stitch rail */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='16'%3E%3Cellipse cx='5' cy='8' rx='3.2' ry='6.8' fill='none' stroke='%23c7b9ff' stroke-opacity='0.5' stroke-width='1.6'/%3E%3C/svg%3E");
     background-repeat: repeat-y;
     background-position: left top;
     background-size: 10px 16px;
 }
 
-.theme-light .timeline {
+.theme-light .exp-tabs {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='16'%3E%3Cellipse cx='5' cy='8' rx='3.2' ry='6.8' fill='none' stroke='%236a5ae0' stroke-opacity='0.5' stroke-width='1.6'/%3E%3C/svg%3E");
 }
 
-.timeline-item {
+.exp-tab {
     position: relative;
-    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.15rem;
+    text-align: left;
+    padding: 0.95rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font: inherit;
+    transition: border-color 0.25s ease, background 0.25s ease,
+        color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-.timeline-dot {
+.exp-tab:hover {
+    border-color: var(--line-strong);
+    color: var(--ink);
+    transform: translateX(3px);
+}
+
+.exp-tab.is-active {
+    background: var(--surface);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-color: var(--line-strong);
+    color: var(--ink);
+    box-shadow: var(--glow), inset 0 1px 0 var(--surface-edge);
+    transform: translateX(6px);
+}
+
+.exp-tab-dot {
     position: absolute;
-    left: calc(-1.75rem + 5px);
-    top: 0.35rem;
+    left: -1.4rem;
+    top: 50%;
     width: 11px;
     height: 11px;
+    margin-left: 5px;
     border-radius: 50%;
-    background: var(--primary);
+    background: var(--line-strong);
     border: 2px solid var(--bg);
+    transform: translate(-50%, -50%) scale(0.7);
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.exp-tab.is-active .exp-tab-dot {
+    background: var(--primary);
     box-shadow: 0 0 0 1px var(--primary), 0 0 14px rgba(139, 127, 240, 0.7);
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%) scale(1);
 }
 
-.timeline-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.25rem;
-    margin-bottom: 0.4rem;
+.exp-tab-org {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    font-weight: 600;
 }
 
-.timeline-dates,
-.timeline-place {
+.exp-tab-dates {
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     color: var(--secondary);
 }
 
-.timeline-place { color: var(--ink-soft); }
-
-.timeline-role {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    margin-bottom: 0.15rem;
+.exp-panel {
+    position: relative;
+    padding: 1.6rem 1.7rem 1.7rem;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--surface);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 0 var(--surface-edge);
+    min-height: 320px;
 }
 
-.timeline-org {
+/* Inset running-stitch, matching the other fabric patches */
+.exp-panel::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 2px dashed var(--stitch);
+    border-radius: 15px;
+    pointer-events: none;
+    z-index: 2;
+    filter: drop-shadow(0 1px 1px rgba(2, 4, 16, 0.45));
+    background:
+        radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat 3px 3px / 7px 7px,
+        radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat calc(100% - 3px) 3px / 7px 7px,
+        radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat 3px calc(100% - 3px) / 7px 7px,
+        radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat calc(100% - 3px) calc(100% - 3px) / 7px 7px;
+}
+
+.theme-light .exp-panel::before {
+    filter: drop-shadow(0 1px 1px rgba(76, 60, 192, 0.18));
+}
+
+.exp-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 1.25rem;
+    margin-bottom: 1.1rem;
+}
+
+.exp-role {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin-bottom: 0.1rem;
+}
+
+.exp-org {
     color: var(--primary-soft);
     font-size: 0.95rem;
-    margin-bottom: 0.75rem;
 }
 
-.theme-light .timeline-org {
+.theme-light .exp-org {
     color: var(--primary);
 }
 
-.timeline-points {
+.exp-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: flex-start;
+}
+
+.exp-chip {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--secondary);
+    background: rgba(139, 127, 240, 0.08);
+}
+
+.exp-chip--place {
+    color: var(--ink-soft);
+}
+
+.exp-points {
     list-style: disc;
     padding-left: 1.1rem;
     color: var(--ink-soft);
     display: grid;
-    gap: 0.4rem;
+    gap: 0.45rem;
     font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+}
+
+.exp-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.exp-stack span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.3rem 0.65rem;
+    border: 1.5px dashed var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.exp-stack span:hover {
+    border-color: var(--primary);
+    color: var(--ink);
+    transform: translateY(-2px);
+}
+
+/* Projects — cinematic 3D carousel */
+.cinema {
+    position: relative;
+}
+
+.cinema-stage {
+    position: relative;
+    height: min(58vh, 560px);
+    perspective: 1500px;
+    perspective-origin: 50% 42%;
+}
+
+.cinema-ring {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.cinema-face {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--cardw, 480px);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.cinema-face .project-card {
+    background: rgba(19, 26, 61, 0.92);
+    box-shadow: var(--shadow), inset 0 1px 0 var(--surface-edge);
+}
+
+.theme-light .cinema-face .project-card {
+    background: rgba(255, 255, 255, 0.94);
+}
+
+.cinema-hud {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    color: var(--ink-soft);
+}
+
+.cinema-counter {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+}
+
+.cinema-counter b {
+    color: var(--primary-soft);
+    font-weight: 500;
+}
+
+.theme-light .cinema-counter b {
+    color: var(--primary);
+}
+
+.cinema-stage {
+    touch-action: pan-y;      /* horizontal drag spins, vertical still scrolls */
+    user-select: none;
+}
+
+.cinema-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.cinema-dots button {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border-radius: 50%;
+    background: transparent;
+    border: 1.5px dashed var(--line-strong);
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.cinema-dots button:hover {
+    transform: scale(1.25);
+    border-color: var(--primary);
+}
+
+.cinema-dots button.is-on {
+    background: var(--primary);
+    border-style: solid;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(139, 127, 240, 0.7);
+}
+
+.cinema-arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1.5px dashed var(--line-strong);
+    background: var(--felt);
+    color: var(--ink);
+    font-size: 1.15rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cinema-arrow:hover {
+    border-color: var(--primary);
+    box-shadow: var(--glow);
+    transform: scale(1.08);
+}
+
+.cinema-arrow:active {
+    transform: scale(0.95);
+}
+
+.cinema-hint {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.7;
 }
 
 /* Projects */
@@ -1010,46 +1174,7 @@ a {
     border-color: var(--line-strong);
 }
 
-/* Skills */
-.skills-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-}
-
-.skill-block {
-    padding: 1.75rem;
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    background: var(--surface);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    box-shadow: inset 0 1px 0 var(--surface-edge);
-}
-
-.skill-heading {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--secondary);
-    margin-bottom: 1.25rem;
-    font-weight: 500;
-}
-
-.skill-bars {
-    list-style: none;
-    display: grid;
-    gap: 1.15rem;
-}
-
-.skill-bars li {
-    display: grid;
-    gap: 0.45rem;
-}
-
-.skill-bars span {
-    font-size: 0.95rem;
-}
-
+/* Thread progress (styleguide) */
 .bar {
     height: 6px;
     border-radius: 999px;
@@ -1068,29 +1193,6 @@ a {
 
 .bar-fill.is-on {
     width: var(--w);
-}
-
-.skill-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-}
-
-.skill-pills span {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    padding: 0.65rem 0.95rem;
-    border: 1.5px dashed var(--line);
-    border-radius: 999px;
-    color: var(--ink-soft);
-    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.skill-pills span:hover {
-    transform: translateY(-3px);
-    border-color: var(--primary);
-    color: var(--ink);
-    box-shadow: var(--glow);
 }
 
 /* Contact */
@@ -1310,14 +1412,365 @@ a {
     border: 0;
 }
 
+/* =========================================================
+   Embroidery layer — everything reads as stitching on knit
+   ========================================================= */
+
+/* Real wool felt (Higgsfield), tinted by the theme via multiply blend */
+.about-point,
+.exp-panel,
+.contact-form,
+.project-card,
+.btn.is-patch {
+    background-color: var(--felt);
+    background-image: url("../assets/felt.jpg");
+    background-size: 340px 340px;
+    background-blend-mode: multiply;
+}
+
+/* Cards sit physically on the knit: tight shadow + slight rotation */
+.about-point,
+.exp-panel,
+.contact-form,
+.project-card {
+    box-shadow: 0 2px 3px var(--thread-shadow), 0 6px 14px rgba(10, 8, 24, 0.18),
+        inset 0 1px 0 var(--felt-edge);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.about-point:nth-child(odd),
+.project-card:nth-child(odd) { rotate: 0.5deg; }
+.about-point:nth-child(even),
+.project-card:nth-child(even) { rotate: -0.45deg; }
+.contact-form { rotate: 0.3deg; }
+
+/* JS blanket-stitch frames replace the CSS dashed fallback */
+.has-stitch-frame::before {
+    display: none;
+}
+
+/* Buttons as embroidered patches */
+.btn.is-patch {
+    color: var(--ink);
+    box-shadow: 0 2px 3px var(--thread-shadow), 0 4px 10px rgba(10, 8, 24, 0.15);
+    transition: box-shadow 0.25s ease, filter 0.25s ease, background-color 0.25s ease;
+}
+
+.btn.is-patch .satin-border {
+    stroke: var(--thread-accent);
+    transition: stroke 0.25s ease;
+}
+
+.btn-primary.is-patch {
+    background-color: var(--thread-accent);
+    background-blend-mode: soft-light;
+    color: var(--dmc-3866);
+}
+
+.btn-primary.is-patch .satin-border {
+    stroke: var(--dmc-3866);
+}
+
+.btn.is-patch:hover {
+    filter: saturate(1.35);
+    box-shadow: 0 4px 5px var(--thread-shadow), 0 12px 22px rgba(10, 8, 24, 0.28);
+}
+
+.btn.is-patch:active {
+    filter: saturate(1.1);
+    box-shadow: 0 1px 2px var(--thread-shadow), inset 0 2px 6px rgba(10, 8, 24, 0.25);
+}
+
+/* Backstitch link underlines draw in */
+.has-stitch-underline {
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 1px 1px var(--thread-shadow);
+}
+
+.has-stitch-underline .stitch-underline {
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.has-stitch-underline:hover .stitch-underline,
+.has-stitch-underline:focus-visible .stitch-underline {
+    transform: scaleX(1);
+}
+
+/* Dividers */
+.stitch-divider {
+    margin-bottom: 2rem;
+    color: var(--thread-neutral);
+}
+
+/* Stitched headings */
+.is-stitched-heading .stitch-heading-svg {
+    display: block;
+}
+
+.stitch-text-main {
+    fill: none;
+    stroke: var(--thread-accent);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 6.5 4.5;
+}
+
+.stitch-text-shadow {
+    fill: none;
+    stroke: var(--thread-shadow);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 6.5 4.5;
+    transform: translate(1.2px, 1.6px);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Body copy sits ON the fabric */
+p,
+li,
+.stat-label,
+.hero-line {
+    text-shadow: 0 1px 1px var(--thread-shadow);
+}
+
+/* French-knot list markers */
+.exp-points,
+.timeline-points {
+    list-style: none;
+    padding-left: 1.3rem;
+}
+
+.exp-points li {
+    position: relative;
+}
+
+.exp-points li::before {
+    content: "";
+    position: absolute;
+    left: -1.15rem;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.5), transparent 45%),
+        var(--thread-accent);
+    box-shadow: 0 1px 1px var(--thread-shadow);
+}
+
+/* Form fields as recessed seams */
+.contact-form input,
+.contact-form textarea {
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(10, 8, 24, 0.28);
+    background-image: var(--seam-line), var(--seam-line), url("../assets/linen.jpg");
+    background-repeat: repeat-x, repeat-x, repeat;
+    background-position: left 2px, left calc(100% - 2px), center;
+    background-size: auto, auto, 280px 280px;
+    background-blend-mode: normal, normal, multiply;
+    box-shadow: inset 0 2px 6px rgba(10, 8, 24, 0.35), inset 0 -1px 0 var(--felt-edge);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-light .contact-form input,
+.theme-light .contact-form textarea {
+    background-color: rgba(221, 217, 195, 0.55);
+    box-shadow: inset 0 2px 6px rgba(46, 36, 23, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border: none;
+    background-image: var(--seam-line-focus), var(--seam-line-focus), url("../assets/linen.jpg");
+    box-shadow: inset 0 2px 6px rgba(10, 8, 24, 0.35), 0 0 0 3px rgba(139, 127, 240, 0.18);
+}
+
+.contact-form input.is-error,
+.contact-form textarea.is-error {
+    background-image: var(--seam-line-error), var(--seam-line-error), url("../assets/linen.jpg");
+}
+
+.form-status.is-error {
+    color: var(--thread-error);
+}
+
+/* Progress = thread unspooling (floss twist on the skill bars) */
+.bar {
+    background: rgba(10, 8, 24, 0.3);
+    box-shadow: inset 0 1px 2px rgba(10, 8, 24, 0.4);
+}
+
+.theme-light .bar {
+    background: rgba(133, 123, 97, 0.25);
+    box-shadow: inset 0 1px 2px rgba(46, 36, 23, 0.2);
+}
+
+.bar-fill {
+    background: url("../assets/floss.jpg") repeat;
+    background-size: 90px auto;
+    box-shadow: 0 1px 1px var(--thread-shadow);
+}
+
+/* Needle cursor (tip at hotspot; thread trails behind) —
+   light steel on the dark ground, dark steel on the cream ground */
+.theme-dark body.needle-cursor,
+.theme-dark body.needle-cursor a,
+.theme-dark body.needle-cursor button {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M22 13 C 18 8, 14 8, 10 12' fill='none' stroke='%23a99af0' stroke-width='1.4' stroke-linecap='round'/%3E%3Cline x1='2' y1='2' x2='17' y2='17' stroke='%23d9dbe8' stroke-width='2.6' stroke-linecap='round'/%3E%3Ccircle cx='16.2' cy='16.2' r='2.6' fill='none' stroke='%23d9dbe8' stroke-width='1.6'/%3E%3C/svg%3E") 2 2, auto;
+}
+
+.theme-light body.needle-cursor,
+.theme-light body.needle-cursor a,
+.theme-light body.needle-cursor button {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M22 13 C 18 8, 14 8, 10 12' fill='none' stroke='%236c5fa3' stroke-width='1.6' stroke-linecap='round'/%3E%3Cline x1='2' y1='2' x2='17' y2='17' stroke='%23fffdf5' stroke-width='4' stroke-linecap='round'/%3E%3Cline x1='2' y1='2' x2='17' y2='17' stroke='%234a4560' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16.2' cy='16.2' r='2.6' fill='none' stroke='%234a4560' stroke-width='1.6'/%3E%3C/svg%3E") 2 2, auto;
+}
+
+/* Focus = bright contrasting stitch, never removed */
+:focus-visible {
+    outline: 2.5px dashed var(--thread-accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* =========================================================
+   Cinematic motion layer
+   ========================================================= */
+
+/* Fabric ripple pushed into the knit on button press */
+.knit-ripple {
+    position: fixed;
+    z-index: 90;
+    pointer-events: none;
+    border-radius: 50%;
+    border: 2px solid rgba(139, 127, 240, 0.35);
+    box-shadow: inset 0 0 18px rgba(10, 8, 24, 0.25), 0 0 12px rgba(139, 127, 240, 0.2);
+    will-change: transform, opacity;
+}
+
+/* Satin border specular sweep on hover */
+.btn.is-patch {
+    overflow: hidden;
+}
+
+.btn.is-patch::after {
+    content: "";
+    position: absolute;
+    inset: -4px auto -4px -30%;
+    width: 26%;
+    transform: translateX(-140%) skewX(-18deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 253, 245, 0.35), transparent);
+    pointer-events: none;
+}
+
+.btn.is-patch:hover::after {
+    animation: satin-sweep 0.4s cubic-bezier(0.3, 0, 0.3, 1) 1;
+}
+
+@keyframes satin-sweep {
+    to { transform: translateX(620%) skewX(-18deg); }
+}
+
+/* Project ring: motion blur while scrubbing, depth-of-field tiers */
+.cinema-ring {
+    transition: filter 0.28s ease;
+}
+
+.cinema.is-scrubbing .cinema-ring {
+    filter: blur(2.5px);
+}
+
+.cinema-face .project-card {
+    transition: filter 0.35s ease;
+    will-change: transform;
+}
+
+.cinema-face[data-tier="1"] .project-card { filter: blur(1px) brightness(0.92); }
+.cinema-face[data-tier="2"] .project-card { filter: blur(2.2px) brightness(0.8); }
+
+/* Crochet hook cursor over the draggable ring */
+.theme-dark body.needle-cursor .cinema,
+.theme-dark body.needle-cursor .cinema * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M4 22 L16 10 Q19 7 21 9 Q23 11 20 13 L17 12' fill='none' stroke='%23d9dbe8' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4 22 C 8 24, 12 23, 14 20' fill='none' stroke='%23a99af0' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") 4 22, auto;
+}
+
+.theme-light body.needle-cursor .cinema,
+.theme-light body.needle-cursor .cinema * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M4 22 L16 10 Q19 7 21 9 Q23 11 20 13 L17 12' fill='none' stroke='%23fffdf5' stroke-width='4.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4 22 L16 10 Q19 7 21 9 Q23 11 20 13 L17 12' fill='none' stroke='%234a4560' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4 22 C 8 24, 12 23, 14 20' fill='none' stroke='%236c5fa3' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") 4 22, auto;
+}
+
+/* Thread fuzz halo along the drawn yarn */
+.thread-fuzz {
+    fill: none;
+    stroke: var(--primary-soft);
+    stroke-width: 10;
+    stroke-linecap: round;
+    opacity: 0.13;
+}
+
+/* Chain rail replaces the CSS chain background */
+.exp-tabs.has-chain-rail {
+    background-image: none;
+}
+
+/* Seam focus: stitches visibly pull tight */
+.contact-form input:focus,
+.contact-form textarea:focus {
+    animation: seam-pull 0.35s cubic-bezier(0.2, 0, 0.2, 1.2) 1;
+}
+
+@keyframes seam-pull {
+    0% { background-position: left 6px top 2px, left -6px bottom 2px, center; }
+    100% { background-position: left 0 top 2px, left 0 bottom 2px, center; }
+}
+
+/* Error seam stitches in unevenly, like a hand working fast */
+.contact-form input.is-error,
+.contact-form textarea.is-error {
+    animation: seam-error-in 0.55s steps(7, end) 1;
+}
+
+@keyframes seam-error-in {
+    0% { background-position: left 14px top 2px, left -11px bottom 2px, center; opacity: 0.7; }
+    100% { background-position: left 0 top 2px, left 0 bottom 2px, center; opacity: 1; }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
     .hero-stage,
-    .skills-layout,
     .contact-layout,
     .projects-grid,
-    .about-points {
+    .about-points,
+    .exp-explorer {
         grid-template-columns: 1fr;
+    }
+
+    .exp-tabs {
+        padding-left: 1.4rem;
+    }
+
+    .exp-panel {
+        min-height: 0;
     }
 
     .hero-stage {
@@ -1342,10 +1795,6 @@ a {
 
     .stats {
         grid-template-columns: repeat(3, 1fr);
-    }
-
-    .cosmo-planet-b {
-        display: none;
     }
 }
 
@@ -1392,9 +1841,6 @@ a {
         margin: -18px 0 0 -18px;
     }
 
-    .cosmo-planet-a { width: 52px; }
-    .cosmo-moon { display: none; }
-
     .hero-scroll { display: none; }
 }
 
@@ -1404,18 +1850,25 @@ a {
         scroll-behavior: auto;
     }
 
-    .float-slow,
-    .float-med,
-    .float-soft,
-    .twinkle,
-    .twinkle-2,
-    .twinkle-3,
     .hero-brand,
+    .hero-brand.brand-sheen-once,
     .hero-scroll svg,
-    .hero-scene--css .hero-orbit,
-    .hero-scene--css .hero-strands--a,
-    .hero-scene--css .hero-strands--b {
+    .btn.is-patch:hover::after,
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .contact-form input.is-error,
+    .contact-form textarea.is-error {
         animation: none;
+    }
+
+    .cinema.is-scrubbing .cinema-ring,
+    .cinema-face[data-tier="1"] .project-card,
+    .cinema-face[data-tier="2"] .project-card {
+        filter: none;
+    }
+
+    .knit-ripple {
+        display: none;
     }
 
     .thread-ball {

@@ -11,6 +11,8 @@
     <meta property="og:title" content="Diyaa Yadav — Software Engineer">
     <meta property="og:description" content="Multi-tenant SaaS, cloud infrastructure, and playful full-stack tools — stitched with code.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://diyaayadav.com/">
+    <link rel="canonical" href="https://diyaayadav.com/">
     <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><radialGradient id="g" cx="32%25" cy="28%25" r="72%25"><stop offset="0%25" stop-color="%23d8ccff"/><stop offset="55%25" stop-color="%238b7ff0"/><stop offset="100%25" stop-color="%23372a85"/></radialGradient></defs><circle cx="20" cy="20" r="16" fill="url(%23g)"/><g fill="none" stroke="%23241a5e" stroke-opacity="0.55" stroke-width="1.4" stroke-linecap="round"><path d="M8 17 C13 8, 20 7, 26 10 C31 13, 33 18, 32 23"/><path d="M9 25 C15 31, 24 32, 30 27"/><path d="M10 12 C17 15, 25 15, 31 13"/></g></svg>'>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,52 +32,6 @@
     </script>
 </head>
 <body>
-    <!-- Depth-layered canvas starfield (JS-driven, reduced-motion aware) -->
-    <canvas id="starfield" aria-hidden="true"></canvas>
-
-    <!-- Floating cosmos decorations -->
-    <div class="cosmos" aria-hidden="true">
-        <svg class="cosmo cosmo-planet-a float-slow" viewBox="0 0 100 100" data-parallax="0.12">
-            <defs>
-                <radialGradient id="cpA" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#cfc3ff"/>
-                    <stop offset="60%" stop-color="#8b7ff0"/>
-                    <stop offset="100%" stop-color="#3b2d99"/>
-                </radialGradient>
-            </defs>
-            <circle cx="50" cy="50" r="26" fill="url(#cpA)"/>
-            <ellipse cx="50" cy="52" rx="42" ry="10" fill="none" stroke="#e8c49a" stroke-width="2.5" stroke-opacity="0.65" transform="rotate(-18 50 52)"/>
-            <circle cx="42" cy="42" r="4" fill="#e9e3ff" opacity="0.45"/>
-        </svg>
-        <svg class="cosmo cosmo-planet-b float-med" viewBox="0 0 100 100" data-parallax="0.2">
-            <defs>
-                <radialGradient id="cpB" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#a5d3ff"/>
-                    <stop offset="60%" stop-color="#5ea2ef"/>
-                    <stop offset="100%" stop-color="#25518f"/>
-                </radialGradient>
-            </defs>
-            <circle cx="50" cy="50" r="30" fill="url(#cpB)"/>
-            <path d="M24 44 C34 38, 44 40, 52 44 S 70 50, 78 46" fill="none" stroke="#ddedff" stroke-width="3" stroke-linecap="round" stroke-opacity="0.4"/>
-            <path d="M26 58 C36 54, 48 56, 58 60 S 72 62, 76 58" fill="none" stroke="#ddedff" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.26"/>
-        </svg>
-        <svg class="cosmo cosmo-moon float-soft" viewBox="0 0 100 100" data-parallax="0.16">
-            <defs>
-                <radialGradient id="cMoon" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#f4f1ff"/>
-                    <stop offset="70%" stop-color="#b7b3d8"/>
-                    <stop offset="100%" stop-color="#6f6a9e"/>
-                </radialGradient>
-            </defs>
-            <circle cx="50" cy="50" r="30" fill="url(#cMoon)"/>
-            <circle cx="40" cy="42" r="7" fill="#8f8ab8" opacity="0.4"/>
-            <circle cx="60" cy="58" r="5" fill="#8f8ab8" opacity="0.35"/>
-            <circle cx="52" cy="34" r="3.5" fill="#8f8ab8" opacity="0.3"/>
-        </svg>
-        <div class="cosmo cosmo-glow-a" data-parallax="0.08"></div>
-        <div class="cosmo cosmo-glow-b" data-parallax="0.1"></div>
-    </div>
-
     <!-- Yarn thread stitched down the page as you scroll (path generated in JS) -->
     <div class="thread-journey" aria-hidden="true">
         <svg id="thread-svg" class="thread-svg" preserveAspectRatio="none">
@@ -86,7 +42,6 @@
                     <stop offset="100%" stop-color="#ef8fd0"/>
                 </linearGradient>
             </defs>
-            <path id="thread-guide" class="thread-guide" d=""/>
             <path id="thread-draw" class="thread-draw" d="" stroke="url(#threadGrad)"/>
         </svg>
     </div>
@@ -132,7 +87,6 @@
             <li><a class="nav-link" href="#about">about</a></li>
             <li><a class="nav-link" href="#experience">experience</a></li>
             <li><a class="nav-link" href="#projects">projects</a></li>
-            <li><a class="nav-link" href="#skills">skills</a></li>
             <li><a class="nav-link" href="findout.html">find out</a></li>
             <li><a class="nav-link" href="#contact">contact</a></li>
         </ul>
@@ -329,50 +283,13 @@
     <section id="experience" class="section experience">
         <div class="container">
             <h2 class="section-title">experience</h2>
-            <ol class="timeline">
-                <li class="timeline-item">
-                    <div class="timeline-dot" aria-hidden="true"></div>
-                    <div class="timeline-meta">
-                        <span class="timeline-dates">May 2025 – Dec 2025</span>
-                        <span class="timeline-place">Edmonton, AB</span>
-                    </div>
-                    <h3 class="timeline-role">Software Engineering Intern</h3>
-                    <p class="timeline-org">WheelsCoach Inc.</p>
-                    <ul class="timeline-points">
-                        <li>Architected production SaaS on AWS (EC2, S3, CloudFront, ALB) for 100+ users</li>
-                        <li>Java Spring Boot backend — 120+ REST endpoints, JWT role access</li>
-                        <li>React + TypeScript multi-tenant UI — 3 roles, 20+ flows; Stripe Connect payouts</li>
-                        <li>20+ table PostgreSQL schema with Liquibase multi-tenant isolation</li>
-                    </ul>
-                </li>
-                <li class="timeline-item">
-                    <div class="timeline-dot" aria-hidden="true"></div>
-                    <div class="timeline-meta">
-                        <span class="timeline-dates">Jan 2024 – Sep 2024</span>
-                        <span class="timeline-place">Edmonton, AB</span>
-                    </div>
-                    <h3 class="timeline-role">Software Engineering Intern</h3>
-                    <p class="timeline-org">Umay Care Inc.</p>
-                    <ul class="timeline-points">
-                        <li>Firebase Auth for Flutter app supporting 2000+ users</li>
-                        <li>Shopify webhooks + Firebase pipelines for IoT device data</li>
-                        <li>SQL + BigQuery modeling for faster analytics insights</li>
-                    </ul>
-                </li>
-                <li class="timeline-item">
-                    <div class="timeline-dot" aria-hidden="true"></div>
-                    <div class="timeline-meta">
-                        <span class="timeline-dates">Jun 2023 – Sep 2023</span>
-                        <span class="timeline-place">Edmonton, AB</span>
-                    </div>
-                    <h3 class="timeline-role">Business Coordinator Intern</h3>
-                    <p class="timeline-org">Alberta Innovates</p>
-                    <ul class="timeline-points">
-                        <li>Automated RFP document creation with VBA in MS Word</li>
-                        <li>Updated WeConnect intranet (HTML/CSS/JS) for 1000+ members</li>
-                    </ul>
-                </li>
-            </ol>
+            <div class="exp-explorer">
+                <noscript>
+                    <p>WheelsCoach Inc. — Software Engineering Intern (May–Dec 2025) ·
+                    Umay Care Inc. — Software Engineering Intern (Jan–Sep 2024) ·
+                    Alberta Innovates — Business Coordinator Intern (Jun–Sep 2023)</p>
+                </noscript>
+            </div>
         </div>
     </section>
 
@@ -380,31 +297,6 @@
         <div class="container">
             <h2 class="section-title">projects</h2>
             <div class="projects-grid" aria-label="Project list"></div>
-        </div>
-    </section>
-
-    <section id="skills" class="section skills">
-        <div class="container">
-            <h2 class="section-title">skills</h2>
-            <div class="skills-layout">
-                <div class="skill-block">
-                    <h3 class="skill-heading">core</h3>
-                    <ul class="skill-bars">
-                        <li><span>TypeScript / JavaScript</span><div class="bar"><div class="bar-fill" style="--w: 90%"></div></div></li>
-                        <li><span>Java / Spring Boot</span><div class="bar"><div class="bar-fill" style="--w: 88%"></div></div></li>
-                        <li><span>React</span><div class="bar"><div class="bar-fill" style="--w: 88%"></div></div></li>
-                        <li><span>Python</span><div class="bar"><div class="bar-fill" style="--w: 85%"></div></div></li>
-                    </ul>
-                </div>
-                <div class="skill-block">
-                    <h3 class="skill-heading">toolbox</h3>
-                    <div class="skill-pills">
-                        <span>AWS</span><span>PostgreSQL</span><span>Rust</span><span>Flutter</span>
-                        <span>Firebase</span><span>Stripe</span><span>Docker</span><span>GCP</span>
-                        <span>WebSockets</span><span>JWT</span><span>BigQuery</span><span>Figma</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 

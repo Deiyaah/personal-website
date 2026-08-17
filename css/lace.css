@@ -1,0 +1,32 @@
+/* =========================================================
+   ARCHIVED — doily lace background (not linked anywhere)
+   To restore on the find-out page: paste the block below back
+   into css/findout.css (it pairs with the .findout::before
+   dark-ground layer) or link this file after findout.css.
+   Asset: assets/doily.png (white lace on black, screen-blended
+   so only the thread shows).
+   ========================================================= */
+
+/* Static doily lace medallion, screen-blended so only the thread shows */
+.findout::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: url("../assets/doily.png") center / min(135vmin, 1100px) no-repeat;
+    mix-blend-mode: screen;
+    opacity: 0.26;
+    /* feather the square source into a soft circular medallion */
+    -webkit-mask-image: radial-gradient(circle at center, #000 48%, transparent 68%);
+    mask-image: radial-gradient(circle at center, #000 48%, transparent 68%);
+}
+
+/* Optional slow rotation variant (was removed as "static" per review):
+.findout::after {
+    animation: fo-doily-turn 240s linear infinite;
+}
+@keyframes fo-doily-turn {
+    to { transform: rotate(360deg); }
+}
+*/

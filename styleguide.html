@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Styleguide — stitch vocabulary</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<style>
+    .sg {
+        position: relative;
+        z-index: 1;
+        width: min(1000px, calc(100% - 3rem));
+        margin: 4rem auto 6rem;
+        display: grid;
+        gap: 2.5rem;
+    }
+
+    .sg h1 {
+        font-family: var(--font-display);
+        font-size: 2.2rem;
+    }
+
+    .sg-row {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .sg-row > h2 {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--secondary);
+    }
+
+    .sg-strip {
+        padding: 1.25rem 1.5rem;
+        border-radius: 16px;
+        background-color: var(--felt);
+        display: grid;
+        gap: 1.15rem;
+    }
+
+    .sg-strip svg.demo {
+        display: block;
+        width: 100%;
+        height: 26px;
+        overflow: visible;
+        color: var(--thread-ground);
+    }
+
+    .sg-label {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-soft);
+    }
+
+    .sg-swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .sg-swatch {
+        width: 130px;
+        padding: 0.6rem;
+        border-radius: 12px;
+        background: var(--felt);
+        display: grid;
+        gap: 0.35rem;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        color: var(--ink-soft);
+    }
+
+    .sg-swatch i {
+        display: block;
+        height: 44px;
+        border-radius: 8px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+    }
+
+    .sg-inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .sg-material {
+        width: 150px;
+        height: 90px;
+        border-radius: 12px;
+    }
+
+    .sg-material--felt {
+        background-color: var(--felt);
+        background-image: url("assets/felt.jpg");
+        background-size: 220px;
+        background-blend-mode: multiply;
+    }
+
+    .sg-material--linen {
+        background: url("assets/linen.jpg");
+        background-size: 220px;
+    }
+
+    .sg-material--floss {
+        background: url("assets/floss.jpg");
+        background-size: 160px;
+    }
+
+    .theme-note {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-soft);
+    }
+</style>
+</head>
+<body>
+    <main class="sg">
+        <h1>stitch vocabulary <button class="theme-color-toggle" type="button" aria-label="Toggle light/dark mode" title="Switch theme" style="vertical-align:middle"><span class="theme-icon">☀️</span></button></h1>
+        <p class="theme-note">every primitive at default STITCH config · toggle themes to check contrast on both grounds</p>
+
+        <section class="sg-row">
+            <h2>primitives</h2>
+            <div class="sg-strip" id="primitives"></div>
+        </section>
+
+        <section class="sg-row">
+            <h2>palette · DMC floss</h2>
+            <div class="sg-swatches" id="palette"></div>
+        </section>
+
+        <section class="sg-row">
+            <h2>materials (Higgsfield, all local assets)</h2>
+            <div class="sg-inline">
+                <div><div class="sg-material sg-material--felt"></div><p class="sg-label">felt · assets/felt.jpg</p></div>
+                <div><div class="sg-material sg-material--linen"></div><p class="sg-label">linen · assets/linen.jpg</p></div>
+                <div><div class="sg-material sg-material--floss"></div><p class="sg-label">floss · assets/floss.jpg</p></div>
+                <div><div class="sg-material" style="background: url('assets/knit.jpg'); background-size: 240px;"></div><p class="sg-label">knit · assets/knit.jpg</p></div>
+            </div>
+        </section>
+
+        <section class="sg-row">
+            <h2>heading · embroiders in on scroll</h2>
+            <h3 class="section-title">specimen</h3>
+        </section>
+
+        <section class="sg-row">
+            <h2>card patch</h2>
+            <div class="about-point" style="max-width: 340px;">
+                <h3>patch</h3>
+                <p>Felt fill, blanket-stitched perimeter, French-knot corners, tight shadow, 0.5° rotation.</p>
+            </div>
+        </section>
+
+        <section class="sg-row">
+            <h2>buttons · embroidered patches (hover / press)</h2>
+            <div class="sg-inline">
+                <a class="btn btn-primary" href="#">primary patch</a>
+                <a class="btn btn-ghost" href="#">ghost patch</a>
+            </div>
+        </section>
+
+        <section class="sg-row">
+            <h2>link · backstitch draws in on hover</h2>
+            <div class="sg-inline contact-links">
+                <a href="#">hover this link</a>
+            </div>
+        </section>
+
+        <section class="sg-row">
+            <h2>list · french knots</h2>
+            <ul class="exp-points" style="max-width: 340px;">
+                <li>first knotted point</li>
+                <li>second knotted point</li>
+            </ul>
+        </section>
+
+        <section class="sg-row">
+            <h2>form seams · default / focus / error</h2>
+            <form class="contact-form" style="max-width: 420px;">
+                <label><span>default seam</span><input type="text" placeholder="rest state"></label>
+                <label><span>error seam</span><input type="text" class="is-error" value="loose red backstitch"></label>
+                <label><span>message</span><textarea rows="2" placeholder="focus me to tighten the stitches"></textarea></label>
+            </form>
+        </section>
+
+        <section class="sg-row">
+            <h2>progress · thread unspooling</h2>
+            <div class="bar" style="max-width: 420px;"><div class="bar-fill is-on" style="--w: 70%"></div></div>
+        </section>
+
+        <section class="sg-row">
+            <h2>divider</h2>
+            <div id="divider-demo"></div>
+        </section>
+
+        <section class="sg-row">
+            <h2>crochet vocabulary</h2>
+            <div class="sg-strip" id="crochet"></div>
+        </section>
+
+        <section class="sg-row">
+            <h2>granny square · draws outward in rounds (loops)</h2>
+            <div class="sg-strip"><svg id="granny-demo" aria-hidden="true" style="width:160px;height:160px;overflow:visible;color:var(--thread-accent)" viewBox="0 0 160 160"></svg></div>
+        </section>
+
+        <section class="sg-row">
+            <h2>new materials</h2>
+            <div class="sg-inline">
+                <div><div class="sg-material" style="background:url('assets/granny.jpg');background-size:150px"></div><p class="sg-label">granny square · assets/granny.jpg</p></div>
+                <div><div class="sg-material" style="background:#000 url('assets/doily.png');background-size:contain;background-repeat:no-repeat;background-position:center"></div><p class="sg-label">doily (luminance mask) · assets/doily.png</p></div>
+                <div><div class="sg-material" style="background:url('assets/chenille.jpg');background-size:150px"></div><p class="sg-label">chenille · assets/chenille.jpg</p></div>
+                <div><div class="sg-material" style="background:#000 url('assets/fuzz.png');background-size:cover"></div><p class="sg-label">fuzz source · assets/fuzz.png</p></div>
+            </div>
+        </section>
+
+        <section class="sg-row">
+            <h2>physics · patch settle (loops)</h2>
+            <div class="about-point" id="settle-demo" style="max-width: 300px;">
+                <h3>settle</h3>
+                <p>Drops 12px, damped spring, skew resolves, knots follow 80ms late.</p>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { initTheme } from './src/scripts/utils/themeManager.js';
+        import { initThemeToggles } from './src/scripts/components/themeToggle.js';
+        import {
+            STITCH, runningStitch, backstitch, blanketStitch,
+            chainStitch, crossStitch, frenchKnot, initStitchwork,
+            chainLoopChain, dcCluster, shellEdging, grannySquare, drawIn
+        } from './src/scripts/components/stitches.js';
+        import { MOTION } from './src/scripts/core/motionEngine.js';
+
+        initTheme();
+        initThemeToggles();
+
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+        const strip = document.getElementById('primitives');
+        const demos = [
+            ['running stitch', (svg, w) => svg.appendChild(runningStitch(4, 13, w - 4, 13, {}))],
+            ['backstitch', (svg, w) => svg.appendChild(backstitch(4, 13, w - 4, 13, {}))],
+            ['blanket stitch', (svg, w) => svg.appendChild(blanketStitch(4, 18, w - 4, 18, { flip: true }))],
+            ['chain stitch', (svg, w) => svg.appendChild(chainStitch(4, 13, w - 4, 13, {}))],
+            ['cross stitch', (svg, w) => svg.appendChild(crossStitch(4, 8, w - 8, {}))],
+            ['french knots', (svg, w) => {
+                for (let x = 10; x < w - 4; x += 34) svg.appendChild(frenchKnot(x, 13, {}));
+            }]
+        ];
+
+        for (const [name, draw] of demos) {
+            const label = document.createElement('p');
+            label.className = 'sg-label';
+            label.textContent = name;
+            const svg = document.createElementNS(SVG_NS, 'svg');
+            svg.setAttribute('class', 'demo');
+            svg.setAttribute('aria-hidden', 'true');
+            strip.appendChild(label);
+            strip.appendChild(svg);
+            requestAnimationFrame(() => {
+                const w = svg.clientWidth || 600;
+                svg.setAttribute('viewBox', `0 0 ${w} 26`);
+                draw(svg, w);
+            });
+        }
+
+        const DMC = [
+            ['--dmc-ecru', 'ecru · ground'],
+            ['--dmc-3866', '3866 · mocha white'],
+            ['--dmc-640', '640 · beige gray'],
+            ['--dmc-3746', '3746 · blue violet'],
+            ['--dmc-3371', '3371 · black brown'],
+            ['--dmc-321', '321 · red']
+        ];
+        const pal = document.getElementById('palette');
+        for (const [varName, label] of DMC) {
+            const d = document.createElement('div');
+            d.className = 'sg-swatch';
+            d.innerHTML = `<i style="background: var(${varName})"></i>${label}<br>${varName}`;
+            pal.appendChild(d);
+        }
+
+        // crochet primitives
+        const cro = document.getElementById('crochet');
+        const croDemos = [
+            ['chain-loop chain (rails)', (svg, w) => svg.appendChild(chainLoopChain(4, 13, w - 4, 13, {}))],
+            ['shell / scallop edging', (svg, w) => svg.appendChild(shellEdging(4, 8, w - 4, {}))],
+            ['double-crochet cluster fans', (svg, w) => {
+                for (let x = 30; x < w - 20; x += 90) svg.appendChild(dcCluster(x, 20, 14, { startAngle: 200, endAngle: 340 }));
+            }]
+        ];
+        for (const [name, draw] of croDemos) {
+            const label = document.createElement('p');
+            label.className = 'sg-label';
+            label.textContent = name;
+            const svg = document.createElementNS(SVG_NS, 'svg');
+            svg.setAttribute('class', 'demo');
+            svg.setAttribute('aria-hidden', 'true');
+            svg.style.height = '34px';
+            cro.appendChild(label);
+            cro.appendChild(svg);
+            requestAnimationFrame(() => {
+                const w = svg.clientWidth || 600;
+                svg.setAttribute('viewBox', `0 0 ${w} 34`);
+                draw(svg, w);
+            });
+        }
+
+        // granny square drawing outward in rounds, on a loop
+        const gsvg = document.getElementById('granny-demo');
+        const runGranny = () => {
+            gsvg.replaceChildren();
+            const sq = grannySquare(80, 80, 130, {});
+            gsvg.appendChild(sq);
+            if (typeof gsap !== 'undefined') {
+                drawIn(sq, { stagger: 0.35, duration: 0.6 });
+                setTimeout(runGranny, 3600);
+            }
+        };
+        runGranny();
+
+        // patch settle physics, on a loop
+        const settle = document.getElementById('settle-demo');
+        const runSettle = () => {
+            if (typeof gsap === 'undefined') return;
+            const P = MOTION.PATCH;
+            gsap.fromTo(settle,
+                { y: -P.drop * 2, opacity: 0, skewY: P.skew },
+                { y: 0, opacity: 1, skewY: 0, duration: P.duration, ease: P.ease });
+            const knots = settle.querySelectorAll('.stitch-frame circle');
+            gsap.fromTo(knots,
+                { scale: 0, transformOrigin: 'center' },
+                { scale: 1, duration: 0.45, ease: 'back.out(2.5)', stagger: 0.04, delay: MOTION.KNOT_FOLLOW_MS / 1000 });
+            setTimeout(runSettle, 2800);
+        };
+        setTimeout(runSettle, 1200);
+
+        // decorate the demo components exactly like the real site
+        initStitchwork();
+
+        // stitch the specimen heading + demo divider via the same paths
+        document.getElementById('divider-demo').append(
+            (() => {
+                const wrap = document.createElement('div');
+                wrap.className = 'stitch-divider';
+                const svg = document.createElementNS(SVG_NS, 'svg');
+                svg.style.cssText = 'width:100%;height:12px;overflow:visible;display:block;';
+                wrap.appendChild(svg);
+                requestAnimationFrame(() => {
+                    const w = wrap.clientWidth;
+                    svg.setAttribute('viewBox', `0 0 ${w} 12`);
+                    svg.appendChild(runningStitch(10, 6, w - 10, 6, { color: 'var(--thread-neutral)' }));
+                    svg.appendChild(frenchKnot(6, 6, { color: 'var(--thread-accent)' }));
+                    svg.appendChild(frenchKnot(w - 6, 6, { color: 'var(--thread-accent)' }));
+                });
+                return wrap;
+            })()
+        );
+    </script>
+</body>
+</html>

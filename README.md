@@ -1,8 +1,8 @@
 # diyaa — personal website 🧶
 
-A cosmic yarn-themed portfolio: a hand-crafted SVG yarn planet with knitting
-needles and a golden thread ring, a depth-layered canvas starfield with
-shooting stars, and a yarn thread that stitches itself down the page as you
+A cozy yarn-themed portfolio on a real knitted-wool background: a
+hand-crafted SVG yarn ball with knitting needles, embroidery-stitch UI
+details, and a yarn thread that stitches itself down the page as you
 scroll. Built with vanilla HTML, CSS, and ES modules — no build step.
 
 **Live:** deployed on Vercel · **Stack:** HTML5 · CSS3 · vanilla JS (ES modules) · GSAP 3 (vendored)
@@ -34,8 +34,7 @@ personal-website/
 └── src/scripts/
     ├── core/main.js            # Entry point — initializes every module
     ├── components/
-    │   ├── starfield.js        # Canvas starfield: 3 parallax depth layers, twinkle, shooting stars
-    │   ├── animations.js       # Thread journey, scroll reveals, skill bars, stat counters, parallax
+    │   ├── animations.js       # Thread journey, scroll reveals, skill bars, stat counters
     │   ├── heroScene.js        # Yarn planet motion: strand wobble, orbiting moon, pointer parallax
     │   ├── interactions.js     # Magnetic buttons, card spotlights, 3D tilt
     │   ├── navigation.js       # Mobile menu, smooth anchors, active links, hide-on-scroll nav
@@ -55,15 +54,14 @@ personal-website/
   through each section in real pixel space, then reveals it with a
   `stroke-dashoffset` scrub tied to scroll progress. A mini yarn ball rides
   the path via `getPointAtLength`. Rebuilds on resize and content growth.
-- **Starfield** — a single canvas, DPR-capped at 2. Stars live in three
-  depth layers that parallax at different speeds; bright ones use a
-  pre-rendered glow sprite. Shooting stars spawn every 7–16 s. The loop
-  pauses when the tab is hidden.
+- **Knit background** — `assets/knit.jpg` is an AI-generated seamless
+  stockinette wool texture (Higgsfield, GPT Image 2), tiled under a
+  theme-tinted veil (`--knit-veil`) so it reads deep navy in dark mode and
+  soft cream in light mode, with faint nebula color washes for depth.
 - **Hero scene** — inline SVG: layered radial gradients for the sphere,
   three clipped ellipse families for the strand texture (GSAP wobbles them
-  a few degrees so the composition never collapses), a two-half dashed
-  ellipse for the ring passing in front of and behind the ball, and an
-  orbiting mini yarn moon.
+  a few degrees so the composition never collapses), crossed knitting
+  needles, and a loose strand that sways and hands off to the page thread.
 
 ## Accessibility & performance
 

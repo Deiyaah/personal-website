@@ -1,8 +1,11 @@
 /**
- * Motion system — yarn thread journey, parallax, scroll reveals,
- * skill bars, stat counters. Everything degrades gracefully:
- * without GSAP nothing is ever hidden; with reduced motion, static.
+ * Motion system — yarn thread under real tension, choreographed load,
+ * settle-in reveals with distance stagger and follow-through.
+ * Everything degrades: without GSAP nothing is hidden; with reduced
+ * motion, final states render immediately.
  */
+
+import { MOTION, reducedMotion, onTick, distanceStagger } from '../core/motionEngine.js';
 
 function hasGsap() {
     if (typeof gsap === 'undefined') return false;
@@ -10,16 +13,12 @@ function hasGsap() {
     return true;
 }
 
-function prefersReducedMotion() {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
+/* Which side of the page the thread passes each section (waypoints
+   alternate left/right) — reveals arrive from the thread's side. */
+const THREAD_SIDE = { about: -1, experience: 1, projects: -1, contact: 1 };
 
-/* ---------- Yarn thread stitched down the page ---------- */
+/* ---------- spline ---------- */
 
-/**
- * Catmull-Rom spline → cubic bezier path through waypoints,
- * built in real pixel space so lengths and dashes are exact.
- */
 function splinePath(pts) {
     if (pts.length < 2) return '';
     let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
@@ -37,39 +36,53 @@ function splinePath(pts) {
     return d;
 }
 
+/* ---------- yarn thread journey ---------- */
+
 export function initThreadJourney() {
     const svg = document.getElementById('thread-svg');
-    const guide = document.getElementById('thread-guide');
     const draw = document.getElementById('thread-draw');
     const ball = document.getElementById('thread-ball');
     const wrap = document.querySelector('.thread-journey');
-    if (!svg || !guide || !draw || !ball || !wrap) return;
+    if (!svg || !draw || !ball || !wrap) return;
 
-    const reduced = prefersReducedMotion();
+    const reduced = reducedMotion();
+    const T = MOTION.THREAD;
+
     let len = 0;
-    let current = 0;
-    let target = 0;
-    let raf = 0;
+    let current = 0;          // drawn progress
+    let drawVel = 0;
+    let ballDist = 0;         // sprung arc-length of the mini ball
+    let ballVel = 0;
+    let lastScroll = window.scrollY;
+    let scrollVel = 0;        // px/frame, smoothed
+
+    // fuzz halo: soft wide stroke beneath the drawn thread
+    let fuzz = document.getElementById('thread-fuzz');
+    if (!fuzz) {
+        fuzz = draw.cloneNode(false);
+        fuzz.id = 'thread-fuzz';
+        fuzz.classList.remove('thread-draw');
+        fuzz.classList.add('thread-fuzz');
+        draw.parentNode.insertBefore(fuzz, draw);
+    }
 
     const waypoints = () => {
         const w = document.documentElement.clientWidth;
         const pts = [];
-        // Start where the hero yarn ball's loose strand trails off
         const scene = document.querySelector('.hero-scene');
         const hero = document.querySelector('.hero');
-        if (scene) {
+        const twoCol = window.matchMedia('(min-width: 901px)').matches;
+        if (scene && twoCol) {
             const r = scene.getBoundingClientRect();
             pts.push([r.left + r.width * 0.6, window.scrollY + r.bottom + 24]);
         } else if (hero) {
-            pts.push([w * 0.6, hero.offsetTop + hero.offsetHeight * 0.95]);
+            pts.push([w * 0.6, hero.offsetTop + hero.offsetHeight * 0.99]);
         }
-
-        ['about', 'experience', 'projects', 'skills', 'contact'].forEach((id, i) => {
+        ['about', 'experience', 'projects', 'contact'].forEach((id, i) => {
             const s = document.getElementById(id);
             if (!s) return;
             pts.push([w * (i % 2 === 0 ? 0.09 : 0.91), s.offsetTop + s.offsetHeight * 0.5]);
         });
-
         const foot = document.querySelector('.footer');
         const docH = document.documentElement.scrollHeight;
         pts.push([w * 0.5, foot ? foot.offsetTop + foot.offsetHeight * 0.6 : docH - 60]);
@@ -83,12 +96,12 @@ export function initThreadJourney() {
         svg.setAttribute('width', w);
         svg.setAttribute('height', h);
         svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-
         const d = splinePath(waypoints());
-        guide.setAttribute('d', d);
         draw.setAttribute('d', d);
+        fuzz.setAttribute('d', d);
         len = draw.getTotalLength();
         draw.style.strokeDasharray = `${len}`;
+        fuzz.style.strokeDasharray = `${len}`;
         place(reduced ? 1 : current);
     };
 
@@ -97,211 +110,194 @@ export function initThreadJourney() {
         return max > 0 ? Math.max(0, Math.min(1, window.scrollY / max)) : 0;
     };
 
+    let lastPlaced = -1;
     const place = (t) => {
         if (!len) return;
-        draw.style.strokeDashoffset = `${len * (1 - t)}`;
-        const p = draw.getPointAtLength(t * len);
-        ball.style.transform = `translate(${p.x}px, ${p.y}px) rotate(${t * 900}deg)`;
+        if (t !== lastPlaced) {
+            draw.style.strokeDashoffset = `${len * (1 - t)}`;
+            fuzz.style.strokeDashoffset = `${len * (1 - t)}`;
+            lastPlaced = t;
+        }
     };
 
     if (reduced) {
-        // Static decoration: full thread, no traveling ball (hidden via CSS)
         build();
         window.addEventListener('resize', build);
         return;
     }
 
-    let lastPlaced = -1;
+    window.addEventListener('resize', (() => {
+        let timer = 0;
+        return () => { clearTimeout(timer); timer = setTimeout(build, 150); };
+    })(), { passive: true });
 
-    const tick = () => {
-        current += (target - current) * 0.1;
-        if (Math.abs(target - current) < 0.0004) current = target;
-        // Skip DOM writes while idle — repainting a page-sized SVG is not free
-        if (current !== lastPlaced) {
-            place(current);
-            lastPlaced = current;
-        }
-        raf = requestAnimationFrame(tick);
-    };
-
-    window.addEventListener('scroll', () => { target = readProgress(); }, { passive: true });
-
-    let resizeTimer = 0;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(build, 150);
-    });
-
-    // Content height settles after fonts/reveals — track it
     if (typeof ResizeObserver !== 'undefined') {
         let lastH = 0;
-        const ro = new ResizeObserver(() => {
+        new ResizeObserver(() => {
             const h = document.documentElement.scrollHeight;
-            if (Math.abs(h - lastH) > 4) {
-                lastH = h;
-                build();
-            }
-        });
-        ro.observe(document.body);
-    } else {
-        window.addEventListener('load', build);
+            if (Math.abs(h - lastH) > 4) { lastH = h; build(); }
+        }).observe(document.body);
     }
 
     build();
-    target = current = readProgress();
+    current = readProgress();
+    ballDist = current * len;
     place(current);
-    raf = requestAnimationFrame(tick);
 
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            cancelAnimationFrame(raf);
-        } else {
-            raf = requestAnimationFrame(tick);
-        }
+    onTick((dt) => {
+        const target = readProgress();
+
+        // smoothed scroll velocity → tautness
+        const rawVel = window.scrollY - lastScroll;
+        lastScroll = window.scrollY;
+        scrollVel += (rawVel - scrollVel) * 0.25;
+        const taut = Math.min(1, Math.abs(scrollVel) / T.velTaut / 10);
+
+        // draw spring: fast forward pull is taut and quick; on reversal
+        // the thread slackens first (soft spring), then retracts
+        const reversing = target < current - 0.0005;
+        const k = reversing ? T.retractStiffness : T.stiffness * (0.6 + taut);
+        drawVel += (target - current) * k;
+        drawVel *= 0.86;
+        current += drawVel;
+        current = Math.max(0, Math.min(1, current));
+        place(current);
+
+        // mini ball chases the tip with a spring, lagging a few px
+        const tipDist = current * len;
+        ballVel += (tipDist - ballDist) * T.ballLagStiffness;
+        ballVel *= 0.82;
+        ballDist += ballVel;
+        const p = draw.getPointAtLength(Math.max(0, Math.min(len, ballDist)));
+        // rotation ∝ distance travelled (radius ≈ 18px), not time
+        const rot = (ballDist / 18) * (180 / Math.PI) * 0.15;
+        ball.style.transform = `translate(${p.x}px, ${p.y}px) rotate(${rot.toFixed(1)}deg)`;
     });
 }
 
-/* ---------- Cosmic parallax ---------- */
-
-export function initParallax() {
-    const layers = document.querySelectorAll('[data-parallax]');
-    if (!layers.length || prefersReducedMotion()) return;
-
-    let ticking = false;
-
-    const apply = () => {
-        const y = window.scrollY;
-        layers.forEach((el) => {
-            const speed = parseFloat(el.dataset.parallax) || 0;
-            el.style.setProperty('translate', `0 ${-(y * speed)}px`);
-        });
-        ticking = false;
-    };
-
-    window.addEventListener(
-        'scroll',
-        () => {
-            if (!ticking) {
-                ticking = true;
-                requestAnimationFrame(apply);
-            }
-        },
-        { passive: true }
-    );
-
-    apply();
-}
-
-/* ---------- Scroll reveals ---------- */
+/* ---------- choreographed load + settle-in reveals ---------- */
 
 export function initReveals() {
-    if (!hasGsap() || prefersReducedMotion()) return;
+    if (!hasGsap() || reducedMotion()) return;
 
-    // Hero intro
-    const introBits = [
-        '.hero-kicker', '.hero-brand', '.hero-line', '.hero-actions'
-    ].map((s) => document.querySelector(s)).filter(Boolean);
+    const P = MOTION.PATCH;
 
-    if (introBits.length) {
-        gsap.fromTo(
-            introBits,
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.15, clearProps: 'transform' }
-        );
-    }
-
+    /* First four seconds: one continuous sequence, beats overlap ~40% */
     const scene = document.querySelector('.hero-scene');
-    if (scene) {
-        gsap.fromTo(
-            scene,
-            { scale: 0.92, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 1.1, ease: 'power2.out', delay: 0.1 }
-        );
-    }
+    const brand = document.querySelector('.hero-brand');
+    const bits = ['.hero-line', '.hero-actions']
+        .map((s) => document.querySelector(s)).filter(Boolean);
 
+    const tl = gsap.timeline();
+    if (scene) {
+        tl.fromTo(scene, { y: -46, opacity: 0 }, {
+            y: 0, opacity: 1, duration: 0.9, ease: 'bounce.out',
+            onStart: () => scene.dispatchEvent(new Event('hero-drop'))
+        }, 0.3);
+    }
+    if (brand) {
+        // the wordmark drops in fast and stretched, squashes on impact,
+        // pushes a ripple into the fabric, then settles elastic and stays
+        gsap.set(brand, { transformOrigin: '50% 100%' });
+        tl.fromTo(brand,
+            { y: -150, opacity: 0, scaleY: 1.32, scaleX: 0.86, filter: 'blur(8px)' },
+            { y: 0, opacity: 1, scaleY: 1, scaleX: 1, filter: 'blur(0px)', duration: 0.45, ease: 'power3.in' },
+            0.7)
+        .to(brand, {
+            scaleY: 0.85, scaleX: 1.1, duration: 0.09, ease: 'power1.out',
+            onStart: () => {
+                const r = brand.getBoundingClientRect();
+                const ring = document.createElement('span');
+                ring.className = 'knit-ripple';
+                ring.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(ring);
+                const size = 320;
+                ring.style.left = `${r.left + r.width / 2 - size / 2}px`;
+                ring.style.top = `${r.bottom - size / 2}px`;
+                ring.style.width = ring.style.height = `${size}px`;
+                gsap.fromTo(ring,
+                    { scale: 0.2, opacity: 0.5 },
+                    { scale: 1, opacity: 0, duration: 0.8, ease: 'power2.out', onComplete: () => ring.remove() });
+            }
+        }, '>')
+        .to(brand, { scaleY: 1.05, scaleX: 0.97, y: -8, duration: 0.16, ease: 'power2.out' }, '>')
+        .to(brand, {
+            scaleY: 1, scaleX: 1, y: 0, duration: 0.7, ease: 'elastic.out(1.1, 0.42)',
+            clearProps: 'transform,filter',
+            onComplete: () => brand.classList.add('brand-sheen-once')
+        }, '>');
+    }
+    if (bits.length) {
+        tl.fromTo(bits, { opacity: 0, y: 22 }, {
+            opacity: 1, y: 0, duration: 0.65, ease: 'back.out(1.4)', stagger: 0.11
+        }, 1.1);
+    }
     const heroScroll = document.querySelector('.hero-scroll');
     if (heroScroll) {
-        gsap.to(heroScroll, {
-            opacity: 0,
-            scrollTrigger: { start: 40, end: 220, scrub: true }
-        });
+        gsap.to(heroScroll, { opacity: 0, scrollTrigger: { start: 40, end: 220, scrub: true } });
     }
 
-    // Section reveals — batched for natural stagger
+    /* Section reveals: patches settle from the thread's side, corner
+       knots land ~80ms after the patch, subtle skew resolves at rest */
     const targets = gsap.utils.toArray(
-        '.section-title, .about-lead, .about-point, .stat, .timeline-item, .project-card, .skill-block, .contact-aside, .contact-form'
+        '.section-title, .about-lead, .about-point, .stat, .exp-tab, .exp-panel, .projects-grid .project-card, .contact-aside, .contact-form'
     );
-    gsap.set(targets, { y: 36, opacity: 0 });
+    gsap.set(targets, { y: -P.drop, opacity: 0 });
+
     ScrollTrigger.batch(targets, {
         start: 'top 88%',
         once: true,
-        onEnter: (batch) =>
-            gsap.to(batch, {
-                y: 0,
-                opacity: 1,
-                duration: 0.8,
-                ease: 'power3.out',
-                stagger: 0.09,
-                overwrite: true,
-                clearProps: 'transform'
-            })
+        onEnter: (batch) => {
+            const origin = { x: window.innerWidth / 2, y: window.innerHeight };
+            const order = distanceStagger(batch, origin);
+            order.forEach(({ el, delay }) => {
+                const section = el.closest('section[id]');
+                const side = section ? (THREAD_SIDE[section.id] || 0) : 0;
+                gsap.fromTo(el,
+                    { y: -P.drop, x: side * 26, opacity: 0, skewY: side * P.skew },
+                    {
+                        y: 0, x: 0, opacity: 1, skewY: 0,
+                        duration: P.duration, ease: P.ease, delay,
+                        clearProps: 'transform',
+                        onComplete: () => {
+                            const knots = el.querySelectorAll('.stitch-frame circle');
+                            if (knots.length) {
+                                gsap.fromTo(knots,
+                                    { scale: 0, transformOrigin: 'center' },
+                                    {
+                                        scale: 1, duration: 0.45, ease: 'back.out(2.5)',
+                                        stagger: 0.04, delay: MOTION.KNOT_FOLLOW_MS / 1000
+                                    });
+                            }
+                        }
+                    });
+            });
+        }
     });
 
-    // Safety net: anything still hidden after load (e.g. already in view
-    // edge cases) gets revealed rather than stuck invisible.
     window.addEventListener('load', () => {
         setTimeout(() => ScrollTrigger.refresh(), 100);
     });
 }
 
-/* ---------- Skill bars ---------- */
-
-export function initSkillBars() {
-    const fills = document.querySelectorAll('.bar-fill');
-    if (!fills.length) return;
-
-    if (!hasGsap() || prefersReducedMotion()) {
-        fills.forEach((fill) => fill.classList.add('is-on'));
-        return;
-    }
-
-    fills.forEach((fill) => {
-        ScrollTrigger.create({
-            trigger: fill,
-            start: 'top 90%',
-            once: true,
-            onEnter: () => fill.classList.add('is-on')
-        });
-    });
-}
-
-/* ---------- Stat counters ---------- */
+/* ---------- stat counters ---------- */
 
 export function initStatCount() {
-    if (!hasGsap() || prefersReducedMotion()) return;
-
+    if (!hasGsap() || reducedMotion()) return;
     document.querySelectorAll('.stat-num').forEach((el) => {
         const text = el.textContent.trim();
         const targetNum = parseInt(text, 10);
         const plus = text.includes('+');
         if (Number.isNaN(targetNum)) return;
         const obj = { v: 0 };
-        gsap.fromTo(
-            obj,
-            { v: 0 },
-            {
-                v: targetNum,
-                duration: 1.4,
-                ease: 'power2.out',
-                immediateRender: false,
-                scrollTrigger: { trigger: el, start: 'top 90%', once: true },
-                onUpdate: () => {
-                    el.textContent = Math.floor(obj.v) + (plus ? '+' : '');
-                },
-                onComplete: () => {
-                    el.textContent = text;
-                }
-            }
-        );
+        gsap.fromTo(obj, { v: 0 }, {
+            v: targetNum,
+            duration: 1.4,
+            ease: 'power3.out',
+            immediateRender: false,
+            scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+            onUpdate: () => { el.textContent = Math.floor(obj.v) + (plus ? '+' : ''); },
+            onComplete: () => { el.textContent = text; }
+        });
     });
 }

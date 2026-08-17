@@ -25,91 +25,38 @@
     overflow-x: hidden;
 }
 
-/* Nebula depth */
+/* Plain dark ground */
 .findout::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    background:
-        radial-gradient(800px 550px at 12% 0%, rgba(139, 127, 240, 0.18), transparent 60%),
-        radial-gradient(700px 500px at 90% 22%, rgba(94, 162, 239, 0.13), transparent 55%),
-        radial-gradient(650px 500px at 45% 100%, rgba(239, 143, 208, 0.1), transparent 60%),
-        linear-gradient(170deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
+    background: linear-gradient(170deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
 }
 
-/* Starfield */
-.findout::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.9;
-    background-image:
-        radial-gradient(1.4px 1.4px at 22px 34px, rgba(238, 240, 255, 0.9), transparent 55%),
-        radial-gradient(1px 1px at 128px 92px, rgba(196, 181, 253, 0.8), transparent 55%),
-        radial-gradient(1.8px 1.8px at 231px 156px, rgba(238, 240, 255, 0.7), transparent 55%),
-        radial-gradient(1px 1px at 63px 187px, rgba(94, 162, 239, 0.8), transparent 55%),
-        radial-gradient(1.3px 1.3px at 296px 41px, rgba(238, 240, 255, 0.6), transparent 55%),
-        radial-gradient(1px 1px at 172px 243px, rgba(239, 143, 208, 0.6), transparent 55%),
-        radial-gradient(1.5px 1.5px at 337px 218px, rgba(238, 240, 255, 0.75), transparent 55%),
-        radial-gradient(1px 1px at 391px 122px, rgba(196, 181, 253, 0.65), transparent 55%);
-    background-size: 420px 280px;
-}
+/* (doily lace background removed — archived in css/lace.css) */
 
 .fo-top,
 .fo-hero,
 .fo-grid,
-.fo-foot,
-.fo-cosmos {
+.fo-foot {
     position: relative;
     z-index: 1;
 }
 
-/* ---------- Floating cosmos decorations ---------- */
-.fo-cosmos {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.fo-cosmo {
-    position: absolute;
-}
-
-.fo-cosmo--planet { top: 16%; right: 7%; width: 72px; opacity: 0.85; }
-.fo-cosmo--moon   { top: 62%; left: 4%; width: 46px; opacity: 0.75; }
-.fo-cosmo--star-a { top: 10%; left: 16%; width: 22px; }
-.fo-cosmo--star-b { top: 42%; right: 20%; width: 16px; }
-.fo-cosmo--star-c { top: 78%; right: 8%; width: 20px; }
-
-@keyframes fo-floaty {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-12px) rotate(1.5deg); }
-}
-
-@keyframes fo-twinkle {
-    0%, 100% { opacity: 0.9; transform: scale(1); }
-    50% { opacity: 0.35; transform: scale(0.82); }
-}
-
-.fo-float { animation: fo-floaty 7s ease-in-out infinite; }
-.fo-float--slow { animation-duration: 10s; }
-.fo-twinkle { animation: fo-twinkle 3.6s ease-in-out infinite; }
-.fo-twinkle--2 { animation: fo-twinkle 4.8s ease-in-out infinite 0.9s; }
-.fo-twinkle--3 { animation: fo-twinkle 5.6s ease-in-out infinite 1.7s; }
-
-/* ---------- Top bar ---------- */
+/* ---------- Top bar (fixed) ---------- */
 .fo-top {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.25rem clamp(1.25rem, 4vw, 2.5rem);
     border-bottom: 1px solid var(--line);
-    background: rgba(10, 13, 36, 0.72);
+    background: rgba(7, 9, 26, 0.72);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
 }
 
@@ -130,7 +77,7 @@
 /* ---------- Hero ---------- */
 .fo-hero {
     width: min(720px, calc(100% - 3rem));
-    margin: 4rem auto 3rem;
+    margin: 9rem auto 3rem;   /* clears the fixed top bar */
 }
 
 .fo-eyebrow {
