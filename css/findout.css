@@ -17,7 +17,7 @@
     --stitch-strong: rgba(196, 181, 253, 0.6);
     --surface: rgba(19, 26, 61, 0.66);
     min-height: 100vh;
-    font-family: "IBM Plex Mono", monospace;
+    font-family: "Outfit", "Segoe UI", sans-serif;
     background: var(--bg);
     color: var(--ink);
     line-height: 1.6;

@@ -61,7 +61,8 @@ html {
     --seam-line-error: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='4'%3E%3Cline x1='1.5' y1='1.4' x2='11' y2='2.6' stroke='%23d4707e' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
     --font-display: "Syne", sans-serif;
     --font-body: "Outfit", sans-serif;
-    --font-mono: "IBM Plex Mono", monospace;
+    /* unified: labels/chips/nav use the body face for consistent content type */
+    --font-mono: "Outfit", "Segoe UI", sans-serif;
 }
 
 .theme-light {
