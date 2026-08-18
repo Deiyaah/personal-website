@@ -26,59 +26,58 @@ function mulberry32(seed) {
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);   // ease-out only, no overshoot
 
-/* Vine authoring in a 1000×1000 art space. `depth: 0` = foreground,
-   `1` = background (parallaxes slower). Vines descend from the canopy
-   on the LEFT — the origin keeps the tree at ~26vw after the flip. */
+/* Vine authoring in a 1000x1000 art space stretched to the viewport.
+   Every vine now STARTS in the tree's hanging branch-tip band (y ~600,
+   x ~120-400) and grows downward, so the tree visibly extends into the
+   vines rather than fading out. `depth: 0` = foreground, 1 = background
+   (parallaxes slower). Sprite anchors stay <= 0.80 so the last one still
+   completes its reveal before the act ends. */
 const VINES = {
     act2: [
-        { d: 'M 280 0 C 300 120 240 230 285 350 S 310 570 255 700 S 300 900 275 1000', depth: 0,
+        { d: 'M 250 628 C 232 706, 302 762, 252 832 S 202 930, 242 1000', depth: 0,
           sprites: [
-              { t: 0.10, kind: 'leaf', v: 7, s: 0.55 }, { t: 0.20, kind: 'leaf', v: 1, s: 0.7 },
-              { t: 0.32, kind: 'leaf', v: 6, s: 0.6 }, { t: 0.42, kind: 'leaf', v: 2, s: 0.85 },
-              { t: 0.55, kind: 'leaf', v: 3, s: 0.9 }, { t: 0.66, kind: 'leaf', v: 5, s: 0.7 },
-              { t: 0.78, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.90, kind: 'leaf', v: 4, s: 0.85 }
+              { t: 0.10, kind: 'leaf', v: 7, s: 0.55 }, { t: 0.22, kind: 'leaf', v: 1, s: 0.7 },
+              { t: 0.34, kind: 'leaf', v: 6, s: 0.6 }, { t: 0.46, kind: 'leaf', v: 2, s: 0.85 },
+              { t: 0.58, kind: 'leaf', v: 3, s: 0.9 }, { t: 0.70, kind: 'leaf', v: 8, s: 1.0 },
+              { t: 0.80, kind: 'leaf', v: 4, s: 0.85 }
           ] },
-        { d: 'M 110 0 C 70 110 140 250 85 370 S 40 590 120 730 S 70 900 100 1000', depth: 1,
+        { d: 'M 352 604 C 392 690, 320 762, 380 850 S 420 942, 370 1000', depth: 1,
           sprites: [
-              { t: 0.14, kind: 'leaf', v: 7, s: 0.5 }, { t: 0.26, kind: 'leaf', v: 2, s: 0.7 },
-              { t: 0.40, kind: 'leaf', v: 1, s: 0.75 }, { t: 0.52, kind: 'leaf', v: 6, s: 0.6 },
-              { t: 0.64, kind: 'leaf', v: 8, s: 0.9 }, { t: 0.76, kind: 'leaf', v: 3, s: 0.8 },
-              { t: 0.90, kind: 'leaf', v: 5, s: 0.85 }
+              { t: 0.14, kind: 'leaf', v: 7, s: 0.5 }, { t: 0.28, kind: 'leaf', v: 2, s: 0.7 },
+              { t: 0.42, kind: 'leaf', v: 1, s: 0.75 }, { t: 0.56, kind: 'leaf', v: 6, s: 0.6 },
+              { t: 0.68, kind: 'leaf', v: 8, s: 0.9 }, { t: 0.79, kind: 'leaf', v: 5, s: 0.85 }
           ] }
     ],
     act3: [
-        { d: 'M 270 0 C 310 140 220 260 290 400 S 230 640 300 800 S 240 940 270 1000', depth: 0,
+        { d: 'M 152 614 C 110 700, 192 780, 130 862 S 88 952, 142 1000', depth: 0,
           sprites: [
-              { t: 0.08, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.18, kind: 'flower', v: 2, s: 0.7 },
-              { t: 0.30, kind: 'leaf', v: 4, s: 0.9 }, { t: 0.40, kind: 'flower', v: 3, s: 0.8 },
-              { t: 0.52, kind: 'flower', v: 1, s: 1.0 }, { t: 0.62, kind: 'berry', v: 'red-1', s: 0.6 },
-              { t: 0.74, kind: 'leaf', v: 2, s: 0.9 }, { t: 0.84, kind: 'berry', v: 'blue-3', s: 0.7 },
-              { t: 0.94, kind: 'flower', v: 5, s: 0.85 }
+              { t: 0.10, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.22, kind: 'flower', v: 2, s: 0.7 },
+              { t: 0.34, kind: 'leaf', v: 4, s: 0.9 }, { t: 0.45, kind: 'flower', v: 3, s: 0.8 },
+              { t: 0.56, kind: 'flower', v: 1, s: 1.0 }, { t: 0.66, kind: 'berry', v: 'red-1', s: 0.6 },
+              { t: 0.75, kind: 'berry', v: 'blue-3', s: 0.7 }
           ] },
-        { d: 'M 95 0 C 50 120 140 280 70 420 S 130 660 60 820 S 120 950 90 1000', depth: 1,
+        { d: 'M 302 634 C 332 722, 260 800, 312 880 S 352 962, 300 1000', depth: 1,
           sprites: [
-              { t: 0.10, kind: 'leaf', v: 3, s: 0.9 }, { t: 0.22, kind: 'flower', v: 3, s: 0.75 },
-              { t: 0.34, kind: 'berry', v: 'red-2', s: 0.65 }, { t: 0.46, kind: 'flower', v: 1, s: 1.0 },
-              { t: 0.58, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.68, kind: 'flower', v: 6, s: 0.9 },
-              { t: 0.80, kind: 'berry', v: 'blue-1', s: 0.6 }, { t: 0.92, kind: 'flower', v: 4, s: 0.85 }
+              { t: 0.12, kind: 'leaf', v: 3, s: 0.9 }, { t: 0.26, kind: 'flower', v: 3, s: 0.75 },
+              { t: 0.38, kind: 'berry', v: 'red-2', s: 0.65 }, { t: 0.50, kind: 'flower', v: 1, s: 1.0 },
+              { t: 0.62, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.72, kind: 'flower', v: 6, s: 0.9 },
+              { t: 0.80, kind: 'berry', v: 'blue-1', s: 0.6 }
           ] }
     ],
     act4: [
-        { d: 'M 280 0 C 330 160 220 300 290 460 S 340 700 250 860 S 310 960 270 1000', depth: 0,
+        { d: 'M 202 624 C 160 712, 242 790, 180 872 S 140 960, 192 1000', depth: 0,
           sprites: [
-              { t: 0.06, kind: 'flower', v: 1, s: 1.0 }, { t: 0.16, kind: 'berry', v: 'red-3', s: 0.7 },
-              { t: 0.26, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.36, kind: 'motif', v: 3, s: 0.6 },
-              { t: 0.46, kind: 'flower', v: 5, s: 0.9 }, { t: 0.56, kind: 'berry', v: 'blue-2', s: 0.65 },
-              { t: 0.66, kind: 'motif', v: 1, s: 0.8 }, { t: 0.76, kind: 'flower', v: 4, s: 0.9 },
-              { t: 0.86, kind: 'berry', v: 'red-1', s: 0.6 }, { t: 0.95, kind: 'motif', v: 4, s: 0.7 }
+              { t: 0.09, kind: 'flower', v: 1, s: 1.0 }, { t: 0.20, kind: 'berry', v: 'red-3', s: 0.7 },
+              { t: 0.31, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.42, kind: 'motif', v: 3, s: 0.6 },
+              { t: 0.53, kind: 'flower', v: 5, s: 0.9 }, { t: 0.63, kind: 'berry', v: 'blue-2', s: 0.65 },
+              { t: 0.72, kind: 'motif', v: 1, s: 0.8 }, { t: 0.80, kind: 'flower', v: 4, s: 0.9 }
           ] },
-        { d: 'M 100 0 C 50 140 160 300 80 460 S 30 700 130 860 S 60 960 100 1000', depth: 1,
+        { d: 'M 400 600 C 442 690, 370 782, 420 870 S 460 952, 408 1000', depth: 1,
           sprites: [
-              { t: 0.08, kind: 'berry', v: 'blue-3', s: 0.7 }, { t: 0.18, kind: 'flower', v: 6, s: 0.9 },
-              { t: 0.28, kind: 'leaf', v: 2, s: 0.95 }, { t: 0.38, kind: 'flower', v: 1, s: 1.0 },
-              { t: 0.50, kind: 'berry', v: 'red-2', s: 0.65 }, { t: 0.60, kind: 'leaf', v: 5, s: 0.85 },
-              { t: 0.72, kind: 'flower', v: 3, s: 0.85 }, { t: 0.82, kind: 'motif', v: 3, s: 0.6 },
-              { t: 0.92, kind: 'flower', v: 2, s: 0.8 }
+              { t: 0.11, kind: 'berry', v: 'blue-3', s: 0.7 }, { t: 0.23, kind: 'flower', v: 6, s: 0.9 },
+              { t: 0.35, kind: 'leaf', v: 2, s: 0.95 }, { t: 0.46, kind: 'flower', v: 1, s: 1.0 },
+              { t: 0.57, kind: 'berry', v: 'red-2', s: 0.65 }, { t: 0.68, kind: 'leaf', v: 5, s: 0.85 },
+              { t: 0.78, kind: 'motif', v: 4, s: 0.7 }
           ] }
     ]
 };
@@ -179,9 +178,12 @@ export function initGarden() {
                 g.appendChild(p);
                 return p;
             };
+            // continuous thread body + discrete stitch marks on top: the
+            // dash here is pure texture, the growth lives in the mask
             mk('vine-shadow', { transform: 'translate(1.2 2)' });
             mk('vine-floss');
-            mk('vine-highlight');
+            mk('vine-stitch');
+            mk('vine-notch');
             svg.appendChild(g);
 
             // --- sprites, placed and oriented by the path tangent ---
@@ -264,26 +266,6 @@ export function initGarden() {
     };
 
     /* ---------- render ---------- */
-    const treeEl = layer.querySelector('.garden-tree');
-
-    /* The tree dissolves into the vines across `about`'s exit: 0 while its
-       bottom edge is still below the fold, 1 once it has fully scrolled
-       past. Section-anchored like every other act — no page percentages. */
-    const dissolveProgress = () => {
-        const about = document.getElementById('about');
-        if (!about) return 0;
-        const bottom = about.getBoundingClientRect().bottom;
-        return clamp01((vh() - bottom) / vh());
-    };
-
-    let lastDissolve = -1;
-    const renderDissolve = (p) => {
-        if (!treeEl || p === lastDissolve) return;
-        lastDissolve = p;
-        // 118% clears the whole image (the wipe is fed by a 20% feather)
-        treeEl.style.setProperty('--d', `${(p * 118).toFixed(1)}%`);
-        treeEl.style.willChange = p > 0 && p < 1 ? 'mask-image' : '';
-    };
 
     let lastHero = -1;
     const renderHero = (p) => {
@@ -308,7 +290,8 @@ export function initGarden() {
 
     // sprite reveal is a continuous eased value per sprite that chases
     // its target; entering mid-reveal continues, never snaps
-    const REVEAL_SPAN = 0.14;   // fraction of path progress over which one sprite reveals
+    const REVEAL_SPAN = 0.12;   // fraction of path progress over which one sprite reveals
+    const SPRITE_LAG = 0.06;    // the vine must draw past an anchor before its leaf opens
     const applyReveal = (s) => {
         const e = easeOut(s.reveal);
         // 0.85→1 scale, opacity 0→1, 4° settle resolving to the final angle
@@ -324,7 +307,7 @@ export function initGarden() {
         act.vines.forEach((v) => {
             v.maskPath.style.strokeDashoffset = (1 - p).toFixed(4);
             v.sprites.forEach((s) => {
-                const target = clamp01((p - s.t) / REVEAL_SPAN);
+                const target = clamp01((p - (s.t + SPRITE_LAG)) / REVEAL_SPAN);
                 // chase target at a rate that makes a full reveal ~800ms
                 const step = dt / 0.8;
                 if (s.reveal < target) s.reveal = Math.min(target, s.reveal + step);
@@ -360,7 +343,6 @@ export function initGarden() {
         const dt = Math.min(0.05, (now - last) / 1000);
         last = now;
         renderHero(heroProgress());
-        renderDissolve(dissolveProgress());
         acts.forEach((act, i) => renderAct(i, sectionProgress(act.anchors, i === acts.length - 1), dt));
         // keep ticking briefly after scroll stops so reveals finish easing
         const anyMoving = acts.some((a) => a.vines.some((v) => v.sprites.some((s) => {

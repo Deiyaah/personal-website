@@ -229,15 +229,7 @@ body::before {
     --ground-h: clamp(60px, 11vh, 130px);
 }
 
-/* --d drives the dissolve: a soft, slightly angled wipe across the tree's
-   own local space. The image's branches are at its top and its trunk base
-   at its bottom, so after the 180deg flip this erodes the hanging branch
-   tips first and travels up toward the soil ceiling — the tree unravelling
-   into the vines that are drawing down over the same stretch. */
 .garden-tree {
-    --d: 0%;
-    -webkit-mask-image: linear-gradient(172deg, transparent calc(var(--d) - 20%), #000 var(--d));
-    mask-image: linear-gradient(172deg, transparent calc(var(--d) - 20%), #000 var(--d));
     position: absolute;
     left: 100vmax;                          /* trunk at the origin x */
     bottom: calc(100vmax - 50vh + var(--ground-h, 150px) * 0.62);
@@ -269,8 +261,10 @@ body::before {
     overflow: visible;
 }
 
-/* Embroidered vine = shadow + floss + highlight, all CONTINUOUS. The
-   growth dash lives only in the SVG mask, never in the visible line. */
+/* Embroidered vine, built like real stem stitch: a continuous thread
+   body, discrete lighter stitch marks over it, and thin dark notches at
+   the stitch boundaries. The dashes here are pure TEXTURE — growth is
+   carried by the SVG mask, so the line is never "half drawn" looking. */
 .vine-shadow {
     fill: none;
     stroke: rgba(0, 0, 0, 0.36);
@@ -282,26 +276,38 @@ body::before {
 
 .vine-floss {
     fill: none;
-    stroke: var(--floss-green);
+    stroke: var(--floss-green-deep);
     stroke-linecap: round;
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
     stroke-width: 7px;
 }
 
-.vine-highlight {
+/* the raised body of each stitch */
+.vine-stitch {
     fill: none;
-    stroke: color-mix(in srgb, var(--floss-green) 60%, #fff);
+    stroke: var(--floss-green);
     stroke-linecap: round;
-    stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
-    stroke-width: 2px;
-    opacity: 0.55;
-    transform: translate(-1px, -1.4px);
+    stroke-width: 5.5px;
+    stroke-dasharray: 10 4.5;
+}
+
+/* thin dark separations so individual stitches read */
+.vine-notch {
+    fill: none;
+    stroke: rgba(0, 0, 0, 0.42);
+    stroke-linecap: butt;
+    vector-effect: non-scaling-stroke;
+    stroke-width: 6.5px;
+    stroke-dasharray: 1.4 13.1;
+    stroke-dashoffset: 10.7;
 }
 
 .garden-act3 .vine-floss,
 .garden-act4 .vine-floss { stroke-width: 8.5px; }
+.garden-act3 .vine-stitch,
+.garden-act4 .vine-stitch { stroke-width: 6.8px; }
 .garden-act3 .vine-shadow,
 .garden-act4 .vine-shadow { stroke-width: 13px; }
 
@@ -532,7 +538,6 @@ p, li { max-width: 70ch; }
 /* Reduced motion: finished composition, no rotation, no growth */
 @media (prefers-reduced-motion: reduce) {
     .garden-rotor { transform: rotate(180deg) !important; }
-    .garden-tree { --d: 0% !important; }
     .garden-act { opacity: 1 !important; transition: none; }
     .garden-sprite { transition: none; }
     .hero-wrap { height: 100vh; }
