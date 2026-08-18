@@ -229,7 +229,14 @@ body::before {
     --ground-h: clamp(60px, 11vh, 130px);
 }
 
+/* --d draws the tree into the vines as `experience` arrives. 0deg points
+   the wipe at the image's own top, so with the 180deg flip it eats the
+   trunk (up at the soil) first and leaves the branch tips — the ends the
+   vines grow out of — until last. */
 .garden-tree {
+    --d: 0%;
+    -webkit-mask-image: linear-gradient(8deg, transparent calc(var(--d) - 20%), #000 var(--d));
+    mask-image: linear-gradient(8deg, transparent calc(var(--d) - 20%), #000 var(--d));
     position: absolute;
     left: 100vmax;                          /* trunk at the origin x */
     bottom: calc(100vmax - 50vh + var(--ground-h, 150px) * 0.62);
@@ -413,6 +420,7 @@ p, li { max-width: 70ch; }
    so from tablet up the reading column is pushed clear of that band
    instead of sitting under the art. */
 @media (min-width: 900px) {
+    /* `about` sits to the right of the hanging tree */
     .section > .container,
     .footer > .container {
         width: auto;
@@ -421,6 +429,17 @@ p, li { max-width: 70ch; }
            (aspect ~0.9) + a gutter, so content can never sit under it */
         margin-left: calc(var(--tree-x, 26vw) + 0.45 * min(56vh, 620px) + 2.5rem);
         margin-right: clamp(1.5rem, 4vw, 4rem);
+    }
+
+    /* from `experience` on, the tree is gone and the vines have swept
+       right — content takes the left column */
+    #experience > .container,
+    #projects > .container,
+    #contact > .container,
+    .footer > .container {
+        margin-left: clamp(1.5rem, 5vw, 5rem);
+        margin-right: 46vw;
+        max-width: 46rem;
     }
 }
 
@@ -538,6 +557,7 @@ p, li { max-width: 70ch; }
 /* Reduced motion: finished composition, no rotation, no growth */
 @media (prefers-reduced-motion: reduce) {
     .garden-rotor { transform: rotate(180deg) !important; }
+    .garden-tree { --d: 0% !important; }
     .garden-act { opacity: 1 !important; transition: none; }
     .garden-sprite { transition: none; }
     .hero-wrap { height: 100vh; }

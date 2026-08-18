@@ -27,21 +27,21 @@ const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);   // ease-out only, no overshoot
 
 /* Vine authoring in a 1000x1000 art space stretched to the viewport.
-   Every vine now STARTS in the tree's hanging branch-tip band (y ~600,
-   x ~120-400) and grows downward, so the tree visibly extends into the
-   vines rather than fading out. `depth: 0` = foreground, 1 = background
-   (parallaxes slower). Sprite anchors stay <= 0.80 so the last one still
-   completes its reveal before the act ends. */
+   Every vine starts in the tree's hanging branch-tip band (x ~150-400,
+   y ~600) and then sweeps RIGHT as it descends, clearing the left column
+   for the content from `experience` onward. `depth: 0` = foreground,
+   1 = background (parallaxes slower). Sprite anchors stay <= 0.80 so the
+   last one still completes its reveal before the act ends. */
 const VINES = {
     act2: [
-        { d: 'M 250 628 C 232 706, 302 762, 252 832 S 202 930, 242 1000', depth: 0,
+        { d: 'M 248 626 C 322 688, 396 706, 470 782 S 612 884, 686 1000', depth: 0,
           sprites: [
               { t: 0.10, kind: 'leaf', v: 7, s: 0.55 }, { t: 0.22, kind: 'leaf', v: 1, s: 0.7 },
               { t: 0.34, kind: 'leaf', v: 6, s: 0.6 }, { t: 0.46, kind: 'leaf', v: 2, s: 0.85 },
               { t: 0.58, kind: 'leaf', v: 3, s: 0.9 }, { t: 0.70, kind: 'leaf', v: 8, s: 1.0 },
               { t: 0.80, kind: 'leaf', v: 4, s: 0.85 }
           ] },
-        { d: 'M 352 604 C 392 690, 320 762, 380 850 S 420 942, 370 1000', depth: 1,
+        { d: 'M 356 602 C 448 676, 534 718, 612 800 S 754 900, 826 1000', depth: 1,
           sprites: [
               { t: 0.14, kind: 'leaf', v: 7, s: 0.5 }, { t: 0.28, kind: 'leaf', v: 2, s: 0.7 },
               { t: 0.42, kind: 'leaf', v: 1, s: 0.75 }, { t: 0.56, kind: 'leaf', v: 6, s: 0.6 },
@@ -49,14 +49,14 @@ const VINES = {
           ] }
     ],
     act3: [
-        { d: 'M 152 614 C 110 700, 192 780, 130 862 S 88 952, 142 1000', depth: 0,
+        { d: 'M 186 616 C 268 692, 352 700, 428 784 S 578 890, 640 1000', depth: 0,
           sprites: [
               { t: 0.10, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.22, kind: 'flower', v: 2, s: 0.7 },
               { t: 0.34, kind: 'leaf', v: 4, s: 0.9 }, { t: 0.45, kind: 'flower', v: 3, s: 0.8 },
               { t: 0.56, kind: 'flower', v: 1, s: 1.0 }, { t: 0.66, kind: 'berry', v: 'red-1', s: 0.6 },
               { t: 0.75, kind: 'berry', v: 'blue-3', s: 0.7 }
           ] },
-        { d: 'M 302 634 C 332 722, 260 800, 312 880 S 352 962, 300 1000', depth: 1,
+        { d: 'M 322 634 C 412 704, 500 736, 578 818 S 720 918, 780 1000', depth: 1,
           sprites: [
               { t: 0.12, kind: 'leaf', v: 3, s: 0.9 }, { t: 0.26, kind: 'flower', v: 3, s: 0.75 },
               { t: 0.38, kind: 'berry', v: 'red-2', s: 0.65 }, { t: 0.50, kind: 'flower', v: 1, s: 1.0 },
@@ -65,14 +65,14 @@ const VINES = {
           ] }
     ],
     act4: [
-        { d: 'M 202 624 C 160 712, 242 790, 180 872 S 140 960, 192 1000', depth: 0,
+        { d: 'M 214 622 C 300 696, 380 714, 456 796 S 606 898, 668 1000', depth: 0,
           sprites: [
               { t: 0.09, kind: 'flower', v: 1, s: 1.0 }, { t: 0.20, kind: 'berry', v: 'red-3', s: 0.7 },
               { t: 0.31, kind: 'leaf', v: 8, s: 1.0 }, { t: 0.42, kind: 'motif', v: 3, s: 0.6 },
               { t: 0.53, kind: 'flower', v: 5, s: 0.9 }, { t: 0.63, kind: 'berry', v: 'blue-2', s: 0.65 },
               { t: 0.72, kind: 'motif', v: 1, s: 0.8 }, { t: 0.80, kind: 'flower', v: 4, s: 0.9 }
           ] },
-        { d: 'M 400 600 C 442 690, 370 782, 420 870 S 460 952, 408 1000', depth: 1,
+        { d: 'M 392 600 C 486 678, 572 724, 650 806 S 792 906, 862 1000', depth: 1,
           sprites: [
               { t: 0.11, kind: 'berry', v: 'blue-3', s: 0.7 }, { t: 0.23, kind: 'flower', v: 6, s: 0.9 },
               { t: 0.35, kind: 'leaf', v: 2, s: 0.95 }, { t: 0.46, kind: 'flower', v: 1, s: 1.0 },
@@ -267,6 +267,26 @@ export function initGarden() {
 
     /* ---------- render ---------- */
 
+    const treeEl = layer.querySelector('.garden-tree');
+
+    /* The tree is absorbed into the vines across `experience`'s arrival:
+       0 while experience is still below the fold, 1 once it has risen
+       into view. Anchored to the section, like every other act. */
+    const dissolveProgress = () => {
+        const ex = document.getElementById('experience');
+        if (!ex) return 0;
+        const top = ex.getBoundingClientRect().top;
+        return clamp01((vh() - top) / (vh() * 0.75));
+    };
+
+    let lastDissolve = -1;
+    const renderDissolve = (p) => {
+        if (!treeEl || p === lastDissolve) return;
+        lastDissolve = p;
+        treeEl.style.setProperty('--d', `${(p * 118).toFixed(1)}%`);
+        treeEl.style.willChange = p > 0 && p < 1 ? 'mask-image' : '';
+    };
+
     let lastHero = -1;
     const renderHero = (p) => {
         if (p === lastHero) return;
@@ -343,6 +363,7 @@ export function initGarden() {
         const dt = Math.min(0.05, (now - last) / 1000);
         last = now;
         renderHero(heroProgress());
+        renderDissolve(dissolveProgress());
         acts.forEach((act, i) => renderAct(i, sectionProgress(act.anchors, i === acts.length - 1), dt));
         // keep ticking briefly after scroll stops so reveals finish easing
         const anyMoving = acts.some((a) => a.vines.some((v) => v.sprites.some((s) => {
