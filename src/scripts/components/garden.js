@@ -264,6 +264,27 @@ export function initGarden() {
     };
 
     /* ---------- render ---------- */
+    const treeEl = layer.querySelector('.garden-tree');
+
+    /* The tree dissolves into the vines across `about`'s exit: 0 while its
+       bottom edge is still below the fold, 1 once it has fully scrolled
+       past. Section-anchored like every other act — no page percentages. */
+    const dissolveProgress = () => {
+        const about = document.getElementById('about');
+        if (!about) return 0;
+        const bottom = about.getBoundingClientRect().bottom;
+        return clamp01((vh() - bottom) / vh());
+    };
+
+    let lastDissolve = -1;
+    const renderDissolve = (p) => {
+        if (!treeEl || p === lastDissolve) return;
+        lastDissolve = p;
+        // 118% clears the whole image (the wipe is fed by a 20% feather)
+        treeEl.style.setProperty('--d', `${(p * 118).toFixed(1)}%`);
+        treeEl.style.willChange = p > 0 && p < 1 ? 'mask-image' : '';
+    };
+
     let lastHero = -1;
     const renderHero = (p) => {
         if (p === lastHero) return;
@@ -339,6 +360,7 @@ export function initGarden() {
         const dt = Math.min(0.05, (now - last) / 1000);
         last = now;
         renderHero(heroProgress());
+        renderDissolve(dissolveProgress());
         acts.forEach((act, i) => renderAct(i, sectionProgress(act.anchors, i === acts.length - 1), dt));
         // keep ticking briefly after scroll stops so reveals finish easing
         const anyMoving = acts.some((a) => a.vines.some((v) => v.sprites.some((s) => {
