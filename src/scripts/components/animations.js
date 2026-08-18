@@ -58,12 +58,16 @@ export function initReveals() {
         .to(brand, { scaleY: 1.05, scaleX: 0.97, y: -8, duration: 0.16, ease: 'power2.out' }, '>')
         .to(brand, {
             scaleY: 1, scaleX: 1, y: 0, duration: 0.7, ease: 'elastic.out(1.1, 0.42)',
-            clearProps: 'transform,filter'   // opacity is left to the garden's scroll fade
+            clearProps: 'transform,filter,opacity',
+            // hand opacity ownership to the garden's scroll fade only now
+            onComplete: () => brand.classList.add('is-landed')
         }, '>');
     }
     if (bits.length) {
         tl.fromTo(bits, { opacity: 0, y: 22 }, {
-            opacity: 1, y: 0, duration: 0.65, ease: 'back.out(1.4)', stagger: 0.11
+            opacity: 1, y: 0, duration: 0.65, ease: 'back.out(1.4)', stagger: 0.11,
+            clearProps: 'opacity,transform',
+            onComplete: () => bits.forEach((b) => b.classList.add('is-landed'))
         }, 1.1);
     }
     // (hero-scroll + brand opacity during the flip are owned by garden.js)
