@@ -70,7 +70,7 @@ html {
     /* Two deliberate faces: Fraunces (ink-trapped soft serif) for display,
        Source Sans 3 (quiet humanist) for everything readable */
     --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
-    --font-heading: "Nunito", "Segoe UI", system-ui, sans-serif;
+    --font-heading: "Playfair Display", "Iowan Old Style", Georgia, serif;
     --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
     --font-mono: "Inter", "Segoe UI", system-ui, sans-serif;
 }
@@ -1722,21 +1722,21 @@ p, li { max-width: 70ch; }
 }
 
 .stitch-text-main {
-    fill: none;
+    fill: color-mix(in srgb, var(--floss-green) 22%, transparent);
     stroke: var(--thread-accent);
-    stroke-width: 2.4;
+    stroke-width: 1.9;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 6.5 4.5;
+    stroke-dasharray: 3.4 2.6;
 }
 
 .stitch-text-shadow {
     fill: none;
     stroke: var(--thread-shadow);
-    stroke-width: 2.4;
+    stroke-width: 1.9;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 6.5 4.5;
+    stroke-dasharray: 3.4 2.6;
     transform: translate(1.2px, 1.6px);
 }
 
