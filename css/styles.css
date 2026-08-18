@@ -1722,8 +1722,8 @@ p, li { max-width: 70ch; }
 }
 
 .stitch-text-main {
-    fill: color-mix(in srgb, var(--floss-green) 22%, transparent);
-    stroke: var(--thread-accent);
+    fill: color-mix(in srgb, var(--ink) 20%, transparent);
+    stroke: var(--ink);
     stroke-width: 1.9;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -2086,30 +2086,3 @@ li,
 .project-card {
     border-radius: 16px;
 }
-
-/* =========================================================
-   About reads dark in both themes
-   ========================================================= */
-#about {
-    --ink: #ede8dc;
-    --ink-soft: #c9c2b2;
-    color: var(--ink);
-}
-
-#about .about-lead {
-    background: rgba(24, 21, 38, 0.9);
-    color: var(--ink);
-}
-
-#about .about-point {
-    background-color: rgba(38, 34, 56, 0.95);
-    background-image: url("../assets/garden/linen-dark.jpg");
-    border-color: color-mix(in srgb, var(--floss-green) 40%, transparent);
-    color: var(--ink);
-}
-
-#about .about-point p { color: var(--ink-soft); }
-#about .about-point h3 { color: var(--floss-green); }
-#about .stat-label { color: var(--ink-soft); }
-#about .stat-num { color: var(--floss-madder); text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35); }
-#about p, #about li { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45); }
