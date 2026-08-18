@@ -70,6 +70,7 @@ html {
     /* Two deliberate faces: Fraunces (ink-trapped soft serif) for display,
        Source Sans 3 (quiet humanist) for everything readable */
     --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+    --font-heading: "Nunito", "Segoe UI", system-ui, sans-serif;
     --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
     --font-mono: "Inter", "Segoe UI", system-ui, sans-serif;
 }
@@ -227,7 +228,7 @@ body::before {
     height: var(--ground-h, 150px);
     background: url("../assets/garden/ground.webp") repeat-x left bottom / auto 100%;
     filter: drop-shadow(0 -2px 3px rgba(0, 0, 0, 0.18));
-    --ground-h: clamp(120px, 22vh, 260px);
+    --ground-h: clamp(60px, 11vh, 130px);
 }
 
 .garden-tree {
@@ -238,7 +239,7 @@ body::before {
     width: auto;
     transform: translateX(-50%);
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.22));
-    --ground-h: clamp(120px, 22vh, 260px);
+    --ground-h: clamp(60px, 11vh, 130px);
 }
 
 @media (max-width: 767px) {
@@ -424,9 +425,9 @@ p, li { max-width: 70ch; }
 .hero-actions { justify-content: center; }
 
 .section-title {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 96, "SOFT" 30, "WONK" 1;
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-variation-settings: normal;
+    font-weight: 800;
     letter-spacing: -0.02em;
 }
 
@@ -482,8 +483,8 @@ p, li { max-width: 70ch; }
 
 /* Stats "counted in stitches": cross-stitch tallies under each number */
 .stat-num {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 72, "SOFT" 30, "WONK" 1;
+    font-family: var(--font-heading);
+    font-weight: 800;
     color: var(--floss-madder);
     text-shadow: 0 1px 0 rgba(var(--linen-rgb), 0.8);
 }
@@ -585,7 +586,7 @@ p, li { max-width: 70ch; }
     align-items: center;
     gap: 0.65rem;
     text-decoration: none;
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: 700;
     font-size: 1.15rem;
     letter-spacing: -0.02em;
@@ -882,7 +883,7 @@ p, li { max-width: 70ch; }
 }
 
 .section-title {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: clamp(2.4rem, 6vw, 4rem);
     font-weight: 700;
     letter-spacing: -0.03em;
@@ -986,7 +987,7 @@ p, li { max-width: 70ch; }
 }
 
 .stat-num {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
     color: var(--primary-soft);
@@ -1082,7 +1083,7 @@ p, li { max-width: 70ch; }
 }
 
 .exp-tab-org {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: 1.02rem;
     font-weight: 600;
 }
@@ -1135,7 +1136,7 @@ p, li { max-width: 70ch; }
 }
 
 .exp-role {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: 1.3rem;
     margin-bottom: 0.1rem;
 }
@@ -1325,7 +1326,7 @@ p, li { max-width: 70ch; }
 }
 
 .project-title {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: 1.25rem;
     margin-bottom: 0.45rem;
 }
