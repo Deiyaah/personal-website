@@ -2068,3 +2068,48 @@ li,
 .btn-ghost.is-patch:hover { border-color: var(--floss-ochre); color: var(--ink); }
 .btn-ghost.is-patch .satin-border { stroke: var(--floss-green); }
 .theme-color-toggle { border-color: var(--floss-green); }
+
+
+/* =========================================================
+   Card edges: no dotted perimeter — a single clean hairline
+   ========================================================= */
+.about-point::before,
+.exp-panel::before,
+.contact-form::before,
+.project-card::before {
+    display: none;
+}
+
+.about-point,
+.exp-panel,
+.contact-form,
+.project-card {
+    border-radius: 16px;
+}
+
+/* =========================================================
+   About reads dark in both themes
+   ========================================================= */
+#about {
+    --ink: #ede8dc;
+    --ink-soft: #c9c2b2;
+    color: var(--ink);
+}
+
+#about .about-lead {
+    background: rgba(24, 21, 38, 0.9);
+    color: var(--ink);
+}
+
+#about .about-point {
+    background-color: rgba(38, 34, 56, 0.95);
+    background-image: url("../assets/garden/linen-dark.jpg");
+    border-color: color-mix(in srgb, var(--floss-green) 40%, transparent);
+    color: var(--ink);
+}
+
+#about .about-point p { color: var(--ink-soft); }
+#about .about-point h3 { color: var(--floss-green); }
+#about .stat-label { color: var(--ink-soft); }
+#about .stat-num { color: var(--floss-madder); text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35); }
+#about p, #about li { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45); }

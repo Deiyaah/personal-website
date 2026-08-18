@@ -492,10 +492,9 @@ export function initStitchwork() {
     // Real chain-stitch rail on the experience tabs
     stitchExpRail();
 
-    // Cards → felt patches with blanket-stitched perimeters
-    document
-        .querySelectorAll('.about-point, .exp-panel, .contact-form, .project-card')
-        .forEach((el) => stitchPerimeter(el));
+    // Cards are plain felt patches now — the dotted blanket-stitch
+    // perimeter was removed for a cleaner edge. (stitchPerimeter is kept
+    // for the styleguide specimen.)
 
     // Buttons → embroidered patches with satin borders
     document.querySelectorAll('.btn').forEach((btn) => stitchButton(btn));
