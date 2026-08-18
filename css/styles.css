@@ -203,10 +203,8 @@ body::before {
    the viewport middle — so the tree stays on the right the whole turn
    while the ground travels bottom → top. It's a 200vmax square centered
    on that origin so nothing clips mid-rotation. */
-.garden {
-    --tree-x: 26vw;
-}
-@media (max-width: 767px) { .garden { --tree-x: 30vw; } }
+:root { --tree-x: 26vw; }
+@media (max-width: 767px) { :root { --tree-x: 30vw; } }
 
 .garden-rotor {
     position: absolute;
@@ -397,6 +395,25 @@ p, li { max-width: 70ch; }
 .section, .footer, .navbar { position: relative; z-index: 1; }
 .navbar { z-index: 100; }
 
+/* The tree hangs at ~26vw and the vines descend through the left gutter,
+   so from tablet up the reading column is pushed clear of that band
+   instead of sitting under the art. */
+@media (min-width: 900px) {
+    .section > .container,
+    .footer > .container {
+        width: auto;
+        max-width: 60rem;
+        /* derived from the art: trunk x + half the tree's rendered width
+           (aspect ~0.9) + a gutter, so content can never sit under it */
+        margin-left: calc(var(--tree-x, 26vw) + 0.45 * min(56vh, 620px) + 2.5rem);
+        margin-right: clamp(1.5rem, 4vw, 4rem);
+    }
+}
+
+/* First section after the hero: extra headroom so the "about" title
+   never collides with the canopy hanging from the top of the viewport. */
+.about { padding-top: clamp(5rem, 14vh, 10rem); }
+
 /* Type scale — Fraunces display, Source Sans body */
 .hero-brand {
     font-family: var(--font-display);
@@ -577,9 +594,7 @@ p, li { max-width: 70ch; }
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.navbar.navbar--hidden {
-    transform: translateY(-100%);
-}
+/* header stays fixed and visible; hide-on-scroll removed */
 
 .nav-brand {
     display: inline-flex;

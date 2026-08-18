@@ -36,22 +36,14 @@ export function initNavigation() {
 
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
-    let lastY = window.scrollY;
+
+    // The header stays fixed and visible at all times — no hide-on-scroll.
+    navbar?.classList.remove('navbar--hidden');
 
     window.addEventListener(
         'scroll',
         () => {
             const y = window.scrollY;
-
-            // Hide navbar scrolling down, reveal scrolling up
-            if (navbar) {
-                if (y > 160 && y > lastY + 4) {
-                    navbar.classList.add('navbar--hidden');
-                } else if (y < lastY - 4 || y <= 160) {
-                    navbar.classList.remove('navbar--hidden');
-                }
-            }
-            lastY = y;
 
             // Active section highlight
             if (sections.length && navLinks.length) {
