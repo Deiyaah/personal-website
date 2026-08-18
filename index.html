@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="assets/garden/ground-tree.webp" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..800,0..30,0..1&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="assets/vendor/gsap.min.js" defer></script>
     <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
     <!-- Vercel Web Analytics (plain-HTML variant of @vercel/analytics) -->
@@ -34,38 +35,6 @@
     </script>
 </head>
 <body>
-    <!-- Yarn thread stitched down the page as you scroll (path generated in JS) -->
-    <div class="thread-journey" aria-hidden="true">
-        <svg id="thread-svg" class="thread-svg" preserveAspectRatio="none">
-            <defs>
-                <linearGradient id="threadGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#c7b9ff"/>
-                    <stop offset="45%" stop-color="#64a6f5"/>
-                    <stop offset="100%" stop-color="#ef8fd0"/>
-                </linearGradient>
-            </defs>
-            <path id="thread-draw" class="thread-draw" d="" stroke="url(#threadGrad)"/>
-        </svg>
-    </div>
-    <div class="thread-ball" id="thread-ball" aria-hidden="true">
-        <svg viewBox="0 0 48 48">
-            <defs>
-                <radialGradient id="tBall" cx="34%" cy="28%" r="72%">
-                    <stop offset="0%" stop-color="#ffe6f6"/>
-                    <stop offset="55%" stop-color="#ef8fd0"/>
-                    <stop offset="100%" stop-color="#93397a"/>
-                </radialGradient>
-            </defs>
-            <circle cx="24" cy="24" r="17" fill="url(#tBall)"/>
-            <g fill="none" stroke="#7c2c63" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round">
-                <path d="M11 20 C16 10, 26 8, 33 13 C38 17, 39 23, 37 28"/>
-                <path d="M12 29 C19 36, 30 36, 36 30"/>
-                <path d="M13 14 C21 18, 30 18, 36 15"/>
-            </g>
-            <ellipse cx="18" cy="17" rx="6" ry="4" fill="#fff" opacity="0.28" transform="rotate(-24 18 17)"/>
-        </svg>
-    </div>
-
     <nav class="navbar">
         <a class="nav-brand" href="#top" aria-label="Diyaa home">
             <svg class="brand-yarn" viewBox="0 0 40 40" aria-hidden="true">
@@ -102,152 +71,32 @@
         </div>
     </nav>
 
-    <header class="hero" id="top">
-        <div class="hero-stage">
-            <div class="hero-scene" aria-hidden="true">
-                <svg class="hero-scene-svg" viewBox="0 0 440 440">
-                    <defs>
-                        <radialGradient id="planetGrad" cx="36%" cy="30%" r="72%">
-                            <stop offset="0%" stop-color="#ece6ff"/>
-                            <stop offset="35%" stop-color="#b3a5f7"/>
-                            <stop offset="68%" stop-color="#7c6fe0"/>
-                            <stop offset="100%" stop-color="#3b2d99"/>
-                        </radialGradient>
-                        <radialGradient id="planetShade" cx="36%" cy="30%" r="75%">
-                            <stop offset="0%" stop-color="#181040" stop-opacity="0"/>
-                            <stop offset="62%" stop-color="#181040" stop-opacity="0"/>
-                            <stop offset="100%" stop-color="#181040" stop-opacity="0.55"/>
-                        </radialGradient>
-                        <linearGradient id="ringGold" x1="0%" y1="50%" x2="100%" y2="50%">
-                            <stop offset="0%" stop-color="#e8c49a" stop-opacity="0"/>
-                            <stop offset="14%" stop-color="#f0d8b0" stop-opacity="0.9"/>
-                            <stop offset="34%" stop-color="#c49a6c" stop-opacity="1"/>
-                            <stop offset="52%" stop-color="#8b6b4a" stop-opacity="0.7"/>
-                            <stop offset="68%" stop-color="#f0d8b0" stop-opacity="0.95"/>
-                            <stop offset="86%" stop-color="#c49a6c" stop-opacity="0.85"/>
-                            <stop offset="100%" stop-color="#e8c49a" stop-opacity="0"/>
-                        </linearGradient>
-                        <linearGradient id="needleMetal" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#eef1fb"/>
-                            <stop offset="45%" stop-color="#aab2d0"/>
-                            <stop offset="100%" stop-color="#7c85a8"/>
-                        </linearGradient>
-                        <clipPath id="planetClip">
-                            <circle cx="220" cy="210" r="118"/>
-                        </clipPath>
-                    </defs>
+    <!-- Fixed embroidery art layer: rotates in the hero, then hosts the growing vines -->
+    <div id="garden" class="garden" aria-hidden="true">
+        <div class="garden-rotor">
+            <picture>
+                <source type="image/webp" srcset="assets/garden/ground-tree.webp 1x, assets/garden/ground-tree@2x.webp 2x">
+                <img class="garden-tree" src="assets/garden/ground-tree.png" alt="" width="1094" height="1200" fetchpriority="high" decoding="async">
+            </picture>
+        </div>
+    </div>
 
-                    <!-- golden thread ring · back half -->
-                    <g class="hero-ring hero-ring--back" transform="rotate(-16 220 214)">
-                        <ellipse cx="220" cy="214" rx="188" ry="50" fill="none" stroke="url(#ringGold)" stroke-width="14" opacity="0.5" stroke-dasharray="360 420" stroke-dashoffset="216"/>
-                        <ellipse cx="220" cy="214" rx="188" ry="50" fill="none" stroke="#5c4030" stroke-width="4" opacity="0.4" stroke-dasharray="360 420" stroke-dashoffset="216"/>
-                    </g>
-
-                    <!-- knitting needles poking through the ball -->
-                    <g class="hero-needles">
-                        <g>
-                            <line x1="118" y1="86" x2="342" y2="322" stroke="url(#needleMetal)" stroke-width="6" stroke-linecap="round"/>
-                            <circle cx="114" cy="82" r="9" fill="#e2b7d8"/>
-                            <circle cx="111" cy="79" r="3" fill="#fff" opacity="0.55"/>
-                        </g>
-                        <g>
-                            <line x1="330" y1="94" x2="108" y2="318" stroke="url(#needleMetal)" stroke-width="6" stroke-linecap="round"/>
-                            <circle cx="334" cy="90" r="9" fill="#9fc6f2"/>
-                            <circle cx="331" cy="87" r="3" fill="#fff" opacity="0.55"/>
-                        </g>
-                    </g>
-
-                    <!-- yarn planet -->
-                    <g class="hero-planet">
-                        <circle cx="220" cy="210" r="118" fill="url(#planetGrad)"/>
-                        <g clip-path="url(#planetClip)">
-                            <g class="hero-strands hero-strands--a" transform="rotate(-24 220 210)">
-                                <g fill="none" stroke="#1e1464" stroke-opacity="0.28" stroke-width="5">
-                                    <ellipse cx="220" cy="210" rx="126" ry="34"/>
-                                    <ellipse cx="220" cy="210" rx="126" ry="64"/>
-                                    <ellipse cx="220" cy="210" rx="126" ry="92"/>
-                                    <ellipse cx="220" cy="210" rx="126" ry="114"/>
-                                </g>
-                                <g fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="2.6">
-                                    <ellipse cx="220" cy="208" rx="126" ry="34"/>
-                                    <ellipse cx="220" cy="208" rx="126" ry="64"/>
-                                    <ellipse cx="220" cy="208" rx="126" ry="92"/>
-                                    <ellipse cx="220" cy="208" rx="126" ry="114"/>
-                                </g>
-                            </g>
-                            <g class="hero-strands hero-strands--b" transform="rotate(38 220 210)">
-                                <g fill="none" stroke="#1e1464" stroke-opacity="0.24" stroke-width="4.6">
-                                    <ellipse cx="220" cy="210" rx="126" ry="30"/>
-                                    <ellipse cx="220" cy="210" rx="126" ry="58"/>
-                                    <ellipse cx="220" cy="210" rx="126" ry="86"/>
-                                    <ellipse cx="220" cy="210" rx="126" ry="108"/>
-                                </g>
-                                <g fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="2.4">
-                                    <ellipse cx="220" cy="208" rx="126" ry="30"/>
-                                    <ellipse cx="220" cy="208" rx="126" ry="58"/>
-                                    <ellipse cx="220" cy="208" rx="126" ry="86"/>
-                                    <ellipse cx="220" cy="208" rx="126" ry="108"/>
-                                </g>
-                            </g>
-                            <g class="hero-strands hero-strands--c" transform="rotate(86 220 210)">
-                                <g fill="none" stroke="#1e1464" stroke-opacity="0.2" stroke-width="4.2">
-                                    <ellipse cx="220" cy="210" rx="126" ry="42"/>
-                                    <ellipse cx="220" cy="210" rx="126" ry="74"/>
-                                    <ellipse cx="220" cy="210" rx="126" ry="102"/>
-                                </g>
-                                <g fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2.2">
-                                    <ellipse cx="220" cy="208" rx="126" ry="42"/>
-                                    <ellipse cx="220" cy="208" rx="126" ry="74"/>
-                                    <ellipse cx="220" cy="208" rx="126" ry="102"/>
-                                </g>
-                            </g>
-                        </g>
-                        <circle cx="220" cy="210" r="118" fill="url(#planetShade)"/>
-                        <ellipse cx="178" cy="152" rx="52" ry="32" fill="#ffffff" opacity="0.14" transform="rotate(-24 178 152)"/>
-                        <ellipse cx="170" cy="144" rx="26" ry="15" fill="#ffffff" opacity="0.16" transform="rotate(-24 170 144)"/>
-                    </g>
-
-                    <!-- golden thread ring · front half -->
-                    <g class="hero-ring hero-ring--front" transform="rotate(-16 220 214)">
-                        <ellipse cx="220" cy="214" rx="188" ry="50" fill="none" stroke="url(#ringGold)" stroke-width="14" opacity="0.95" stroke-dasharray="360 420" stroke-dashoffset="-124"/>
-                        <ellipse cx="220" cy="214" rx="188" ry="50" fill="none" stroke="#5c4030" stroke-width="4" opacity="0.6" stroke-dasharray="360 420" stroke-dashoffset="-124"/>
-                    </g>
-
-                    <!-- orbiting mini yarn moon -->
-                    <g class="hero-orbit">
-                        <g transform="translate(398 226)">
-                            <circle r="14" fill="url(#tBall)"/>
-                            <path d="M-9 -4 C-4 -12, 6 -12, 11 -4" fill="none" stroke="#7c2c63" stroke-opacity="0.5" stroke-width="1.6" stroke-linecap="round"/>
-                            <path d="M-10 4 C-4 11, 6 11, 10 4" fill="none" stroke="#7c2c63" stroke-opacity="0.5" stroke-width="1.6" stroke-linecap="round"/>
-                            <circle cx="-4" cy="-5" r="3.4" fill="#fff" opacity="0.3"/>
-                        </g>
-                    </g>
-
-                    <!-- loose strand trailing off the ball -->
-                    <path class="hero-loose" d="M318 288 C 352 318, 356 356, 330 396 C 316 418, 296 428, 276 432" fill="none" stroke="#c7b9ff" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
-                    <path class="hero-loose-core" d="M318 288 C 352 318, 356 356, 330 396 C 316 418, 296 428, 276 432" fill="none" stroke="#8b7ff0" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-
-                    <!-- sparkles -->
-                    <g class="twinkle"><path d="M84 120 l3.2 10 10 3.2 -10 3.2 -3.2 10 -3.2 -10 -10 -3.2 10 -3.2 Z" fill="#e9e3ff"/></g>
-                    <g class="twinkle-2"><path d="M368 128 l2.4 7.6 7.6 2.4 -7.6 2.4 -2.4 7.6 -2.4 -7.6 -7.6 -2.4 7.6 -2.4 Z" fill="#9fd0ff"/></g>
-                    <g class="twinkle-3"><path d="M120 330 l2 6.4 6.4 2 -6.4 2 -2 6.4 -2 -6.4 -6.4 -2 6.4 -2 Z" fill="#f7c2e4"/></g>
-                </svg>
-            </div>
-
+    <div class="hero-wrap" id="top">
+        <header class="hero">
             <div class="hero-copy">
-                <h1 class="hero-brand">diyaa</h1>
+                <h1 class="hero-brand">Diyaa Yadav</h1>
                 <p class="hero-line">Building friendly products — stitched with code.</p>
                 <div class="hero-actions">
                     <a class="btn btn-primary" href="#projects">see projects</a>
                     <a class="btn btn-ghost" href="findout.html">find out →</a>
                 </div>
             </div>
-        </div>
-        <a class="hero-scroll" href="#about" aria-label="Scroll to about section">
-            <span>scroll</span>
-            <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M1.5 1.5 L8 8 L14.5 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-    </header>
+            <a class="hero-scroll" href="#about" aria-label="Scroll to about section">
+                <span>scroll</span>
+                <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M1.5 1.5 L8 8 L14.5 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+        </header>
+    </div>
 
     <section id="about" class="section about">
         <div class="container">
