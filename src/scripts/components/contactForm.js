@@ -1,8 +1,12 @@
 /**
  * Contact form — posts to /api/contact, which relays through Resend.
  * The API key lives only on the server; nothing secret is referenced here.
- * If the endpoint is unreachable (e.g. running the static site locally with
- * no serverless runtime), it falls back to opening the visitor's mail app.
+ *
+ * It never opens a mail app on its own. Redirecting to mailto: on failure
+ * made a working form look broken (the local static server has no serverless
+ * runtime, so /api/contact 404s there and every submit hijacked the visitor
+ * to their mail client). Failures now say what went wrong and offer the
+ * address as a link the visitor chooses to click.
  */
 
 const CONTACT_EMAIL = 'diyaa@ualberta.ca';
@@ -21,16 +25,19 @@ export function initContactForm() {
     };
 
     const markError = (input, on) => input?.classList.toggle('is-error', on);
+
+    // a link the visitor can choose to click — never an automatic redirect
+    const offerDirectEmail = () => {
+        if (!status || status.querySelector('a')) return;
+        const a = document.createElement('a');
+        a.href = `mailto:${CONTACT_EMAIL}`;
+        a.textContent = CONTACT_EMAIL;
+        a.className = 'form-status-mail';
+        status.append(' or email ', a);
+    };
     form.querySelectorAll('input, textarea').forEach((el) => {
         el.addEventListener('input', () => markError(el, false));
     });
-
-    const mailtoFallback = (name, email, message) => {
-        const subject = `Hello from ${name} — via your site`;
-        const body = `${message}\n\n— ${name} (${email})`;
-        window.location.href =
-            `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    };
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -72,19 +79,20 @@ export function initContactForm() {
                 return;
             }
 
-            // 404/405 means there is no serverless runtime here (local static
-            // preview); anything else is a real server-side failure
+            // 404/405 means no serverless runtime here — that is the local
+            // static preview, not something a visitor will ever see
             if (res.status === 404 || res.status === 405) {
-                mailtoFallback(name, email, message);
-                setStatus(`opening your mail app… or write me at ${CONTACT_EMAIL}`);
+                setStatus('sending only works on the deployed site ✂', true);
                 return;
             }
 
             const payload = await res.json().catch(() => ({}));
-            setStatus(payload.error || 'could not send just now — please try again ✂', true);
+            const detail = typeof payload.error === 'string' ? payload.error : null;
+            setStatus(detail || 'could not send just now ✂', true);
+            offerDirectEmail();
         } catch {
-            mailtoFallback(name, email, message);
-            setStatus(`opening your mail app… or write me at ${CONTACT_EMAIL}`);
+            setStatus('could not reach the server ✂', true);
+            offerDirectEmail();
         } finally {
             if (submit) submit.disabled = false;
         }

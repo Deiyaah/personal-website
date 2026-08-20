@@ -2609,3 +2609,9 @@ body { font-size: var(--fs-base); }
     position: relative;
     z-index: 2;
 }
+
+.form-status-mail {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
