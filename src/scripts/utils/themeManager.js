@@ -3,7 +3,7 @@
  */
 
 const THEME_STORAGE_KEY = 'portfolio-theme';
-const DEFAULT_THEME = { colorScheme: 'dark' };
+const DEFAULT_THEME = { colorScheme: 'light' };
 
 export function getTheme() {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);

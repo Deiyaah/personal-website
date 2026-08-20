@@ -14,8 +14,8 @@ const ROLES = [
         place: 'Edmonton, AB',
         points: [
             'Architected production SaaS on AWS (EC2, S3, CloudFront, ALB) for 100+ users',
-            'Java Spring Boot backend — 120+ REST endpoints, JWT role access',
-            'React + TypeScript multi-tenant UI — 3 roles, 20+ flows; Stripe Connect payouts',
+            'Java Spring Boot backend with 120+ REST endpoints and JWT role access',
+            'React and TypeScript multi-tenant UI across 3 roles and 20+ flows, with Stripe Connect payouts',
             '20+ table PostgreSQL schema with Liquibase multi-tenant isolation'
         ],
         stack: ['AWS', 'Spring Boot', 'React', 'TypeScript', 'PostgreSQL', 'Stripe']
@@ -47,162 +47,177 @@ const ROLES = [
     }
 ];
 
-import { MOTION, reducedMotion, onTick } from '../core/motionEngine.js';
+import { reducedMotion } from '../core/motionEngine.js';
 
 function hasGsap() {
-    return typeof gsap !== 'undefined';
+    return typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
 }
 
-function prefersReducedMotion() {
-    return reducedMotion();
-}
+/* ---------- experience as stacked fabric swatches ----------
+   Each role is a card that sticks at the top of the viewport while the next
+   one slides up over it. The card underneath scales down and dims as it is
+   covered, so the pile reads as swatches laid one on another rather than as
+   a list that scrolls past.
 
+   Everything is plain sticky positioning in CSS — GSAP only drives the
+   scale/dim of the covered cards, so with no JS (or reduced motion) this
+   degrades to a perfectly readable stack of cards. */
 export function initExperience() {
     const mount = document.querySelector('.exp-explorer');
     if (!mount) return;
 
     mount.innerHTML = `
-        <div class="exp-tabs" role="tablist" aria-label="Work experience" aria-orientation="vertical">
+        <ol class="swatch-stack">
             ${ROLES.map((r, i) => `
-                <button class="exp-tab${i === 0 ? ' is-active' : ''}"
-                        id="exp-tab-${r.id}" role="tab"
-                        aria-selected="${i === 0}" aria-controls="exp-panel-${r.id}"
-                        tabindex="${i === 0 ? 0 : -1}" data-index="${i}">
-                    <span class="exp-tab-dot" aria-hidden="true"></span>
-                    <span class="exp-tab-org">${r.org}</span>
-                    <span class="exp-tab-dates">${r.dates}</span>
-                </button>
+                <li class="swatch" style="--i:${i}">
+                    <article class="swatch-card">
+                        <header class="swatch-head">
+                            <div class="swatch-what">
+                                <h3 class="swatch-role">${r.role}</h3>
+                                <p class="swatch-org">${r.org}</p>
+                            </div>
+                            <div class="swatch-when">
+                                <span class="swatch-dates">${r.dates}</span>
+                                <span class="swatch-place">${r.place}</span>
+                            </div>
+                        </header>
+                        <ul class="swatch-points">
+                            ${r.points.map((pt) => `<li>${pt}</li>`).join('')}
+                        </ul>
+                        <div class="swatch-tech" aria-label="Technologies used">
+                            ${r.stack.map((t) => `<span>${t}</span>`).join('')}
+                        </div>
+                    </article>
+                </li>
             `).join('')}
-        </div>
-        <article class="exp-panel" id="exp-panel-${ROLES[0].id}" role="tabpanel"
-                 aria-labelledby="exp-tab-${ROLES[0].id}">
-            <div class="exp-panel-inner"></div>
-        </article>
+        </ol>
     `;
 
-    const tabs = Array.from(mount.querySelectorAll('.exp-tab'));
-    const panel = mount.querySelector('.exp-panel');
-    const inner = mount.querySelector('.exp-panel-inner');
-    let active = 0;
-    let animating = false;
+    /* The heading is sticky, so the cards must park just below it. Measure it
+       rather than guessing — it is a stitched SVG whose height tracks the
+       font size, and a wrong constant would tuck card 1 under the title. */
+    const section = document.getElementById('experience');
+    const title = section?.querySelector('.section-title');
+    if (section && title) {
+        const syncTitleHeight = () => {
+            section.style.setProperty('--exp-title-h', `${Math.round(title.getBoundingClientRect().height)}px`);
+            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+        };
+        syncTitleHeight();
+        if (typeof ResizeObserver !== 'undefined') new ResizeObserver(syncTitleHeight).observe(title);
+    }
 
-    const panelHTML = (r) => `
-        <header class="exp-head">
-            <div>
-                <h3 class="exp-role">${r.role}</h3>
-                <p class="exp-org">${r.org}</p>
-            </div>
-            <div class="exp-meta">
-                <span class="exp-chip">${r.dates}</span>
-                <span class="exp-chip exp-chip--place">${r.place}</span>
-            </div>
-        </header>
-        <ul class="exp-points">
-            ${r.points.map((p) => `<li>${p}</li>`).join('')}
-        </ul>
-        <div class="exp-stack" aria-label="Technologies used">
-            ${r.stack.map((s) => `<span>${s}</span>`).join('')}
-        </div>
-    `;
-
-    const setPanel = (i) => {
-        const r = ROLES[i];
-        inner.innerHTML = panelHTML(r);
-        panel.id = `exp-panel-${r.id}`;
-        panel.setAttribute('aria-labelledby', `exp-tab-${r.id}`);
+    /* All three cards to one height. Roles have different numbers of bullets,
+       and in a stack that unevenness is the first thing you notice at the
+       exposed edges. Measured with offsetHeight, NOT getBoundingClientRect —
+       the scrub tween scales the cards, and a rect would feed the scaled
+       height back in and shrink them a little more on every pass. */
+    const equaliseCards = () => {
+        const cardEls = Array.from(mount.querySelectorAll('.swatch-card'));
+        if (!cardEls.length) return;
+        cardEls.forEach((c) => { c.style.minHeight = ''; });
+        const tallest = Math.max(...cardEls.map((c) => c.offsetHeight));
+        cardEls.forEach((c) => { c.style.minHeight = `${Math.ceil(tallest)}px`; });
+        // Equalising changes the page height, so every ScrollTrigger measured
+        // before this point is now pointing at the wrong scroll offsets — the
+        // stack's scrub tweens simply never fired.
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
     };
+    equaliseCards();
+    if (document.fonts?.ready) document.fonts.ready.then(equaliseCards);
 
-    const animateIn = () => {
-        if (!hasGsap() || prefersReducedMotion()) return;
-        const bits = inner.querySelectorAll('.exp-head, .exp-points li, .exp-stack span');
-        gsap.fromTo(
-            bits,
-            { y: 16, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.45, ease: 'power2.out', stagger: 0.05, clearProps: 'transform' }
-        );
-    };
+    /* Re-equalise on WIDTH changes only. A plain resize listener missed cases
+       where the box changed without a window resize event, and observing the
+       box unconditionally would loop — setting min-height changes the observed
+       height, which would fire the observer again. Width is safe: min-height
+       cannot alter it. */
+    const stackEl = mount.querySelector('.swatch-stack');
+    if (stackEl && typeof ResizeObserver !== 'undefined') {
+        let lastW = 0;
+        new ResizeObserver((entries) => {
+            const w = Math.round(entries[0].contentRect.width);
+            if (w === lastW) return;
+            lastW = w;
+            equaliseCards();
+        }).observe(stackEl);
+    }
 
-    const select = (i, focus = false) => {
-        if (i === active || animating) return;
-        const dir = i > active ? 1 : -1;      // travel direction of the switch
-        active = i;
+    if (!hasGsap() || reducedMotion()) return;
 
-        tabs.forEach((tab, j) => {
-            tab.classList.toggle('is-active', j === i);
-            tab.setAttribute('aria-selected', String(j === i));
-            tab.tabIndex = j === i ? 0 : -1;
-        });
-        if (focus) tabs[i].focus();
+    const cards = Array.from(mount.querySelectorAll('.swatch-card'));
 
-        if (hasGsap() && !prefersReducedMotion()) {
-            animating = true;
+    // `filter` must start from an explicit numeric value — tweening from a
+    // computed `none` does not interpolate and flashes the card to black
+    gsap.set(cards, { filter: 'brightness(1)' });
 
-            // the chain-stitch rail is pulled taut toward the new knot
-            const rail = mount.querySelector('.exp-tabs');
-            if (rail) {
-                gsap.fromTo(rail, { y: dir * -5 }, { y: 0, duration: 0.8, ease: 'elastic.out(1, 0.4)' });
+    cards.forEach((card, i) => {
+        const next = cards[i + 1];
+        if (!next) return;
+        // as the NEXT card climbs over this one, this one recedes: a small
+        // scale-down plus a dim, driven by that card's travel. Scrubbed on
+        // purpose — this is a depth cue tied to scroll position, not an
+        // entrance with a duration of its own.
+        gsap.to(card, {
+            scale: 0.955,
+            filter: 'brightness(0.94)',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: next.parentElement,
+                start: 'top 92%',
+                end: 'top 22%',
+                scrub: 0.4
             }
+        });
+    });
 
-            // contents leave opposite to the direction they'll arrive from
-            const leaving = inner.querySelectorAll('.exp-head, .exp-points li, .exp-stack span');
-            gsap.to(leaving, {
-                y: dir * -14,
-                opacity: 0,
-                duration: 0.16,
-                ease: 'power2.in',
-                stagger: { each: 0.03, from: dir > 0 ? 'end' : 'start' },
-                onComplete: () => {
-                    setPanel(i);
-                    gsap.set(inner, { y: 0, opacity: 1 });
-                    const arriving = inner.querySelectorAll('.exp-head, .exp-points li, .exp-stack span');
-                    gsap.fromTo(arriving,
-                        { y: dir * 16, opacity: 0 },
-                        {
-                            y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)',
-                            stagger: { each: 0.05, from: dir > 0 ? 'start' : 'end' }
-                        });
-                    animating = false;
-                }
-            });
-        } else {
-            setPanel(i);
-        }
-    };
-
-    // the active knot breathes — two incommensurate waves, never a fixed sine
-    if (!prefersReducedMotion()) {
-        const G = MOTION.GLOW_PULSE;
-        let phase = Math.random() * 10;
-        onTick((dt) => {
-            phase += dt;
-            const dot = tabs[active]?.querySelector('.exp-tab-dot');
-            if (!dot) return;
-            const breath =
-                G.base +
-                Math.sin(phase / G.a) * 0.22 +
-                Math.sin(phase / G.b + 1.7) * 0.16;
-            dot.style.opacity = Math.max(0.35, Math.min(1, breath)).toFixed(3);
+    /* Once the pile is complete and the section starts to leave, the heading
+       goes FIRST — it fades out before the released stack can scroll up into
+       its band, so the two never overlap. Runs ahead of the last card's own
+       recede window (bottom 95% -> 45%). */
+    if (title) {
+        /* Function-based start/end from offsetTop, not element-rect strings:
+           'bottom 98%' on this trigger measured wrong (and differently on
+           every refresh) because the tween's own target is the sticky title
+           inside the measured section. offsetTop is layout-absolute and
+           immune to scroll-position and sticky-state at measure time. */
+        gsap.to(title, {
+            opacity: 0,
+            y: -14,
+            ease: 'none',
+            scrollTrigger: {
+                start: () => section.offsetTop + section.offsetHeight - innerHeight * 0.78,
+                end: () => section.offsetTop + section.offsetHeight - innerHeight * 0.675,
+                scrub: true
+            }
         });
     }
 
-    tabs.forEach((tab) => {
-        tab.addEventListener('click', () => select(Number(tab.dataset.index)));
-    });
+    /* The LAST card has no successor to recede under, so it stayed at full
+       size while the two beneath it shrank — the pile ended on a mismatch.
+       It recedes against the section's own exit instead, so by the time you
+       scroll off, all three are at the same scale. */
+    const last = cards[cards.length - 1];
+    if (last) {
+        gsap.to(last, {
+            scale: 0.955,
+            filter: 'brightness(0.94)',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: section,
+                start: 'bottom 95%',
+                end: 'bottom 45%',
+                scrub: 0.4
+            }
+        });
+    }
 
-    mount.querySelector('.exp-tabs').addEventListener('keydown', (e) => {
-        const dir = (e.key === 'ArrowDown' || e.key === 'ArrowRight') ? 1
-                  : (e.key === 'ArrowUp' || e.key === 'ArrowLeft') ? -1 : 0;
-        if (dir) {
-            e.preventDefault();
-            select((active + dir + ROLES.length) % ROLES.length, true);
-        } else if (e.key === 'Home') {
-            e.preventDefault();
-            select(0, true);
-        } else if (e.key === 'End') {
-            e.preventDefault();
-            select(ROLES.length - 1, true);
-        }
+    // cards fade in place — no travel across the garden behind them
+    cards.forEach((card) => {
+        gsap.from(card, {
+            opacity: 0,
+            duration: 0.65,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: card.parentElement, start: 'top 92%', once: true }
+        });
     });
-
-    setPanel(0);
 }

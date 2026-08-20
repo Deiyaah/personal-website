@@ -185,44 +185,7 @@ export function shellEdging(x1, y, x2, opts = {}) {
     return g;
 }
 
-/** Granny square: concentric rounds, grouped so it can draw outward. */
-export function grannySquare(cx, cy, size, opts = {}) {
-    const g = svgEl('g', threadAttrs(opts.color || 'currentColor', opts.thickness));
-    const rounds = opts.rounds || 3;
-    // round 0: center ring
-    const r0 = svgEl('g', { class: 'granny-round' });
-    r0.appendChild(svgEl('circle', { cx, cy, r: size * 0.14, fill: 'none' }));
-    g.appendChild(r0);
-    // outer rounds: rounded squares with cluster dashes
-    for (let i = 1; i <= rounds; i++) {
-        const half = (size / 2) * (i / rounds);
-        const round = svgEl('g', { class: 'granny-round' });
-        round.appendChild(svgEl('rect', {
-            x: cx - half + jit(), y: cy - half + jit(),
-            width: half * 2, height: half * 2,
-            rx: half * 0.35,
-            fill: 'none',
-            'stroke-dasharray': `${STITCH.LENGTH * 0.8} ${STITCH.GAP * 0.6}`
-        }));
-        g.appendChild(round);
-    }
-    return g;
-}
 
-/** Reveal a primitive the way a hand works it: children in order. */
-export function drawIn(group, opts = {}) {
-    if (typeof gsap === 'undefined') return;
-    const kids = group.querySelectorAll(':scope > g, :scope > line, :scope > ellipse, :scope > circle, :scope > rect, :scope > path');
-    gsap.fromTo(kids,
-        { opacity: 0, scale: 0.6, transformOrigin: 'center' },
-        {
-            opacity: 1, scale: 1,
-            duration: opts.duration || 0.4,
-            ease: 'back.out(2)',
-            stagger: opts.stagger ?? 0.05,
-            delay: opts.delay || 0
-        });
-}
 
 /** French knot: a small raised dot with a highlight. */
 export function frenchKnot(cx, cy, opts = {}) {

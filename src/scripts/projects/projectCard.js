@@ -1,57 +1,37 @@
 /**
- * Project card
+ * Project tiles.
+ * Deliberately NOT `.project-card` — that class still has a large block of
+ * rules from the original design that expect a different inner structure
+ * (.project-image / .project-content) and would resurrect stray decoration.
  */
 
-import { createDemoModal } from './projectDemo.js';
-
 export function createProjectCard(project) {
-    const card = document.createElement('article');
-    card.className = 'project-card';
-    card.dataset.projectId = project.id;
+    const tile = document.createElement('article');
+    tile.className = 'project-tile';
+    tile.dataset.projectId = project.id;
 
     const links = [];
     if (project.liveUrl && project.liveUrl !== '#') {
-        links.push(`<a href="${project.liveUrl}" class="project-link" target="_blank" rel="noreferrer" aria-label="View live project">↗</a>`);
+        links.push(`<a class="project-out" href="${project.liveUrl}" target="_blank" rel="noreferrer">live &#8599;</a>`);
     }
     if (project.githubUrl && project.githubUrl !== '#') {
-        links.push(`<a href="${project.githubUrl}" class="project-github" target="_blank" rel="noreferrer" aria-label="View on GitHub">⌥</a>`);
-    }
-    if (project.hasDemo) {
-        links.push(`<button type="button" class="project-demo-btn" aria-label="View demo">▶</button>`);
+        links.push(`<a class="project-out" href="${project.githubUrl}" target="_blank" rel="noreferrer">code &#8599;</a>`);
     }
 
-    card.innerHTML = `
-        <div class="project-image">
-            <div class="project-placeholder">${project.icon}</div>
-            <div class="project-overlay">${links.join('')}</div>
-        </div>
-        <div class="project-content">
-            <h3 class="project-title">${project.title}</h3>
-            <p class="project-description">${project.description}</p>
-            <div class="project-tags">
-                ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join('')}
-            </div>
-        </div>
+    tile.innerHTML = `
+        <h3 class="project-title">${project.title}</h3>
+        <p class="project-desc">${project.description}</p>
+        <p class="project-tech">${project.tags.join(' &middot; ')}</p>
+        <div class="project-links">${links.join('')}</div>
     `;
-
-    if (project.hasDemo) {
-        const demoBtn = card.querySelector('.project-demo-btn');
-        demoBtn?.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            createDemoModal(project);
-        });
-    }
-
-    return card;
+    return tile;
 }
 
 export function renderProjects(projects, containerSelector = '.projects-grid') {
     const container = document.querySelector(containerSelector);
     if (!container) return;
-
     container.innerHTML = '';
-    projects.forEach((project) => {
-        container.appendChild(createProjectCard(project));
-    });
+    container.classList.remove('projects-list');
+    container.classList.add('projects-tiles');
+    projects.forEach((p) => container.appendChild(createProjectCard(p)));
 }

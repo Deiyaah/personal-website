@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diyaa Yadav — Software Engineer</title>
     <meta name="description" content="Diyaa Yadav — Computer Engineering (Software) at the University of Alberta. Building multi-tenant SaaS, cloud infrastructure, and playful full-stack tools.">
-    <meta name="color-scheme" content="dark light">
+    <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#07091a" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f5f4fd" media="(prefers-color-scheme: light)">
     <meta property="og:title" content="Diyaa Yadav — Software Engineer">
@@ -14,11 +14,11 @@
     <meta property="og:url" content="https://diyaayadav.com/">
     <link rel="canonical" href="https://diyaayadav.com/">
     <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><radialGradient id="g" cx="32%25" cy="28%25" r="72%25"><stop offset="0%25" stop-color="%23d8ccff"/><stop offset="55%25" stop-color="%238b7ff0"/><stop offset="100%25" stop-color="%23372a85"/></radialGradient></defs><circle cx="20" cy="20" r="16" fill="url(%23g)"/><g fill="none" stroke="%23241a5e" stroke-opacity="0.55" stroke-width="1.4" stroke-linecap="round"><path d="M8 17 C13 8, 20 7, 26 10 C31 13, 33 18, 32 23"/><path d="M9 25 C15 31, 24 32, 30 27"/><path d="M10 12 C17 15, 25 15, 31 13"/></g></svg>'>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=36">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="image" href="assets/garden/tree.webp" fetchpriority="high">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..800,0..30,0..1&family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..800,0..30,0..1&family=Playfair+Display:wght@600;700;800&family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="assets/vendor/gsap.min.js" defer></script>
     <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
     <!-- Vercel Web Analytics (plain-HTML variant of @vercel/analytics) -->
@@ -26,9 +26,9 @@
     <script>
         (function () {
             const theme = localStorage.getItem('portfolio-theme');
-            let scheme = 'dark';
+            let scheme = 'light';
             if (theme) {
-                try { scheme = JSON.parse(theme).colorScheme || 'dark'; } catch (e) {}
+                try { scheme = JSON.parse(theme).colorScheme || 'light'; } catch (e) {}
             }
             document.documentElement.classList.add(`theme-${scheme}`);
         })();
@@ -58,7 +58,6 @@
             <li><a class="nav-link" href="#about">about</a></li>
             <li><a class="nav-link" href="#experience">experience</a></li>
             <li><a class="nav-link" href="#projects">projects</a></li>
-            <li><a class="nav-link" href="findout.html">find out</a></li>
             <li><a class="nav-link" href="#contact">contact</a></li>
         </ul>
         <div class="nav-controls">
@@ -74,13 +73,53 @@
     <!-- Fixed embroidery art layer: rotates in the hero, then hosts the growing vines -->
     <div id="garden" class="garden" aria-hidden="true">
         <div class="garden-rotor">
-            <!-- full-bleed ground strip, tiled on X across the whole layer width -->
-            <div class="garden-ground"></div>
             <!-- the tree, anchored at the trunk (x = --tree-x), rises from the ground -->
-            <picture>
-                <source type="image/webp" srcset="assets/garden/tree.webp 1x, assets/garden/tree@2x.webp 2x">
-                <img class="garden-tree" src="assets/garden/tree.png" alt="" width="800" height="1200" fetchpriority="high" decoding="async">
-            </picture>
+            <!-- the wrap shrink-wraps the tree image, so the tip anchors
+                 inside it are positioned in the ASSET's own coordinate space
+                 and inherit the rotor's rotation for free -->
+            <div class="garden-tree-wrap">
+                <picture>
+                    <source type="image/webp" srcset="assets/garden/tree.webp 1x, assets/garden/tree@2x.webp 2x">
+                    <img class="garden-tree" src="assets/garden/tree.png" alt="" width="806" height="900" fetchpriority="high" decoding="async">
+                </picture>
+                <i class="tree-tip" style="left:11.38%;top:14.74%"></i>
+                <i class="tree-tip" style="left:30.59%;top:14.97%"></i>
+                <i class="tree-tip" style="left:37.72%;top:3.74%"></i>
+                <i class="tree-tip" style="left:62.38%;top:2.94%"></i>
+                <i class="tree-tip" style="left:69.99%;top:18.96%"></i>
+                <i class="tree-tip" style="left:83.09%;top:28.67%"></i>
+            </div>
+
+        </div>
+
+        <!-- Ground and everything growing in it stay PINNED to the viewport.
+             Only the tree turns, so the horizon never leaves frame. -->
+        <div class="garden-ground"></div>
+        <div class="garden-scene">
+            <!-- a continuous meadow, not props placed on the ground -->
+            <div class="garden-meadow"></div>
+        </div>
+
+        <!-- A few of the meadow's OWN flowers brought in front of the trunk.
+             Same asset, same scale, just offset horizontally and masked to a
+             couple of clumps — so it reads as depth in one continuous meadow
+             rather than as separate props sitting on top. -->
+        <div class="garden-fore"></div>
+
+        <!-- gulls by day; sparkles and french knots after dark -->
+        <div class="garden-birds">
+            <svg class="bird is-sparkle" style="--x:7vw;--y:15vh;--s:1.0;--r:-8deg;--d:0.0s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-sparkle" style="--x:15vw;--y:8vh;--s:0.7;--r:6deg;--d:-1.7s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-knot" style="--x:22vw;--y:18vh;--s:0.84;--r:-4deg;--d:-3.4s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-sparkle" style="--x:31vw;--y:11vh;--s:0.6;--r:9deg;--d:-5.1s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-sparkle" style="--x:38vw;--y:21vh;--s:0.76;--r:-7deg;--d:-6.8s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-knot" style="--x:12vw;--y:27vh;--s:0.54;--r:11deg;--d:-8.5s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-sparkle" style="--x:27vw;--y:29vh;--s:0.64;--r:-10deg;--d:-10.2s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-sparkle" style="--x:44vw;--y:14vh;--s:0.48;--r:5deg;--d:-11.9s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-knot" style="--x:19vw;--y:35vh;--s:0.45;--r:8deg;--d:-13.6s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-sparkle" style="--x:34vw;--y:39vh;--s:0.4;--r:-6deg;--d:-15.3s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-sparkle" style="--x:49vw;--y:26vh;--s:0.56;--r:-9deg;--d:-17.0s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
+            <svg class="bird is-knot" style="--x:9vw;--y:42vh;--s:0.36;--r:7deg;--d:-18.7s" viewBox="0 0 48 26" aria-hidden="true"><path class="bird-gull" d="M2 2 C8.5 8.5 15 14.5 20.5 19 C22 21.2 26 21.2 27.5 19 C33 14.5 39.5 8.5 46 2 C40.5 11 34.5 17.5 29.5 22.6 C27 25.4 21 25.4 18.5 22.6 C13.5 17.5 7.5 11 2 2 Z"/><path class="bird-star" d="M24 1 C25 9 27 12 35 13 C27 14 25 17 24 25 C23 17 21 14 13 13 C21 12 23 9 24 1 Z"/><circle class="bird-knot" cx="24" cy="13" r="3.1"/></svg>
         </div>
     </div>
 
@@ -88,10 +127,10 @@
         <header class="hero">
             <div class="hero-copy">
                 <h1 class="hero-brand">Diyaa Yadav</h1>
-                <p class="hero-line">Building friendly products — stitched with code.</p>
+                <p class="hero-line">I code. I craft. I create.</p>
                 <div class="hero-actions">
                     <a class="btn btn-primary" href="#projects">see projects</a>
-                    <a class="btn btn-ghost" href="findout.html">find out →</a>
+                    <a class="btn btn-ghost" href="#contact">contact →</a>
                 </div>
             </div>
             <a class="hero-scroll" href="#about" aria-label="Scroll to about section">
@@ -104,32 +143,21 @@
     <section id="about" class="section about">
         <div class="container">
             <h2 class="section-title">about</h2>
-            <div class="about-grid">
-                <p class="about-lead">
-                    Computer Engineering (Software) at the University of Alberta.
-                    I ship multi-tenant SaaS, cloud infrastructure, and playful full-stack tools —
-                    from Spring Boot + React platforms to Rust multiplayer games.
-                </p>
-                <div class="about-points">
-                    <div class="about-point">
-                        <h3>study</h3>
-                        <p>BSc Computer Engineering, Software Option Co-op · graduating May 2026. AWS Cloud Practitioner.</p>
-                    </div>
-                    <div class="about-point">
-                        <h3>lead</h3>
-                        <p>VP Community, Engineering Students’ Society — 22 volunteers, orientation for 850+ first-years.</p>
-                    </div>
-                    <div class="about-point">
-                        <h3>build</h3>
-                        <p>AWS SaaS, Flutter + Firebase, Stripe Connect, real-time systems, AI-assisted engineering.</p>
-                    </div>
+            <p class="about-lead">
+                I&rsquo;m a Software Engineer. I build full-stack products:
+                <em>multi-tenant SaaS</em> and the <em>cloud infrastructure</em>
+                behind it, shipped to real users in production.
+            </p>
+            <dl class="about-facts">
+                <div>
+                    <dt>education</dt>
+                    <dd>BSc Computer Engineering, Software Option<br>University of Alberta</dd>
                 </div>
-            </div>
-            <div class="stats" aria-label="Quick stats">
-                <div class="stat"><span class="stat-num">3</span><span class="stat-label">internships</span></div>
-                <div class="stat"><span class="stat-num">4</span><span class="stat-label">featured projects</span></div>
-                <div class="stat"><span class="stat-num">100+</span><span class="stat-label">saas users shipped</span></div>
-            </div>
+                <div>
+                    <dt>graduated</dt>
+                    <dd>June 2026</dd>
+                </div>
+            </dl>
         </div>
     </section>
 
@@ -158,18 +186,18 @@
             <h2 class="section-title">contact</h2>
             <div class="contact-layout">
                 <div class="contact-aside">
-                    <p>Want to collaborate, chat, or say hi? Send a message — I read everything.</p>
+                    <p>Want to collaborate, chat, or say hi? Send a message.</p>
                     <div class="contact-links">
                         <a href="mailto:diyaa@ualberta.ca">diyaa@ualberta.ca</a>
                         <a href="https://www.linkedin.com/in/diyaayadav/" target="_blank" rel="noreferrer">linkedin</a>
                         <a href="https://github.com/Deiyaah" target="_blank" rel="noreferrer">github</a>
-                        <a href="findout.html">find out →</a>
                     </div>
                 </div>
                 <form class="contact-form" aria-label="Contact form">
                     <label><span>name</span><input id="name" name="name" type="text" autocomplete="name" required></label>
                     <label><span>email</span><input id="email" name="email" type="email" autocomplete="email" required></label>
                     <label><span>message</span><textarea id="message" name="message" rows="5" required></textarea></label>
+                    <label class="hp" aria-hidden="true"><span>company</span><input id="company" name="company" type="text" tabindex="-1" autocomplete="off"></label>
                     <button class="btn btn-primary" type="submit">send</button>
                     <p class="form-status" role="status" aria-live="polite"></p>
                 </form>
@@ -184,7 +212,6 @@
                 <a href="#top">top</a>
                 <a href="#experience">experience</a>
                 <a href="#projects">projects</a>
-                <a href="findout.html">find out</a>
                 <a href="#contact">contact</a>
             </div>
         </div>

@@ -2,26 +2,20 @@ export const projects = [
     {
         id: 'lab-inventory',
         title: 'Lab Inventory Management',
-        description: 'Capstone: AI-first inventory system — Codex for app code, Spec-Kit for specs/APIs/architecture, with structured human review.',
+        description: 'Capstone: an AI-first inventory system using Codex for app code and Spec-Kit for specs, APIs and architecture, with structured human review.',
         icon: '🧪',
         tags: ['Python', 'Codex', 'Speckit'],
         liveUrl: '#',
-        githubUrl: 'https://github.com/Deiyaah',
-        hasDemo: false,
-        demoUrl: null,
-        demoType: null
+        githubUrl: 'https://github.com/Deiyaah'
     },
     {
         id: 'poker-time',
         title: 'Poker Time',
-        description: 'Full-stack multiplayer poker — Rust server, React client, WebSockets, SQLite. Up to 10 concurrent players and multiple variants.',
+        description: 'Full-stack multiplayer poker built on a Rust server with a React client over WebSockets and SQLite. Up to 10 concurrent players and multiple variants.',
         icon: '♠️',
         tags: ['Rust', 'React', 'WebSockets', 'SQLite'],
         liveUrl: '#',
-        githubUrl: 'https://github.com/Deiyaah',
-        hasDemo: false,
-        demoUrl: null,
-        demoType: null
+        githubUrl: 'https://github.com/Deiyaah'
     },
     {
         id: 'eventify',
@@ -30,33 +24,21 @@ export const projects = [
         icon: '📱',
         tags: ['Java', 'Firebase', 'GCP', 'Android'],
         liveUrl: '#',
-        githubUrl: 'https://github.com/Deiyaah',
-        hasDemo: false,
-        demoUrl: null,
-        demoType: null
+        githubUrl: 'https://github.com/Deiyaah'
     },
     {
         id: 'kessler-fuzzy',
         title: 'Kessler Fuzzy Agent',
-        description: 'Genetic algorithms + fuzzy control for aiming and collision avoidance in Kessler Game — optimizing AI hyperparameters.',
+        description: 'Genetic algorithms and fuzzy control for aiming and collision avoidance in Kessler Game, tuning the AI hyperparameters.',
         icon: '🚀',
         tags: ['Python', 'scikit-fuzzy', 'EasyGA'],
         liveUrl: '#',
-        githubUrl: 'https://github.com/Deiyaah',
-        hasDemo: false,
-        demoUrl: null,
-        demoType: null
+        githubUrl: 'https://github.com/Deiyaah'
     }
 ];
 
-export function getProjectById(id) {
-    return projects.find((project) => project.id === id);
-}
 
 export function getAllProjects() {
     return projects;
 }
 
-export function getProjectsWithDemos() {
-    return projects.filter((project) => project.hasDemo);
-}

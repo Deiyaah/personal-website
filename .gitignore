@@ -1,5 +1,23 @@
+# dependencies
 node_modules/
-.vercel/
-.DS_Store
+
+# build / deploy
 .vercel
-.env*.local
+.vercel/
+
+# secrets — never commit
+.env
+.env.*
+!.env.example
+
+# local dev only
+serve.json
+
+# agent tooling
+.claude/
+.agents/
+CLAUDE.md
+AGENTS.md
+
+# os
+.DS_Store

@@ -2,7 +2,7 @@ import { initTheme } from '../utils/themeManager.js';
 import { initThemeToggles } from '../components/themeToggle.js';
 import { initNavigation } from '../components/navigation.js';
 import { initGarden } from '../components/garden.js';
-import { initReveals, initStatCount } from '../components/animations.js';
+import { initReveals } from '../components/animations.js';
 import { initProjects } from '../projects/index.js';
 import { initExperience } from '../components/experience.js';
 import { initInteractions } from '../components/interactions.js';
@@ -17,7 +17,6 @@ function init() {
     initExperience();
     initGarden();         // the embroidered plant: hero flip + section-anchored growth
     initReveals();
-    initStatCount();
     initInteractions();
     initContactForm();
     initStitchwork();     // decorate after all components exist in the DOM
