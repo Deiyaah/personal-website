@@ -74,10 +74,17 @@ export default async function handler(req, res) {
         });
 
         if (!resend.ok) {
+            // Log the upstream reason so it is diagnosable in Vercel logs.
+            // Safe to log: Resend's error body describes the rejection (bad
+            // sender domain, unverified address, quota) and never contains
+            // the key, which only ever travels in the Authorization header.
+            const detail = await resend.text().catch(() => '');
+            console.error('[contact] resend rejected', resend.status, detail.slice(0, 400));
             return res.status(502).json({ error: 'Could not send right now. Please email me directly.' });
         }
         return res.status(200).json({ ok: true });
-    } catch {
+    } catch (err) {
+        console.error('[contact] request failed', err?.message || String(err));
         return res.status(502).json({ error: 'Could not send right now. Please email me directly.' });
     }
 }
