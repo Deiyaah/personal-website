@@ -6,9 +6,9 @@
  * animate. Primitives are built once per component and cached; frames
  * rebuild only on resize.
  *
- * Primitives: runningStitch, backstitch, blanketStitch, chainStitch,
+ * Primitives: runningStitch, blanketStitch, chainStitch,
  * crossStitch, frenchKnot. Decorators apply them to cards, buttons,
- * links, dividers, and headings.
+ * dividers, and headings.
  */
 
 /* Every stitch tunable in one place */
@@ -57,23 +57,6 @@ export function runningStitch(x1, y1, x2, y2, opts = {}) {
         const ex = x1 + ux * (d + (opts.length || STITCH.LENGTH)) + jit();
         const ey = y1 + uy * (d + (opts.length || STITCH.LENGTH)) + jit();
         g.appendChild(svgEl('line', { x1: sx, y1: sy, x2: ex, y2: ey }));
-    }
-    return g;
-}
-
-/** Backstitch: continuous line of touching segments with slight jitter. */
-export function backstitch(x1, y1, x2, y2, opts = {}) {
-    const g = svgEl('g', threadAttrs(opts.color || 'currentColor', opts.thickness));
-    const len = Math.hypot(x2 - x1, y2 - y1);
-    const ux = (x2 - x1) / len;
-    const uy = (y2 - y1) / len;
-    const step = opts.length || STITCH.LENGTH;
-    let px = x1, py = y1;
-    for (let d = step; d <= len + 0.1; d += step) {
-        const nx = x1 + ux * Math.min(d, len) + jit();
-        const ny = y1 + uy * Math.min(d, len) + jit();
-        g.appendChild(svgEl('line', { x1: px, y1: py, x2: nx, y2: ny }));
-        px = nx; py = ny;
     }
     return g;
 }
@@ -272,18 +255,6 @@ function stitchButton(btn) {
     }).observe(btn);
 }
 
-/** Backstitch underline that draws in on hover (scaleX, not fade). */
-function stitchLink(link) {
-    const svg = svgEl('svg', { class: 'stitch-underline', 'aria-hidden': 'true' });
-    const w = Math.max(link.offsetWidth, 24);
-    svg.setAttribute('viewBox', `0 0 ${w} 6`);
-    svg.style.width = '100%';
-    svg.style.height = '6px';
-    svg.appendChild(backstitch(1, 3, w - 1, 3, { color: 'currentColor', thickness: 2 }));
-    link.classList.add('has-stitch-underline');
-    link.appendChild(svg);
-}
-
 /** Full-width running stitch divider with terminal knots. */
 function makeDivider() {
     const wrap = document.createElement('div');
@@ -461,11 +432,6 @@ export function initStitchwork() {
 
     // Buttons → embroidered patches with satin borders
     document.querySelectorAll('.btn').forEach((btn) => stitchButton(btn));
-
-    // Links → backstitch draw-in underlines
-    document
-        .querySelectorAll('.contact-links a, .footer-links a')
-        .forEach((a) => stitchLink(a));
 
     // Section dividers
     document.querySelectorAll('.section .container').forEach((c) => {

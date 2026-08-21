@@ -1228,12 +1228,6 @@ p, li { max-width: 70ch; }
 }
 
 /* Backstitch link underlines draw in */
-.has-stitch-underline {
-    position: relative;
-    display: inline-block;
-    text-shadow: 0 1px 1px var(--thread-shadow);
-}
-
 /* Dividers */
 .stitch-divider {
     margin-bottom: 2rem;
@@ -2648,16 +2642,6 @@ body { font-size: var(--fs-base); }
     text-decoration-thickness: 1px;
 }
 
-/* The stitched underline read as a row of loose dashes lying on the soil, and
-   its 6px svg inflated each link's box to 42px — which, bottom-aligned, hauled
-   the link TEXT back up into the flower stems while only the dashes sat in the
-   brown. Footer links are plain text; the hover underline replaces the stitch. */
-.footer-links a .stitch-underline { display: none; }
-
-.footer-links a.has-stitch-underline {
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
-    line-height: 1.6;
-}
 
 /* The clear soil below the stems is only ~43px on a phone — two rows cannot
    fit in it, and nowrap crushed "made with care by diyaa" into a 70px column
@@ -2680,4 +2664,52 @@ body { font-size: var(--fs-base); }
     color: inherit;
     text-decoration: underline;
     text-underline-offset: 2px;
+}
+
+
+/* =========================================================
+   CONTACT LINKS — a compartment, not three bare links
+   They sat straight on the linen under hand-drawn lavender backstitches,
+   which read as stray thread rather than as a control. Now they are one
+   panel that mirrors the form beside them: same border, radius, surface
+   and blur, with each address a full row that lights up on hover.
+   ========================================================= */
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0.4rem;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--surface);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    max-width: 22rem;
+}
+
+.contact-links a {
+    /* rows, not fitted text — the whole row is the hit area */
+    width: auto;
+    padding: 0.72rem 0.85rem;
+    border-radius: 12px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* hairline rule between rows, drawn inside so it never meets the card edge */
+.contact-links a + a {
+    box-shadow: inset 0 1px 0 var(--line);
+}
+
+.contact-links a:hover,
+.contact-links a:focus-visible {
+    background: rgba(var(--linen-rgb), 0.55);
+    color: var(--ink);
+    /* the lavender glow belonged to the stitched underline */
+    text-shadow: none;
+}
+
+/* a hovered row owns its rounded corners, so hide the rule above it */
+.contact-links a:hover + a,
+.contact-links a:focus-visible + a {
+    box-shadow: none;
 }
