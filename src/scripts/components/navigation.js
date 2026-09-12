@@ -31,6 +31,24 @@ export function initNavigation() {
         return nav?.offsetHeight || 72;
     };
 
+    // --nav-h is the design token the navbar sizes itself from; the bar as
+    // rendered is taller than that. Publish the measured height separately so
+    // sections can reserve exactly the space the fixed header covers. Writing
+    // back into --nav-h would feed the navbar's own min-height and never
+    // shrink again.
+    const syncNavHeight = () => {
+        if (!navbar) return;
+        // floor, not round: the bar's real height is fractional, and rounding
+        // up leaves the section a sub-pixel short so the next one peeks through
+        const h = Math.floor(navbar.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--nav-real', `${h}px`);
+    };
+    syncNavHeight();
+    if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(syncNavHeight).observe(navbar);
+    }
+    window.addEventListener('resize', syncNavHeight, { passive: true });
+
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener('click', function (e) {
             const target = document.querySelector(this.getAttribute('href'));

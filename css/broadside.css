@@ -975,3 +975,27 @@
 .wavy-link.active {
     color: var(--ink);
 }
+
+/* =========================================================
+   Each section owns a screen. About and Contact are shorter
+   than the viewport, so landing on them showed the next
+   section's divider and heading creeping in underneath.
+   --nav-real is the measured header height (see navigation.js);
+   it falls back to the token before that script runs.
+   ========================================================= */
+:root {
+    --nav-real: var(--nav-h);
+}
+
+.section {
+    min-height: calc(100vh - var(--nav-real));
+    min-height: calc(100svh - var(--nav-real));
+}
+
+/* The hero reserves the header's real height too, so the first shelf band
+   is no longer tucked under the fixed bar at the top of the page. */
+.hero-broadside {
+    margin-top: var(--nav-real);
+    min-height: max(calc(100vh - var(--nav-real)), calc(var(--band-h) * 3));
+    min-height: max(calc(100svh - var(--nav-real)), calc(var(--band-h) * 3));
+}
