@@ -14,7 +14,10 @@ export function createProjectCard(project) {
     if (project.liveUrl && project.liveUrl !== '#') {
         links.push(`<a class="project-out" href="${project.liveUrl}" target="_blank" rel="noreferrer">live &#8599;</a>`);
     }
-    if (project.githubUrl && project.githubUrl !== '#') {
+    // GitHub links are hidden for now — set this back to true to restore the
+    // "code" link on every card. The URLs stay in projectData.js.
+    const SHOW_GITHUB_LINKS = false;
+    if (SHOW_GITHUB_LINKS && project.githubUrl && project.githubUrl !== '#') {
         links.push(`<a class="project-out" href="${project.githubUrl}" target="_blank" rel="noreferrer">code &#8599;</a>`);
     }
 

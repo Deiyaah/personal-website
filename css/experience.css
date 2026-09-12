@@ -1,0 +1,293 @@
+/* =========================================================
+   Experience — editorial index + detail panel (HMP structure)
+   Left: printed table-of-contents tabs · Right: hard-shadow card
+   ========================================================= */
+
+#experience .section-title {
+    margin-bottom: var(--spacing-8, 0.5rem);
+}
+
+.exp-layout {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.26fr) minmax(0, 1fr);
+    gap: var(--spacing-32);
+    align-items: start;
+    margin-top: var(--spacing-16);
+}
+
+/* ---- Index (left rail) ---- */
+.exp-index {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.exp-tab {
+    appearance: none;
+    width: 100%;
+    margin: 0;
+    /* Same inline padding whether or not the tab is active: adding it only
+       on .is-active re-wrapped the label and changed the rail's height. */
+    padding: 0.85rem 0.65rem;
+    border: 0;
+    border-top: 1px solid var(--ink);
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-chromatica);
+    font-size: var(--text-body);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    /* --pastel-ink is a literal charcoal; on the lamplit ground it left
+       charcoal-on-charcoal. Theme-aware ink instead. */
+    color: var(--ink);
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.exp-tab:first-child {
+    border-top-width: 1px;
+}
+
+.exp-tab-label {
+    display: inline-block;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4 Q15 0 30 4 T60 4 T90 4 T120 4' fill='none' stroke='%23cfe8dd' stroke-width='2.5'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    background-size: 60px 6px;
+    padding-bottom: 0.3rem;
+}
+
+.exp-tab:hover,
+.exp-tab:focus-visible {
+    color: var(--primary-deep);
+}
+
+.exp-tab.is-active {
+    background: var(--pastel-peach);
+    box-shadow: var(--shadow-subtle);
+}
+
+.exp-tab.is-active .exp-tab-label {
+    /* Drop the running-stitch underline but keep the space it occupied —
+       zeroing the padding here changed the tab's height by ~5px. */
+    background-image: none;
+}
+
+.exp-tab-dates {
+    display: block;
+    margin-top: 0.25rem;
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: var(--ink-soft);
+}
+
+/* The active tab is peach in both themes — a light surface — so its text
+   stays charcoal rather than following the theme ink. */
+.exp-tab.is-active .exp-tab-label,
+.exp-tab.is-active .exp-tab-dates {
+    color: var(--color-soft-charcoal);
+}
+
+/* ---- Detail panel (right) ---- */
+/* Every panel lives in the same grid cell, so the stage measures the tallest
+   one and its height never changes when you switch tabs. Hidden panels use
+   visibility (not display:none) so they keep contributing that height. */
+.exp-stage {
+    position: relative;
+    display: grid;
+    min-height: 18rem;
+}
+
+.exp-panel {
+    grid-area: 1 / 1;
+    transition: opacity 0.25s ease;
+}
+
+.exp-panel:not(.is-active) {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.exp-panel.is-active {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .exp-panel {
+        transition: none;
+    }
+}
+
+.exp-panel {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--surface);
+    border: 1px solid var(--ink);
+    box-shadow: var(--shadow-subtle);
+    border-radius: 0;
+}
+
+.exp-panel-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-16) var(--spacing-32);
+    align-items: start;
+    padding-bottom: var(--spacing-16);
+    margin-bottom: var(--spacing-16);
+    border-bottom: 1px solid var(--pastel-pink);
+}
+
+.exp-panel-role {
+    margin: 0;
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-heading-sm);
+    font-weight: 500;
+    line-height: var(--leading-heading-sm);
+    color: var(--ink);
+}
+
+.exp-panel-org {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-chromatica);
+    font-size: var(--text-subheading);
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.exp-panel-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    text-align: right;
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-caption);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+}
+
+.exp-panel-points {
+    list-style: none;
+    margin: 0 0 var(--spacing-24, 1.5rem);
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.exp-panel-points li {
+    position: relative;
+    padding-left: 1.1rem;
+    /* styles.css sets a global `p, li { max-width: 70ch }` readability measure,
+       which capped these at 658px and wrapped every bullet onto a second line.
+       The resume-length lines need ~79ch, and the panel now has the room. */
+    max-width: none;
+    font-family: var(--font-chromatica);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--ink);
+}
+
+/* Tool and technology names, set the way the resume sets them */
+.exp-panel-points strong {
+    font-weight: 600;
+}
+
+.exp-panel-points li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    background: var(--color-mint-cream);
+    box-shadow: 0 0 0 1px var(--ink);
+}
+
+.exp-panel-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: var(--spacing-16);
+    border-top: 1px solid var(--pastel-lavender);
+}
+
+.exp-panel-tech span {
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-caption);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    background: var(--pastel-mint);
+    color: var(--pastel-ink);
+}
+
+/* Panel enter animation (CSS fallback + GSAP enhancement) */
+.exp-panel-inner {
+    will-change: opacity, transform;
+}
+
+.exp-panel-inner.is-entering {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .exp-panel-inner,
+    .exp-panel-inner.is-entering {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* ---- Mobile: stack index above panel ---- */
+@media (max-width: 767px) {
+    .exp-layout {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-32);
+    }
+
+    .exp-index {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .exp-tab {
+        width: auto;
+        flex: 1 1 calc(50% - 0.5rem);
+        border: 1px solid var(--ink);
+        padding: 0.65rem 0.75rem;
+    }
+
+    .exp-tab:first-child {
+        border-top-width: 1px;
+    }
+
+    .exp-tab-dates {
+        font-size: 0.72rem;
+    }
+
+    .exp-panel-head {
+        grid-template-columns: 1fr;
+    }
+
+    .exp-panel-meta {
+        text-align: left;
+    }
+}
+
+.theme-dark .exp-panel {
+    background: var(--surface);
+    box-shadow: var(--shadow-subtle);
+}

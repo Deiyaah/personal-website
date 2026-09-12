@@ -1,7 +1,6 @@
 import { initTheme } from '../utils/themeManager.js';
 import { initThemeToggles } from '../components/themeToggle.js';
 import { initNavigation } from '../components/navigation.js';
-import { initGarden } from '../components/garden.js';
 import { initReveals } from '../components/animations.js';
 import { initProjects } from '../projects/index.js';
 import { initExperience } from '../components/experience.js';
@@ -15,7 +14,7 @@ function init() {
     initNavigation();
     initProjects();       // render cards before motion hooks bind to them
     initExperience();
-    initGarden();         // the embroidered plant: hero flip + section-anchored growth
+    // initGarden(); — replaced by illustrated shelf-band hero
     initReveals();
     initInteractions();
     initContactForm();

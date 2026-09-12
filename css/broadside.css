@@ -1,0 +1,853 @@
+/* =========================================================
+   How Many Skeins broadside layout — fiber-arts editorial system
+   Shelf bands, mint running-stitch links, hard peach offsets.
+   ========================================================= */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Hide legacy garden hero */
+.garden,
+.hero-wrap {
+    display: none !important;
+}
+
+/* Wavy pastel underline */
+.wavy-link {
+    text-decoration: none;
+    color: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4 Q15 0 30 4 T60 4 T90 4 T120 4' fill='none' stroke='%23cfe8dd' stroke-width='2.5'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    background-size: 60px 6px;
+    padding-bottom: 0.35rem;
+    transition: color 0.2s ease;
+}
+
+.wavy-link:hover,
+.wavy-link.active,
+.nav-link.active {
+    color: var(--primary-deep);
+}
+
+/* Navigation — centered logo editorial bar */
+.navbar {
+    top: 0;
+    padding: var(--spacing-16) clamp(1rem, 4vw, 2.5rem);
+    min-height: var(--nav-h);
+    background: var(--nav-bg);
+    border-bottom: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-menu {
+    gap: 1.25rem;
+}
+
+.nav-menu-left {
+    justify-self: start;
+}
+
+.nav-mobile-only {
+    display: none;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    justify-self: end;
+}
+
+.nav-brand-center {
+    justify-self: center;
+    font-family: var(--font-hellenictypewriter);
+    font-size: clamp(0.75rem, 1.8vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+.nav-link {
+    font-family: var(--font-chromatica);
+    font-size: var(--text-body);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding-bottom: 0.35rem;
+}
+
+.nav-tab {
+    padding: 0.35rem 0.75rem;
+    background-image: none;
+}
+
+.nav-tab--gold {
+    background: var(--color-peach-sorbet);
+    color: var(--color-soft-charcoal);
+    box-shadow: none;
+}
+
+.nav-tab--lavender {
+    background: var(--color-mint-cream);
+    color: var(--color-soft-charcoal);
+    box-shadow: none;
+}
+
+.nav-tab {
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-tab:hover,
+.nav-tab:focus-visible {
+    box-shadow: var(--shadow-subtle);
+}
+
+/* Experience sits on peach and turns mint on hover — mint is the green in
+   this palette, so the swap stays inside the five tokens. */
+.nav-tab--gold:hover,
+.nav-tab--gold:focus-visible {
+    background: var(--color-mint-cream);
+}
+
+.nav-tab:hover {
+    color: var(--color-ink-black);
+}
+
+.nav-link::after {
+    display: none;
+}
+
+.btn-nav-ghost {
+    padding: 0.55rem 0.85rem !important;
+    min-width: auto;
+}
+
+.theme-color-toggle {
+    border-radius: 0;
+    width: auto;
+    height: auto;
+    border: 1px solid var(--color-ink-black);
+    background: transparent;
+}
+
+.theme-color-toggle:hover {
+    box-shadow: var(--shadow-subtle);
+    border-color: var(--color-ink-black);
+}
+
+/* Hero shelf system — one clean rule between rows, generous inner padding */
+/* The hero is only as tall as its three bands (~582px), so on any viewport
+   taller than that the next section crept above the fold. It now fills the
+   window below the fixed header: margin-top and the subtraction use the same
+   token, so the hero's bottom lands exactly on the fold at every height. On
+   viewports shorter than the bands, min-height simply does not apply and the
+   bands keep their natural size — the next section stays below either way. */
+.hero-broadside {
+    position: relative;
+    margin-top: var(--nav-h);
+    /* The hero still fills the window so the next section stays below the
+       fold, but the bands no longer stretch to fill it — they keep a fixed
+       height and the leftover space becomes cream above and below. */
+    --band-h: clamp(6.05rem, 12.7vw, 11.5rem);
+    min-height: max(calc(100vh - var(--nav-h)), calc(var(--band-h) * 3));
+    min-height: max(calc(100svh - var(--nav-h)), calc(var(--band-h) * 3));
+    /* Three strictly equal rows. Equal bands means the art in each scales by
+       the same factor, which is what makes the shelves line up. */
+    display: grid;
+    grid-template-rows: repeat(3, var(--band-h));
+    align-content: center;
+    background: var(--bg);
+}
+
+.shelf-row {
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    /* lets the surface stretch to the full row height */
+    display: flex;
+}
+
+/* The rules belong to the shelf, not the window: .shelf-row is full-bleed,
+   .shelf-surface is the centred 1200px column, so the bands stop where the
+   rest of the page's content stops instead of running edge to edge. */
+.shelf-row--1 .shelf-surface {
+    border-top: 6px solid var(--color-peach-sorbet);
+    border-bottom: 6px solid var(--color-peach-sorbet);
+}
+
+.shelf-row--2 .shelf-surface {
+    border-bottom: 6px solid var(--color-mint-cream);
+}
+
+.shelf-row--3 .shelf-surface {
+    border-bottom: 6px solid var(--color-peach-sorbet);
+}
+
+.shelf-surface {
+    position: relative;
+    width: min(var(--page-max-width), calc(100% - 3rem));
+    margin-inline: auto;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.5rem, 1.2vw, 1rem) 0;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+}
+
+/* The shelf art scales to the band's height, so an odd-sized band drew a
+   narrower shelf and its ground line stopped short of the others. All three
+   bands share one height, which is what lines the shelves up. */
+.shelf-surface--tagline {
+    padding-block: clamp(1.25rem, 3vw, 2rem);
+}
+
+.shelf-word {
+    position: relative;
+    z-index: 2;
+    display: block;
+    font-family: var(--font-chromatica);
+    font-size: clamp(3.15rem, 9.7vw, 7.26rem);
+    font-weight: 800;
+    line-height: var(--leading-display-stack);
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--ink);
+    flex-shrink: 0;
+    padding-block: 0.1em;
+}
+
+.shelf-word::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -0.35rem -2.25rem;
+    background: linear-gradient(90deg, transparent 0%, var(--color-cream-paper) 14%, var(--color-cream-paper) 86%, transparent 100%);
+    pointer-events: none;
+}
+
+.shelf-tagline {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    font-family: var(--font-hellenictypewriter);
+    font-size: clamp(1.27rem, 2.9vw, 2.06rem);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-dusty-plum);
+    text-shadow: none;
+    padding-block: 0.15em;
+}
+
+.shelf-tagline::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -0.25rem -1.75rem;
+    background: linear-gradient(90deg, transparent 0%, var(--color-cream-paper) 14%, var(--color-cream-paper) 86%, transparent 100%);
+    pointer-events: none;
+}
+
+.theme-dark .shelf-tagline {
+    color: var(--color-mint-cream);
+}
+
+.theme-dark .shelf-word::after,
+.theme-dark .shelf-tagline::after {
+    background: linear-gradient(90deg, transparent 0%, var(--bg) 14%, var(--bg) 86%, transparent 100%);
+}
+
+/* Fiber-arts shelf art — inline SVG so the book spines can carry real,
+   themed text. Every band uses the same viewBox and xMidYMax alignment, so
+   the shelves and their ground lines register across all three rows. */
+.shelf-art {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: var(--ink);
+    display: flex;
+    align-items: flex-end;
+}
+
+.shelf-art-svg {
+    display: block;
+    width: 100%;
+    /* One art box for every band. Row 1 carries a top border the others do
+       not, so its content box is 6px shorter — sizing the art to the band
+       itself made that row's shelf scale differently from the rest. */
+    height: calc(var(--band-h) - 12px);
+}
+
+.shelf-art-lines {
+    opacity: 0.5;
+}
+
+/* The spines stay legible — they are content, not texture */
+.shelf-spine-label {
+    font-family: var(--font-hellenictypewriter);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    opacity: 0.75;
+}
+
+/* Buttons — ghost outline, 0 radius */
+.btn {
+    border-radius: 0;
+    font-family: var(--font-chromatica);
+    font-size: var(--text-body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 12px 48px;
+}
+
+.btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    border: 1px solid var(--ink);
+    box-shadow: var(--shadow-subtle);
+}
+
+.btn-primary:hover {
+    box-shadow: var(--shadow-subtle);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--pastel-ink);
+    border: 1px solid var(--pastel-ink);
+    box-shadow: none;
+}
+
+.btn-ghost:hover {
+    box-shadow: var(--shadow-subtle);
+    color: var(--pastel-ink);
+    border-color: var(--pastel-ink);
+}
+
+.theme-dark .btn-ghost {
+    color: var(--ink);
+    border-color: var(--ink);
+}
+
+/* Sections — editorial rhythm */
+.section {
+    padding: var(--spacing-64) 0;
+}
+
+.about {
+    padding-top: var(--spacing-48) !important;
+}
+
+.stitch-divider {
+    margin-bottom: var(--spacing-32);
+}
+
+/* The About illustration was removed, so the second column has nothing to
+   hold — a two-column grid would leave the copy stranded in a half-width
+   gutter. Single column, with the copy measure capped for readability. */
+.editorial-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-48);
+    align-items: start;
+}
+
+.section-title {
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-heading);
+    font-weight: 500;
+    line-height: var(--leading-heading);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    margin-bottom: var(--spacing-32);
+}
+
+.section-title::after {
+    display: none;
+}
+
+.about-lead,
+.contact-aside p {
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    border-radius: 0;
+    font-family: var(--font-chromatica);
+    font-size: var(--text-subheading);
+    line-height: var(--leading-subheading);
+    font-weight: 400;
+}
+
+.editorial-illustration {
+    margin: 0;
+}
+
+.editorial-illustration svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Illustrations sit directly on the cream canvas: no frame, no shadow.
+       The object is the frame. */
+    color: var(--ink);
+}
+
+.about-facts dt {
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--primary-deep);
+    border-top: 1px solid var(--pastel-pink);
+    padding-top: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.about-facts dd {
+    font-family: var(--font-chromatica);
+    font-size: var(--text-body);
+    margin-bottom: var(--spacing-16);
+}
+
+/* Project tiles */
+.projects-grid,
+.projects-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-32);
+}
+
+.project-tile,
+.project-card {
+    padding: var(--card-padding);
+    background: var(--surface);
+    border: 1px solid var(--pastel-ink);
+    box-shadow: var(--shadow-mint);
+    border-radius: 0;
+}
+
+.theme-dark .project-tile,
+.theme-dark .project-card {
+    background: var(--surface);
+}
+
+.project-title {
+    font-family: var(--font-hellenictypewriter);
+    font-weight: 500;
+}
+
+.project-desc,
+.project-description {
+    font-family: var(--font-chromatica);
+}
+
+.project-tech,
+.tag {
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-caption);
+    background: var(--pastel-mint);
+    color: var(--pastel-ink);
+    border: none;
+    border-radius: 0;
+    padding: 0.25rem 0.5rem;
+}
+
+.project-out {
+    font-family: var(--font-chromatica);
+    text-transform: uppercase;
+    font-size: var(--text-caption);
+    letter-spacing: 0.08em;
+}
+
+/* Contact form — pastel paper card */
+.contact-form {
+    padding: var(--card-padding);
+    border: 1px solid var(--pastel-ink);
+    border-radius: 0;
+    background: var(--surface);
+    box-shadow: var(--shadow-sky);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-image: none;
+}
+
+.contact-form::before {
+    display: none;
+}
+
+.contact-form label span {
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.contact-form input,
+.contact-form textarea {
+    border-radius: 0;
+    border: 1px solid var(--ink);
+    font-family: var(--font-chromatica);
+    background: var(--surface);
+}
+
+.contact-links {
+    border-radius: 0;
+    border: 1px solid var(--pastel-ink);
+    box-shadow: var(--shadow-pink);
+    backdrop-filter: none;
+    background: var(--surface);
+}
+
+.contact-links a {
+    font-family: var(--font-chromatica);
+    color: var(--pastel-ink);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4 Q15 0 30 4 T60 4 T90 4 T120 4' fill='none' stroke='%23cfe8dd' stroke-width='2.5'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    background-size: 60px 6px;
+    padding-bottom: 0.35rem;
+}
+
+.contact-links a:hover {
+    color: var(--primary-deep);
+    background-color: var(--pastel-lavender);
+    text-shadow: none;
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid var(--line);
+    padding: var(--spacing-32) 0 var(--spacing-48);
+}
+
+.footer-mark {
+    font-family: var(--font-hellenictypewriter);
+    font-size: var(--text-caption);
+    font-style: italic;
+}
+
+.footer-links a {
+    font-family: var(--font-chromatica);
+    font-size: var(--text-body);
+    text-decoration: none;
+}
+
+/* Experience styles live in css/experience.css */
+
+@media (max-width: 768px) {
+    .navbar {
+        grid-template-columns: 1fr auto;
+        padding: var(--spacing-16) 1rem;
+    }
+
+    .nav-menu-left {
+        display: none;
+        position: fixed;
+        top: var(--nav-h, 72px);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        padding: var(--spacing-16);
+        background: var(--nav-bg);
+        border-bottom: 6px solid var(--pastel-lavender);
+        box-shadow: var(--shadow-subtle);
+        z-index: 99;
+    }
+
+    .nav-menu-left.is-open {
+        display: flex;
+    }
+
+    .nav-mobile-only {
+        display: list-item;
+    }
+
+    .nav-brand-center {
+        justify-self: start;
+        font-size: 0.72rem;
+    }
+
+    .nav-right {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    .nav-menu-right {
+        display: none;
+        position: fixed;
+        top: var(--nav-h, 72px);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        padding: var(--spacing-16);
+        background: var(--nav-bg);
+        border-bottom: 6px solid var(--pastel-lavender);
+        box-shadow: var(--shadow-subtle);
+    }
+
+    .nav-menu-right.is-open {
+        display: flex;
+    }
+
+    .shelf-surface {
+        width: calc(100% - 2rem);
+        padding-block: clamp(0.4rem, 1.5vw, 0.75rem);
+    }
+
+    .shelf-word {
+        font-size: clamp(2.42rem, 13.3vw, 3.94rem);
+    }
+
+    .shelf-tagline {
+        font-size: clamp(1.21rem, 5.45vw, 1.82rem);
+    }
+
+    .shelf-art-lines {
+        opacity: 0.16;
+    }
+
+    .shelf-spine-label {
+        opacity: 0.45;
+    }
+
+    .editorial-grid {
+        /* plain 1fr is minmax(auto, 1fr) — an implicit min-content floor */
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (min-width: 900px) {
+    .section > .container,
+    .footer > .container,
+    #about > .container,
+    #experience > .container,
+    #projects > .container,
+    #contact > .container {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: var(--page-max-width);
+        width: min(var(--page-max-width), calc(100% - 3rem));
+    }
+}
+
+
+/* No blur, no frosted panels: copy sits directly on the cream paper */
+.about-lead,
+.contact-aside p {
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+.contact-links a {
+    border-radius: 0;
+}
+
+/* The contact card carried a soft blurred drop shadow from the old system */
+.contact-form {
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid var(--ink);
+}
+
+/* Contact links were coloured with --primary, which is a mint SURFACE token
+   in this system, not a text colour — that put mint on cream at 1.2:1.
+   They are body links: charcoal, mint running-stitch underline, plum on hover. */
+.contact-links a,
+.theme-light .contact-links a,
+.theme-dark .contact-links a {
+    color: var(--ink);
+    font-family: var(--font-chromatica);
+}
+
+.contact-links a:hover,
+.contact-links a:focus-visible {
+    color: var(--color-dusty-plum);
+    text-shadow: none;
+}
+
+/* Plum reads at 4.15:1 on cream — fine for the large tagline and for transient
+   hover states, under AA for small static labels. These carry real content. */
+.about-facts dt,
+.exp-panel-org {
+    color: var(--ink);
+}
+
+/* Project tiles were frosted glass with a soft drop shadow — this system is
+   flat paper with one hard peach offset. */
+.project-tile {
+    background-color: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+    border: 1px solid var(--line);
+    border-radius: 0;
+}
+
+.project-tile:hover {
+    box-shadow: var(--shadow-subtle);
+    transform: none;
+}
+
+/* the hamburger carried a stray white from the old system; it has no text,
+   but nothing in this palette is pure white */
+.menu-toggle {
+    color: var(--ink);
+}
+
+
+/* =========================================================
+   System enforcement. This block was lost when the side-tab
+   component was removed — the deletion slice ran past it — which
+   put the white "soil" footer text back on cream paper. Restored,
+   with every value theme-aware so neither theme can strand text.
+   ========================================================= */
+
+/* Radii */
+.wavy-link,
+.menu-toggle span {
+    border-radius: 0;
+}
+
+/* Footer — the soil illustration it was painted for is display:none in the
+   broadside layout, so the white text had nothing dark to sit on. */
+.footer {
+    padding: var(--spacing-64) 0 var(--spacing-48);
+    background: var(--bg);
+    background-image: none;
+    border-top: 1px solid var(--line);
+}
+
+.footer-inner {
+    min-height: 0;
+    align-items: center;
+    padding-bottom: 0;
+}
+
+.footer-mark,
+.footer-links a {
+    color: var(--ink);
+    text-shadow: none;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+    color: var(--color-dusty-plum);
+    text-shadow: none;
+    text-decoration: none;
+}
+
+/* Contact links — --pastel-ink is a literal charcoal and vanished on the
+   lamplit ground; the mint hover fill left plum on mint at 3.6:1. */
+.contact-links {
+    border: 1px solid var(--ink);
+    box-shadow: var(--shadow-subtle);
+}
+
+.contact-links a,
+.theme-light .contact-links a,
+.theme-dark .contact-links a {
+    color: var(--ink);
+}
+
+.contact-links a:hover,
+.contact-links a:focus-visible {
+    color: var(--color-dusty-plum);
+    background-color: transparent;
+    text-shadow: none;
+}
+
+/* Form controls — flat cream, charcoal rule, no inset blur, no texture */
+.contact-form {
+    border: 1px solid var(--ink);
+    box-shadow: var(--shadow-subtle);
+    border-radius: 0;
+}
+
+.contact-form input,
+.contact-form textarea,
+.theme-light .contact-form input,
+.theme-light .contact-form textarea,
+.theme-dark .contact-form input,
+.theme-dark .contact-form textarea {
+    background: var(--surface);
+    background-image: none;
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--ink);
+    font-family: var(--font-chromatica);
+    font-size: var(--text-body);
+    padding: 0.95rem 1.05rem;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: var(--ink-soft);
+    opacity: 0.85;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+    outline: none;
+    border-color: var(--ink);
+    background-image: none;
+    box-shadow: var(--shadow-subtle);
+}
+
+.contact-form input.is-error,
+.contact-form textarea.is-error {
+    background-image: none;
+    border-color: var(--color-dusty-plum);
+    box-shadow: var(--color-dusty-plum) 6px 6px 0 0;
+}
+
+/* Progress bars — flat, no glow */
+.bar,
+.theme-light .bar {
+    border-radius: 0;
+    background: var(--line);
+    box-shadow: none;
+}
+
+.bar-fill {
+    border-radius: 0;
+    background: var(--color-peach-sorbet);
+    background-image: none;
+    box-shadow: none;
+}
+
+/* With the GitHub link hidden the tiles render an empty .project-links, which
+   still takes a flex gap and left ~11px of dead space under each card. */
+.project-links:empty {
+    display: none;
+}

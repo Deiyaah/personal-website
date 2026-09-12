@@ -1,8 +1,7 @@
 /**
- * Experience explorer — interactive tabbed role browser.
- * Company tabs on the left (chain-stitch rail), animated detail panel
- * on the right. Full ARIA tabs pattern with keyboard support;
- * GSAP content transitions with a no-GSAP instant fallback.
+ * Experience — HMP-style editorial index + detail panel.
+ * Left rail tabs, right card with hard pastel shadow. Simple crossfade
+ * on switch; degrades cleanly without GSAP or with reduced motion.
  */
 
 const ROLES = [
@@ -13,10 +12,12 @@ const ROLES = [
         dates: 'May 2025 – Dec 2025',
         place: 'Edmonton, AB',
         points: [
-            'Architected production SaaS on AWS (EC2, S3, CloudFront, ALB) for 100+ users',
-            'Java Spring Boot backend with 120+ REST endpoints and JWT role access',
-            'React and TypeScript multi-tenant UI across 3 roles and 20+ flows, with Stripe Connect payouts',
-            '20+ table PostgreSQL schema with Liquibase multi-tenant isolation'
+            'Architected a production SaaS platform on <strong>AWS</strong> (<strong>Linux EC2</strong>, <strong>S3</strong>, <strong>CloudFront</strong>, <strong>ALB</strong>, <strong>IAM</strong>) for 100+ users',
+            'Built <strong>Lambda</strong>-based notifications and instrumented <strong>CloudWatch</strong> logs, metrics, and alarms for monitoring',
+            'Built a <strong>Java Spring Boot</strong> backend with 120+ <strong>REST</strong> endpoints and <strong>JWT</strong>-based role access control',
+            'Integrated <strong>Stripe Connect</strong> with split payouts, platform fees, refunds, and webhook-driven payment state sync',
+            'Designed a 20+ table <strong>PostgreSQL</strong> schema with <strong>Liquibase</strong> migrations enforcing multi-tenant data isolation',
+            'Built a <strong>React</strong>, <strong>TypeScript</strong> front-end for a multi-tenant SaaS platform supporting 3 user roles and 20+ user flows'
         ],
         stack: ['AWS', 'Spring Boot', 'React', 'TypeScript', 'PostgreSQL', 'Stripe']
     },
@@ -27,9 +28,9 @@ const ROLES = [
         dates: 'Jan 2024 – Sep 2024',
         place: 'Edmonton, AB',
         points: [
-            'Firebase Auth for Flutter app supporting 2000+ users',
-            'Shopify webhooks + Firebase pipelines for IoT device data',
-            'SQL + BigQuery modeling for faster analytics insights'
+            'Implemented <strong>Firebase Auth</strong> for the <strong>Flutter</strong> app supporting 2000+ users, improving on-boarding reliability',
+            'Built real-time data pipelines using <strong>Shopify</strong> webhooks and <strong>Firebase</strong> to centralize IoT device data',
+            'Used <strong>SQL</strong> to model and optimize large <strong>BigQuery</strong> datasets, enabling faster analytics and actionable insights'
         ],
         stack: ['Flutter', 'Firebase', 'Shopify', 'BigQuery', 'SQL']
     },
@@ -40,8 +41,8 @@ const ROLES = [
         dates: 'Jun 2023 – Sep 2023',
         place: 'Edmonton, AB',
         points: [
-            'Automated RFP document creation with VBA in MS Word',
-            'Updated WeConnect intranet (HTML/CSS/JS) for 1000+ members'
+            'Automated Request for Proposal document creation with <strong>VBA</strong> in <strong>MS Word</strong>, saving significant time and effort',
+            'Updated the internal intranet website, WeConnect, using <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong> for 1000+ members'
         ],
         stack: ['VBA', 'HTML', 'CSS', 'JavaScript']
     }
@@ -50,174 +51,158 @@ const ROLES = [
 import { reducedMotion } from '../core/motionEngine.js';
 
 function hasGsap() {
-    return typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+    return typeof gsap !== 'undefined';
 }
 
-/* ---------- experience as stacked fabric swatches ----------
-   Each role is a card that sticks at the top of the viewport while the next
-   one slides up over it. The card underneath scales down and dims as it is
-   covered, so the pile reads as swatches laid one on another rather than as
-   a list that scrolls past.
+// Bullet strings carry <strong> around tool names, so they are interpolated
+// as HTML. The content is authored here, not user input.
+function renderPanelContent(role) {
+    return `
+        <div class="exp-panel-inner">
+            <header class="exp-panel-head">
+                <div>
+                    <h3 class="exp-panel-role">${role.role}</h3>
+                    <p class="exp-panel-org">${role.org}</p>
+                </div>
+                <div class="exp-panel-meta">
+                    <span>${role.dates}</span>
+                    <span>${role.place}</span>
+                </div>
+            </header>
+            <ul class="exp-panel-points">
+                ${role.points.map((pt) => `<li>${pt}</li>`).join('')}
+            </ul>
+            <div class="exp-panel-tech" aria-label="Technologies used">
+                ${role.stack.map((t) => `<span>${t}</span>`).join('')}
+            </div>
+        </div>
+    `;
+}
 
-   Everything is plain sticky positioning in CSS — GSAP only drives the
-   scale/dim of the covered cards, so with no JS (or reduced motion) this
-   degrades to a perfectly readable stack of cards. */
+/**
+ * All panels are rendered up front and stacked in one grid cell, so the stage
+ * is always as tall as the tallest entry. Switching tabs therefore cannot
+ * change the page height — previously the panel was rebuilt on every switch
+ * and entries with fewer bullets made everything below jump.
+ */
+function showPanel(panels, id, motionOk) {
+    panels.forEach((p) => {
+        const on = p.dataset.id === id;
+        p.classList.toggle('is-active', on);
+        p.setAttribute('aria-hidden', on ? 'false' : 'true');
+        p.tabIndex = on ? 0 : -1;
+
+        if (on && motionOk && hasGsap()) {
+            const inner = p.querySelector('.exp-panel-inner');
+            if (!inner) return;
+            gsap.killTweensOf(inner);
+            gsap.fromTo(
+                inner,
+                { opacity: 0, y: 12 },
+                { opacity: 1, y: 0, duration: 0.38, ease: 'power2.out', clearProps: 'transform,opacity' }
+            );
+        }
+    });
+}
+
 export function initExperience() {
-    const mount = document.querySelector('.exp-explorer');
-    if (!mount) return;
+    const root = document.querySelector('[data-exp-root]');
+    if (!root) return;
 
-    mount.innerHTML = `
-        <ol class="swatch-stack">
+    const motionOk = !reducedMotion();
+    let activeId = ROLES[0].id;
+
+    root.innerHTML = `
+        <nav class="exp-index" role="tablist" aria-label="Work experience">
             ${ROLES.map((r, i) => `
-                <li class="swatch" style="--i:${i}">
-                    <article class="swatch-card">
-                        <header class="swatch-head">
-                            <div class="swatch-what">
-                                <h3 class="swatch-role">${r.role}</h3>
-                                <p class="swatch-org">${r.org}</p>
-                            </div>
-                            <div class="swatch-when">
-                                <span class="swatch-dates">${r.dates}</span>
-                                <span class="swatch-place">${r.place}</span>
-                            </div>
-                        </header>
-                        <ul class="swatch-points">
-                            ${r.points.map((pt) => `<li>${pt}</li>`).join('')}
-                        </ul>
-                        <div class="swatch-tech" aria-label="Technologies used">
-                            ${r.stack.map((t) => `<span>${t}</span>`).join('')}
-                        </div>
-                    </article>
-                </li>
+                <button
+                    type="button"
+                    class="exp-tab${i === 0 ? ' is-active' : ''}"
+                    role="tab"
+                    id="exp-tab-${r.id}"
+                    aria-selected="${i === 0 ? 'true' : 'false'}"
+                    aria-controls="exp-panel-${r.id}"
+                    tabindex="${i === 0 ? '0' : '-1'}"
+                    data-id="${r.id}">
+                    <span class="exp-tab-label">${r.org}</span>
+                    <span class="exp-tab-dates">${r.dates}</span>
+                </button>
             `).join('')}
-        </ol>
+        </nav>
+        <div class="exp-stage">
+            ${ROLES.map((r, i) => `
+                <article
+                    class="exp-panel${i === 0 ? ' is-active' : ''}"
+                    id="exp-panel-${r.id}"
+                    role="tabpanel"
+                    aria-labelledby="exp-tab-${r.id}"
+                    aria-hidden="${i === 0 ? 'false' : 'true'}"
+                    data-id="${r.id}"
+                    tabindex="${i === 0 ? '0' : '-1'}">${renderPanelContent(r)}</article>
+            `).join('')}
+        </div>
     `;
 
-    /* The heading is sticky, so the cards must park just below it. Measure it
-       rather than guessing — it is a stitched SVG whose height tracks the
-       font size, and a wrong constant would tuck card 1 under the title. */
-    const section = document.getElementById('experience');
-    const title = section?.querySelector('.section-title');
-    if (section && title) {
-        const syncTitleHeight = () => {
-            section.style.setProperty('--exp-title-h', `${Math.round(title.getBoundingClientRect().height)}px`);
-            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-        };
-        syncTitleHeight();
-        if (typeof ResizeObserver !== 'undefined') new ResizeObserver(syncTitleHeight).observe(title);
+    const tabs = Array.from(root.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll('[role="tabpanel"]'));
+
+    function select(id, { focusTab = false } = {}) {
+        const role = ROLES.find((r) => r.id === id);
+        if (!role || id === activeId) return;
+
+        activeId = id;
+
+        tabs.forEach((tab) => {
+            const on = tab.dataset.id === id;
+            tab.classList.toggle('is-active', on);
+            tab.setAttribute('aria-selected', on ? 'true' : 'false');
+            tab.tabIndex = on ? 0 : -1;
+        });
+
+        showPanel(panels, id, motionOk);
+        if (focusTab) tabs.find((t) => t.dataset.id === id)?.focus();
     }
 
-    /* All three cards to one height. Roles have different numbers of bullets,
-       and in a stack that unevenness is the first thing you notice at the
-       exposed edges. Measured with offsetHeight, NOT getBoundingClientRect —
-       the scrub tween scales the cards, and a rect would feed the scaled
-       height back in and shrink them a little more on every pass. */
-    const equaliseCards = () => {
-        const cardEls = Array.from(mount.querySelectorAll('.swatch-card'));
-        if (!cardEls.length) return;
-        cardEls.forEach((c) => { c.style.minHeight = ''; });
-        const tallest = Math.max(...cardEls.map((c) => c.offsetHeight));
-        cardEls.forEach((c) => { c.style.minHeight = `${Math.ceil(tallest)}px`; });
-        // Equalising changes the page height, so every ScrollTrigger measured
-        // before this point is now pointing at the wrong scroll offsets — the
-        // stack's scrub tweens simply never fired.
-        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-    };
-    equaliseCards();
-    if (document.fonts?.ready) document.fonts.ready.then(equaliseCards);
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => select(tab.dataset.id));
 
-    /* Re-equalise on WIDTH changes only. A plain resize listener missed cases
-       where the box changed without a window resize event, and observing the
-       box unconditionally would loop — setting min-height changes the observed
-       height, which would fire the observer again. Width is safe: min-height
-       cannot alter it. */
-    const stackEl = mount.querySelector('.swatch-stack');
-    if (stackEl && typeof ResizeObserver !== 'undefined') {
-        let lastW = 0;
-        new ResizeObserver((entries) => {
-            const w = Math.round(entries[0].contentRect.width);
-            if (w === lastW) return;
-            lastW = w;
-            equaliseCards();
-        }).observe(stackEl);
-    }
+        tab.addEventListener('keydown', (e) => {
+            const i = tabs.indexOf(tab);
+            let next = i;
 
-    if (!hasGsap() || reducedMotion()) return;
-
-    const cards = Array.from(mount.querySelectorAll('.swatch-card'));
-
-    // `filter` must start from an explicit numeric value — tweening from a
-    // computed `none` does not interpolate and flashes the card to black
-    gsap.set(cards, { filter: 'brightness(1)' });
-
-    cards.forEach((card, i) => {
-        const next = cards[i + 1];
-        if (!next) return;
-        // as the NEXT card climbs over this one, this one recedes: a small
-        // scale-down plus a dim, driven by that card's travel. Scrubbed on
-        // purpose — this is a depth cue tied to scroll position, not an
-        // entrance with a duration of its own.
-        gsap.to(card, {
-            scale: 0.955,
-            filter: 'brightness(0.94)',
-            ease: 'none',
-            scrollTrigger: {
-                trigger: next.parentElement,
-                start: 'top 92%',
-                end: 'top 22%',
-                scrub: 0.4
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                next = (i + 1) % tabs.length;
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                next = (i - 1 + tabs.length) % tabs.length;
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                next = 0;
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                next = tabs.length - 1;
+            } else {
+                return;
             }
+
+            select(tabs[next].dataset.id, { focusTab: true });
         });
     });
 
-    /* Once the pile is complete and the section starts to leave, the heading
-       goes FIRST — it fades out before the released stack can scroll up into
-       its band, so the two never overlap. Runs ahead of the last card's own
-       recede window (bottom 95% -> 45%). */
-    if (title) {
-        /* Function-based start/end from offsetTop, not element-rect strings:
-           'bottom 98%' on this trigger measured wrong (and differently on
-           every refresh) because the tween's own target is the sticky title
-           inside the measured section. offsetTop is layout-absolute and
-           immune to scroll-position and sticky-state at measure time. */
-        gsap.to(title, {
+    if (motionOk && hasGsap() && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from(root, {
             opacity: 0,
-            y: -14,
-            ease: 'none',
-            scrollTrigger: {
-                start: () => section.offsetTop + section.offsetHeight - innerHeight * 0.78,
-                end: () => section.offsetTop + section.offsetHeight - innerHeight * 0.675,
-                scrub: true
-            }
-        });
-    }
-
-    /* The LAST card has no successor to recede under, so it stayed at full
-       size while the two beneath it shrank — the pile ended on a mismatch.
-       It recedes against the section's own exit instead, so by the time you
-       scroll off, all three are at the same scale. */
-    const last = cards[cards.length - 1];
-    if (last) {
-        gsap.to(last, {
-            scale: 0.955,
-            filter: 'brightness(0.94)',
-            ease: 'none',
-            scrollTrigger: {
-                trigger: section,
-                start: 'bottom 95%',
-                end: 'bottom 45%',
-                scrub: 0.4
-            }
-        });
-    }
-
-    // cards fade in place — no travel across the garden behind them
-    cards.forEach((card) => {
-        gsap.from(card, {
-            opacity: 0,
-            duration: 0.65,
+            y: 18,
+            duration: 0.55,
             ease: 'power2.out',
-            scrollTrigger: { trigger: card.parentElement, start: 'top 92%', once: true }
+            scrollTrigger: {
+                trigger: root,
+                start: 'top 88%',
+                once: true
+            },
+            clearProps: 'transform'
         });
-    });
+    }
 }

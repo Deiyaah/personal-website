@@ -357,7 +357,12 @@ function stitchHeading(h, { animate }) {
         const hpad = Math.ceil(box.height + 10);
         svg.setAttribute('viewBox', `${box.x - 4} ${box.y - 4} ${wpad} ${hpad}`);
         svg.style.width = `${wpad}px`;
-        svg.style.height = `${hpad}px`;
+        // A hard pixel width makes the heading un-shrinkable: the grid column
+        // bottoms out at the text's own width, which overflows narrow
+        // viewports and clips the last letters. Let it scale down instead.
+        svg.style.maxWidth = '100%';
+        svg.style.aspectRatio = `${wpad} / ${hpad}`;
+        svg.style.height = 'auto';
         [rectMain, rectShadow].forEach((r) => {
             r.setAttribute('y', box.y - 20);
             r.setAttribute('height', hpad + 40);
@@ -423,8 +428,7 @@ export function initStitchwork() {
         document.body.classList.add('needle-cursor');
     }
 
-    // Real chain-stitch rail on the experience tabs
-    stitchExpRail();
+    // Experience uses HMP-style index tabs (css/experience.css) — no chain rail.
 
     // Cards are plain felt patches now — the dotted blanket-stitch
     // perimeter was removed for a cleaner edge. (stitchPerimeter is kept
@@ -433,8 +437,8 @@ export function initStitchwork() {
     // Buttons → embroidered patches with satin borders
     document.querySelectorAll('.btn').forEach((btn) => stitchButton(btn));
 
-    // Section dividers
-    document.querySelectorAll('.section .container').forEach((c) => {
+    // Section dividers — About opens straight on its heading, so it is excluded
+    document.querySelectorAll('.section:not(#about) .container').forEach((c) => {
         c.prepend(makeDivider());
     });
 
