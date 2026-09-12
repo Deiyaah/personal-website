@@ -851,3 +851,31 @@
 .project-links:empty {
     display: none;
 }
+
+/* The contact form's status line used --secondary (mint) and, for errors,
+   --tertiary/plum. Both are surface/accent tokens: mint on cream is ~1.2:1,
+   so "sent — I'll write back soon" was effectively invisible. Theme ink for
+   the text; the error state keeps a plum rule as its signal. */
+.form-status {
+    color: var(--ink);
+}
+
+.form-status.is-error {
+    color: var(--ink);
+    border-left: 2px solid var(--color-dusty-plum);
+    padding-left: 0.5rem;
+}
+
+/* .theme-dark .contact-form is (0,2,0) and outranked the plain .contact-form
+   rule above, so dark mode kept the old cosmic purple and pulled a 448KB
+   linen photograph as a texture. Matched specificity, flat paper in both. */
+.theme-light .contact-form,
+.theme-dark .contact-form,
+:root:not(.theme-light) .contact-form {
+    background: var(--surface);
+    background-image: none;
+    border: 1px solid var(--ink);
+    box-shadow: var(--shadow-subtle);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
