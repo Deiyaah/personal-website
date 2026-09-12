@@ -367,14 +367,12 @@
     margin-bottom: var(--spacing-32);
 }
 
-/* The About illustration was removed, so the second column has nothing to
-   hold — a two-column grid would leave the copy stranded in a half-width
-   gutter. Single column, with the copy measure capped for readability. */
+/* The portrait takes the left column back */
 .editorial-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     gap: var(--spacing-48);
-    align-items: start;
+    align-items: center;
 }
 
 .section-title {
@@ -878,4 +876,102 @@
     box-shadow: var(--shadow-subtle);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+}
+
+
+/* =========================================================
+   About portrait — the photo is masked into a blob with three
+   more blobs sitting around it. The 0px-radius rule holds for
+   every other surface in the system; this is the exception.
+
+   The figure is sized to the photo so the blobs can be offset as
+   percentages of the photo box — offsetting them by a share of
+   their own size kept them tucked behind it at every breakpoint.
+   ========================================================= */
+.about-portrait {
+    position: relative;
+    width: min(100%, 21rem);
+    margin: 0 auto;
+    isolation: isolate;
+}
+
+.portrait-img {
+    display: block;
+    width: 100%;
+    /* the width/height attributes map to presentational hints that outrank
+       aspect-ratio, so height must be released explicitly */
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center top;
+    position: relative;
+    z-index: 2;
+    border-radius: 58% 42% 49% 51% / 52% 47% 53% 48%;
+}
+
+.portrait-blob {
+    position: absolute;
+    z-index: 1;
+    aspect-ratio: 1 / 1;
+    pointer-events: none;
+}
+
+.portrait-blob--peach {
+    width: 46%;
+    left: -13%;
+    top: -9%;
+    background: var(--color-peach-sorbet);
+    border-radius: 62% 38% 44% 56% / 48% 58% 42% 52%;
+}
+
+.portrait-blob--mint {
+    width: 36%;
+    right: -11%;
+    bottom: -7%;
+    background: var(--color-mint-cream);
+    border-radius: 41% 59% 63% 37% / 57% 41% 59% 43%;
+}
+
+.portrait-blob--ring {
+    width: 24%;
+    right: -7%;
+    top: 8%;
+    border: 2px solid var(--color-dusty-plum);
+    border-radius: 55% 45% 38% 62% / 44% 62% 38% 56%;
+}
+
+/* "graduated" reads as a footnote under "education" */
+.about-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-16) 0;
+}
+
+.about-fact--minor dt,
+.about-fact--minor dd {
+    font-size: var(--text-caption);
+}
+
+.about-fact--minor dd {
+    line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+    .editorial-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .about-portrait {
+        /* leave room for the blobs' negative offsets: at a full-width figure
+           the peach blob clipped past the left edge on a 320px screen */
+        width: min(90%, 16rem);
+    }
+}
+
+/* The active nav link took plum from --primary-deep: 4.15:1 on cream, under
+   AA for 16px, and it persists the whole time you are in that section. The
+   mint running-stitch underline already marks which link is active, so the
+   text goes back to ink. */
+.nav-link.active,
+.wavy-link.active {
+    color: var(--ink);
 }
