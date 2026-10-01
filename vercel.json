@@ -9,6 +9,15 @@
   ],
   "headers": [
     {
+      "source": "/(resume|assets/resume/.*)",
+      "headers": [
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Diyaa-Yadav-Resume.pdf\""
+        }
+      ]
+    },
+    {
       "source": "/assets/vendor/(.*)",
       "headers": [
         {
