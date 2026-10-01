@@ -1,6 +1,41 @@
+# Search engines: the site is fine to crawl. /resume is deliberately left
+# crawlable rather than disallowed, because a disallowed URL can still be
+# indexed by reference — the X-Robots-Tag: noindex header on that path (see
+# vercel.json) is what actually keeps it out of results, and a crawler has to
+# fetch the file to see it.
 User-agent: *
 Allow: /
 Disallow: /styleguide
 Disallow: /flow-wave/
+
+# AI and dataset crawlers: not welcome anywhere on this site.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Bytespider
+User-agent: meta-externalagent
+User-agent: FacebookBot
+User-agent: Amazonbot
+User-agent: cohere-ai
+User-agent: Diffbot
+User-agent: Omgilibot
+User-agent: omgili
+User-agent: ImagesiftBot
+User-agent: YouBot
+User-agent: Timpibot
+User-agent: Kangaroo Bot
+User-agent: PanguBot
+User-agent: Webzio-Extended
+User-agent: AI2Bot
+User-agent: Scrapy
+Disallow: /
 
 Sitemap: https://diyaayadav.com/sitemap.xml

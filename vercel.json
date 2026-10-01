@@ -14,6 +14,10 @@
         {
           "key": "Content-Disposition",
           "value": "inline; filename=\"Diyaa-Yadav-Resume.pdf\""
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, noimageindex, noarchive, nosnippet, noai, noimageai"
         }
       ]
     },
