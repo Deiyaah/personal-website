@@ -15,12 +15,6 @@
     border: 0;
 }
 
-/* Hide legacy garden hero */
-.garden,
-.hero-wrap {
-    display: none !important;
-}
-
 /* Wavy pastel underline */
 .wavy-link {
     text-decoration: none;

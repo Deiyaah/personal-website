@@ -7,20 +7,15 @@
 
 *,
 *::before,
-*::after {
-    box-sizing: border-box;
+*::after {box-sizing: border-box;
     margin: 0;
-    padding: 0;
-}
+    padding: 0;}
 
-html {
-    scroll-behavior: smooth;
-}
+html {scroll-behavior: smooth;}
 
 /* ---------- Theme tokens — soft vibrant pastels ---------- */
 :root,
-.theme-light {
-    /* The five Skeins tokens — the whole palette lives here */
+.theme-light {/* The five Skeins tokens — the whole palette lives here */
     --color-cream-paper: #fbf7f2;
     --color-soft-charcoal: #3a3a3a;
     --color-peach-sorbet: #f4c7b8;
@@ -119,14 +114,12 @@ html {
     --section-gap: 64px;
     --card-padding: 48px;
     --element-gap: 16px;
-    --nav-h: 5.25rem;
-}
+    --nav-h: 5.25rem;}
 
 /* The Skeins reference defines a light theme only. Dark keeps the toggle
    working as a lamplit variant: the paper darkens to a warm charcoal, the
    five accents are unchanged. */
-.theme-dark {
-    --bg: #2e2b28;
+.theme-dark {--bg: #2e2b28;
     --bg-2: #3a3632;
     --ink: var(--color-cream-paper);
     --ink-soft: #cdbfcf;
@@ -145,11 +138,9 @@ html {
     --felt: #3a3632;
     --floss-green-deep: var(--color-peach-sorbet);
     --thread-neutral: rgba(251, 247, 242, 0.55);
-    --shadow-subtle: var(--color-peach-sorbet) 6px 6px 0px 0px;
-}
+    --shadow-subtle: var(--color-peach-sorbet) 6px 6px 0px 0px;}
 
-body {
-    font-family: var(--font-body);
+body {font-family: var(--font-body);
     font-size: var(--text-body);
     line-height: var(--leading-body);
     background: var(--bg);
@@ -159,62 +150,33 @@ body {
     position: relative;
     transition: background 0.35s ease, color 0.35s ease;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-}
+    text-rendering: optimizeLegibility;}
 
 /* Cream paper canvas — no knit texture */
-body::before {
-    content: "";
+body::before {content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: -2;
-    background: var(--color-cream-paper);
-}
+    background: var(--color-cream-paper);}
 
-.theme-dark body::before {
-    background: var(--bg);
-}
+.theme-dark body::before {background: var(--bg);}
 
-.container {
-    width: min(var(--page-max-width), calc(100% - 3rem));
-    margin-inline: auto;
-}
+.container {width: min(var(--page-max-width), calc(100% - 3rem));
+    margin-inline: auto;}
 
-a {
-    color: inherit;
-}
+a {color: inherit;}
 
-::selection {
-    background: var(--pastel-pink);
-    color: var(--pastel-ink);
-}
+::selection {background: var(--pastel-pink);
+    color: var(--pastel-ink);}
 
-:focus-visible {
-    outline: 2px solid var(--color-golden-olive);
+:focus-visible {outline: 2px solid var(--color-golden-olive);
     outline-offset: 3px;
-    border-radius: 0;
-}
+    border-radius: 0;}
 
 @supports (scrollbar-width: thin) {
-    html {
-        scrollbar-width: thin;
-        scrollbar-color: var(--primary-deep) transparent;
-    }
-}
-
-/* =========================================================
-   The embroidered garden — legacy (hidden by broadside.css)
-   ========================================================= */
-
-.garden {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-    contain: strict;
-}
+    html {scrollbar-width: thin;
+        scrollbar-color: var(--primary-deep) transparent;}}
 
 /* Rotor: rotates about an OFF-CENTER origin — x at the tree trunk, y at
    the viewport middle — so the tree stays on the right the whole turn
@@ -223,19 +185,7 @@ a {
 /* --tree-h is the ONE source of truth for the tree's size: the reading
    columns derive their left margin from it so content can never slide under
    the art. Changing it in one place moves both. */
-:root { --tree-x: 26vw; --tree-h: min(68vh, 740px); --nav-h: 72px; --ground-h: clamp(60px, 11vh, 130px); }
-@media (max-width: 767px) { :root { --tree-x: 30vw; --tree-h: min(42vh, 76vw); } }
-
-.garden-rotor {
-    position: absolute;
-    z-index: 3;                             /* the tree stands in FRONT */
-    left: calc(var(--tree-x) - 100vmax);
-    top: calc(50vh - 100vmax);
-    width: 200vmax;
-    height: 200vmax;
-    transform-origin: 100vmax 100vmax;      /* = (--tree-x, 50vh) in viewport space */
-    transform: rotate(0deg);
-}
+:root {--nav-h: 72px;}
 
 /* full-bleed ground: tiled across the entire 200vmax layer width, its
    top edge sitting on the viewport's bottom edge */
@@ -243,23 +193,18 @@ a {
    tree, but it orbits ~50vh from the pivot, so by 90deg it had swung right
    out of frame and left bare linen behind. Only the tree turns now, and the
    horizon is always there. */
-.garden-ground {
-    position: absolute;
+.garden-ground {position: absolute;
     z-index: 1;                             /* soil is furthest back */
     left: 0;
     right: 0;
     bottom: 0;
     height: var(--ground-h, 150px);
-    background: url("../assets/garden/ground.webp") repeat-x left bottom / auto 100%;
-    filter: drop-shadow(0 -2px 3px rgba(0, 0, 0, 0.18));
-    --ground-h: clamp(60px, 11vh, 130px);
-}
+    filter: drop-shadow(0 -2px 3px rgba(0, 0, 0, 0.18));}
 
 /* The wrap carries the positioning; being absolutely positioned with no
    width it shrink-wraps the image, so percentage-placed tip anchors land
    in the asset's own coordinate space and pick up the rotor's rotation. */
-.garden-tree-wrap {
-    position: absolute;
+.garden-tree-wrap {position: absolute;
     left: 100vmax;                          /* trunk at the origin x */
     bottom: calc(100vmax - 50vh + var(--ground-h, 150px) * 0.62);
     height: var(--tree-h);
@@ -274,75 +219,27 @@ a {
     /* --fall drops it as it turns, so it falls rather than merely tipping */
     transform: translateX(-50%) translateY(var(--fall, 0)) rotate(var(--sweep, 0deg));
     transform-origin: 50% 100%;             /* the trunk base */
-    --ground-h: clamp(60px, 11vh, 130px);
-}
-
-.garden-tree-wrap picture { display: block; height: 100%; }
-
-/* The tree no longer dissolves — it is swept out of frame by
-   .garden-tree-wrap's --sweep. */
-.garden-tree {
-    display: block;
-    height: 100%;
-    width: auto;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.22));
-}
-
-/* zero-size measurement points at each branch tip */
-.tree-tip {
-    position: absolute;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-}
+    --ground-h: clamp(60px, 11vh, 130px);}
 
 
 /* Act layers: each spans its own anchor sections; positioned by JS-free
    CSS in viewport space, progress-driven by JS */
-.garden-act {
-    position: absolute;
+.garden-act {position: absolute;
     inset: 0;
     opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.garden-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
+    transition: opacity 0.3s ease;}
 
 /* A fine thread running down the page's left margin — decoration beside the
    text, never across it. At this weight there is no texture to show, so it is
    a plain pale stroke; growth is still carried by the SVG mask. The layer
    only shows threads when there is a real margin to run them down. */
-.garden-thread {
-    fill: none;
+.garden-thread {fill: none;
     stroke: var(--floss-green);
     stroke-width: 2.4px;
     stroke-linecap: round;
     stroke-linejoin: round;
     opacity: 0.55;
-    vector-effect: non-scaling-stroke;
-}
-
-.garden:not(.has-threads) .garden-act { display: none; }
-
-.garden-plane {
-    position: absolute;
-    inset: 0;
-}
-
-/* --a: final angle from the path tangent · --r: 1→0 as it reveals
-   (drives 0.85→1 scale and a 4° settle) · --sx: mirror for alternation */
-
-@media (max-width: 767px) {
-}
-
-/* the vine tail that descends from the settled canopy in the hero */
-.garden.is-flipped .garden-act2 { opacity: 1; }
+    vector-effect: non-scaling-stroke;}
 
 /* ---------- Sticky hero: 250vh wrapper, 100vh sticky stage ---------- */
 /* 250vh meant 1.6 screens of scrolling with the hero pinned and nothing
@@ -350,18 +247,14 @@ a {
    wrapper shifts every hero cue earlier by the same amount — the copy fade
    still finishes while about is rising and the tree still sweeps out against
    it, because both are keyed off this height — it just cuts the dead dwell. */
-.hero-wrap {
-    height: var(--hero-h, 170vh);
+.hero-wrap {height: var(--hero-h, 170vh);
     position: relative;
-    z-index: 1;
+    z-index: 1;}
+
+@media (max-height: 500px) {   /* landscape phones: don't exhaust the scroll */
 }
 
-@media (max-height: 500px) {
-    .hero-wrap { --hero-h: 130vh; }   /* landscape phones: don't exhaust the scroll */
-}
-
-.hero {
-    position: sticky;
+.hero {position: sticky;
     top: 0;
     height: 100vh;
     height: 100svh;
@@ -374,46 +267,38 @@ a {
        the space above and below the copy block reads as equal. */
     /* +5vh on top nudges the block just below dead centre of the band */
     padding: calc(var(--nav-h) + 5vh) 1.5rem calc(30vh + var(--ground-h, 90px) * 0.52);
-    align-content: center;
-    --ground-h: clamp(60px, 11vh, 130px);
-}
+    align-content: center;}
 
-.hero-copy {
-    text-align: left;
+.hero-copy {text-align: left;
     max-width: 40rem;
     margin-top: clamp(1rem, 6vh, 5rem);
     justify-self: end;
-    padding-right: clamp(1rem, 6vw, 5rem);
-}
-.hero-actions { justify-content: flex-start; }
-.hero-line { margin-left: 0; }
+    padding-right: clamp(1rem, 6vw, 5rem);}
+.hero-actions {justify-content: flex-start;}
+.hero-line {margin-left: 0;}
 @media (max-width: 767px) {
-    .hero-copy { justify-self: start; padding: 0 1rem; text-align: left; }
-}
+    .hero-copy {justify-self: start; padding: 0 1rem; text-align: left;}}
 
 /* Reading-column scrims: body copy never fights the embroidery */
 .about-lead,
-.contact-aside p {
-    background: rgba(var(--linen-rgb), 0.92);
+.contact-aside p {background: rgba(var(--linen-rgb), 0.92);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     padding: 1rem 1.25rem;
     border-radius: 12px;
     box-decoration-break: clone;
-    max-width: 65ch;
-}
-p, li { max-width: 70ch; }
-.hero-line { font-family: var(--font-body); }
+    max-width: 65ch;}
+p, li {max-width: 70ch;}
+.hero-line {font-family: var(--font-body);}
 
 /* Sections ride above the fixed art */
-.section, .footer, .navbar { position: relative; z-index: 1; }
-.navbar { z-index: 100; }
+.section, .footer, .navbar {position: relative; z-index: 1;}
+.navbar {z-index: 100;}
 
 /* The tree hangs at ~26vw and the vines descend through the left gutter,
    so from tablet up the reading column is pushed clear of that band
    instead of sitting under the art. */
-@media (min-width: 900px) {
-    /* `about` sits to the right of the hanging tree */
+@media (min-width: 900px) {/* `about` sits to the right of the hanging tree */
     .section > .container,
     .footer > .container {
         width: auto;
@@ -437,16 +322,14 @@ p, li { max-width: 70ch; }
         margin-left: clamp(1.5rem, 5vw, 5rem);
         margin-right: 46vw;
         max-width: 46rem;
-    }
-}
+    };}
 
 /* First section after the hero: extra headroom so the "about" title
    never collides with the canopy hanging from the top of the viewport. */
-.about { padding-top: clamp(5rem, 14vh, 10rem); }
+.about {padding-top: clamp(5rem, 14vh, 10rem);}
 
 /* Type scale — Fraunces display, Source Sans body */
-.hero-brand {
-    font-family: var(--font-display);
+.hero-brand {font-family: var(--font-display);
     font-variation-settings: "opsz" 144, "SOFT" 20, "WONK" 1;
     font-weight: 700;
     font-size: clamp(3.4rem, 10vw, 7.5rem);
@@ -457,104 +340,77 @@ p, li { max-width: 70ch; }
     background: none;
     animation: none;
     filter: none;
-    text-shadow: 0 1px 0 rgba(var(--linen-rgb), 0.9), 0 3px 12px rgba(0, 0, 0, 0.14);
-}
+    text-shadow: 0 1px 0 rgba(var(--linen-rgb), 0.9), 0 3px 12px rgba(0, 0, 0, 0.14);}
 
-.hero-line {
-    font-family: var(--font-body);
+.hero-line {font-family: var(--font-body);
     font-size: clamp(1.15rem, 2.2vw, 1.5rem);
     max-width: 30ch;
     margin: 1rem auto 1.75rem;
     color: var(--ink);
-    text-shadow: 0 1px 0 rgba(var(--linen-rgb), 0.9);
-}
+    text-shadow: 0 1px 0 rgba(var(--linen-rgb), 0.9);}
 
-.hero-actions { justify-content: center; }
+.hero-actions {justify-content: center;}
 
-.section-title {
-    font-family: var(--font-heading);
+.section-title {font-family: var(--font-heading);
     font-variation-settings: normal;
     font-weight: 800;
-    letter-spacing: -0.02em;
-}
+    letter-spacing: -0.02em;}
 
 /* Cards and panels as embroidered patches on the linen: a slightly
    lighter linen swatch, floss-green blanket-stitched edge, no glass */
-.contact-form{
-    background-color: rgba(var(--linen-rgb), 0.92);
-    background-image: url("../assets/garden/linen-light.jpg");
+.contact-form{background-color: rgba(var(--linen-rgb), 0.92);
     background-size: 380px 380px;
     background-blend-mode: soft-light;
     border: 1.5px solid color-mix(in srgb, var(--floss-green) 45%, transparent);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 8px 18px rgba(0, 0, 0, 0.12);
-}
-.theme-dark .contact-form,
-:root:not(.theme-light) .contact-form{
-    background-image: url("../assets/garden/linen-dark.jpg");
-    background-color: rgba(38, 34, 56, 0.94);
-}
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 8px 18px rgba(0, 0, 0, 0.12);}
+
 
 /* thread palette for the stitch frames + knots on this layout */
 .stitch-frame [stroke],
-.stitch-frame line { stroke: var(--floss-green) !important; }
-.stitch-frame circle { fill: var(--floss-ochre) !important; }
-.stitch-divider { color: var(--floss-green); }
-.stitch-divider circle { fill: var(--floss-ochre); }
-.stitch-text-main { stroke: var(--floss-green); }
-.stitch-text-shadow { stroke: var(--floss-green-deep); opacity: 0.55; }
-.section-title::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='11'%3E%3Cpath d='M2 1.5L10 9.5M10 1.5L2 9.5' fill='none' stroke='%236b7f5c' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M16 1.5L24 9.5M24 1.5L16 9.5' fill='none' stroke='%23c9a24a' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
-}
+.stitch-frame line {stroke: var(--floss-green) !important;}
+.stitch-frame circle {fill: var(--floss-ochre) !important;}
+.stitch-divider {color: var(--floss-green);}
+.stitch-divider circle {fill: var(--floss-ochre);}
+.stitch-text-main {stroke: var(--floss-green);}
+.stitch-text-shadow {stroke: var(--floss-green-deep); opacity: 0.55;}
+.section-title::after {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='11'%3E%3Cpath d='M2 1.5L10 9.5M10 1.5L2 9.5' fill='none' stroke='%236b7f5c' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M16 1.5L24 9.5M24 1.5L16 9.5' fill='none' stroke='%23c9a24a' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");}
 
 /* Stats "counted in stitches": cross-stitch tallies under each number */
 
 /* Focus rings as running stitch */
-:focus-visible {
-    outline: 2.5px dashed var(--floss-ochre);
-    outline-offset: 4px;
-}
+:focus-visible {outline: 2.5px dashed var(--floss-ochre);
+    outline-offset: 4px;}
 
 /* Reduced motion: finished composition, no rotation, no growth */
-@media (prefers-reduced-motion: reduce) {
-    .garden-rotor { transform: none !important; }
-    .garden-tree-wrap { --sweep: 0deg !important; --fall: 0 !important; }
+@media (prefers-reduced-motion: reduce) {.garden-rotor { transform: none !important; }
+    .garden-tree-wrap { --sweep: 0deg !important; }
     .garden-act { opacity: 1 !important; transition: none; }
-    .hero-wrap { height: 100vh; }
-}
+    .hero-wrap { height: 100vh; };}
 
 /* ---------- Yarn thread journey ---------- */
-.thread-journey {
-    position: absolute;
+.thread-journey {position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    overflow: visible;
-}
+    overflow: visible;}
 
-.thread-svg {
-    position: absolute;
+.thread-svg {position: absolute;
     inset: 0;
     overflow: visible;
-    display: block;
-}
+    display: block;}
 
-.thread-draw {
-    fill: none;
+.thread-draw {fill: none;
     stroke-width: 3;
     stroke-linecap: round;
     opacity: 0.85;
-    filter: drop-shadow(0 0 6px rgba(139, 127, 240, 0.45));
-}
+    filter: drop-shadow(0 0 6px rgba(139, 127, 240, 0.45));}
 
-.theme-light .thread-draw {
-    opacity: 0.65;
-    filter: none;
-}
+.theme-light .thread-draw {opacity: 0.65;
+    filter: none;}
 
-.thread-ball {
-    position: absolute;
+.thread-ball {position: absolute;
     top: 0;
     left: 0;
     width: 46px;
@@ -563,18 +419,14 @@ p, li { max-width: 70ch; }
     will-change: transform;
     filter: drop-shadow(0 6px 14px rgba(2, 4, 16, 0.5));
     z-index: 4;
-    pointer-events: none;
-}
+    pointer-events: none;}
 
-.thread-ball svg {
-    width: 100%;
+.thread-ball svg {width: 100%;
     height: 100%;
-    display: block;
-}
+    display: block;}
 
 /* ---------- Nav ---------- */
-.navbar {
-    position: fixed;
+.navbar {position: fixed;
     inset: 0 0 auto;
     z-index: 100;
     display: flex;
@@ -586,53 +438,41 @@ p, li { max-width: 70ch; }
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--line);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);}
 
 /* header stays fixed and visible; hide-on-scroll removed */
 
-.nav-brand {
-    display: inline-flex;
+.nav-brand {display: inline-flex;
     align-items: center;
     gap: 0.65rem;
     text-decoration: none;
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 1.15rem;
-    letter-spacing: -0.02em;
-}
+    letter-spacing: -0.02em;}
 
-.brand-yarn {
-    width: 28px;
+.brand-yarn {width: 28px;
     height: 28px;
     filter: drop-shadow(0 0 8px rgba(139, 127, 240, 0.5));
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);}
 
-.nav-brand:hover .brand-yarn {
-    transform: rotate(180deg);
-}
+.nav-brand:hover .brand-yarn {transform: rotate(180deg);}
 
-.nav-menu {
-    display: flex;
+.nav-menu {display: flex;
     list-style: none;
-    gap: 1.5rem;
-}
+    gap: 1.5rem;}
 
-.nav-link {
-    position: relative;
+.nav-link {position: relative;
     font-family: var(--font-mono);
     font-size: 0.82rem;
     text-decoration: none;
     color: var(--ink-soft);
     letter-spacing: 0.02em;
     padding-bottom: 0.2rem;
-    transition: color 0.2s ease;
-}
+    transition: color 0.2s ease;}
 
 /* Stitched underline grows on hover / active */
-.nav-link::after {
-    content: "";
+.nav-link::after {content: "";
     position: absolute;
     left: 0;
     bottom: 0;
@@ -642,27 +482,19 @@ p, li { max-width: 70ch; }
     background-size: 7px 2px;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
 
 .nav-link:hover,
-.nav-link.active {
-    color: var(--ink);
-}
+.nav-link.active {color: var(--ink);}
 
 .nav-link:hover::after,
-.nav-link.active::after {
-    transform: scaleX(1);
-}
+.nav-link.active::after {transform: scaleX(1);}
 
-.nav-controls {
-    display: flex;
+.nav-controls {display: flex;
     align-items: center;
-    gap: 0.5rem;
-}
+    gap: 0.5rem;}
 
-.theme-color-toggle {
-    width: 40px;
+.theme-color-toggle {width: 40px;
     height: 40px;
     border-radius: 999px;
     border: 1px solid var(--line);
@@ -672,53 +504,37 @@ p, li { max-width: 70ch; }
     display: grid;
     place-items: center;
     font-size: 1rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;}
 
-.theme-color-toggle:hover {
-    border-color: var(--primary);
-    box-shadow: var(--glow);
-}
+.theme-color-toggle:hover {border-color: var(--primary);
+    box-shadow: var(--glow);}
 
-.menu-toggle {
-    display: none;
+.menu-toggle {display: none;
     flex-direction: column;
     gap: 5px;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.4rem;
-}
+    padding: 0.4rem;}
 
-.menu-toggle span {
-    display: block;
+.menu-toggle span {display: block;
     width: 22px;
     height: 2px;
     border-radius: 2px;
     background: var(--ink);
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
+    transition: transform 0.3s ease, opacity 0.3s ease;}
 
-.menu-toggle[aria-expanded="true"] span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
+.menu-toggle[aria-expanded="true"] span:nth-child(1) {transform: translateY(7px) rotate(45deg);}
 
-.menu-toggle[aria-expanded="true"] span:nth-child(2) {
-    opacity: 0;
-}
+.menu-toggle[aria-expanded="true"] span:nth-child(2) {opacity: 0;}
 
-.menu-toggle[aria-expanded="true"] span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
+.menu-toggle[aria-expanded="true"] span:nth-child(3) {transform: translateY(-7px) rotate(-45deg);}
 
 /* ---------- Hero (see sticky garden hero above) ---------- */
 
-.hero-copy {
-    max-width: 30rem;
-}
+.hero-copy {max-width: 30rem;}
 
-.hero-brand {
-    font-family: var(--font-display);
+.hero-brand {font-family: var(--font-display);
     font-size: clamp(4rem, 12vw, 7rem);
     font-weight: 800;
     line-height: 0.9;
@@ -732,29 +548,23 @@ p, li { max-width: 70ch; }
     color: var(--ink);
     animation: brand-sheen 9s ease-in-out infinite;
     text-shadow: none;
-    filter: drop-shadow(0 0 32px rgba(139, 127, 240, 0.35));
-}
+    filter: drop-shadow(0 0 32px rgba(139, 127, 240, 0.35));}
 
 @keyframes brand-sheen {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
-.hero-line {
-    font-size: clamp(1.05rem, 2vw, 1.25rem);
+.hero-line {font-size: clamp(1.05rem, 2vw, 1.25rem);
     color: var(--ink-soft);
     max-width: 28ch;
-    margin-bottom: 2rem;
-}
+    margin-bottom: 2rem;}
 
-.hero-actions {
-    display: flex;
+.hero-actions {display: flex;
     flex-wrap: wrap;
-    gap: 0.85rem;
-}
+    gap: 0.85rem;}
 
-.hero-scroll {
-    position: absolute;
+.hero-scroll {position: absolute;
     left: 50%;
     bottom: 2rem;
     transform: translateX(-50%);
@@ -767,17 +577,12 @@ p, li { max-width: 70ch; }
     color: var(--ink-soft);
     text-decoration: none;
     opacity: 0.8;
-    transition: color 0.2s ease, opacity 0.3s ease;
-}
+    transition: color 0.2s ease, opacity 0.3s ease;}
 
-.hero-scroll:hover {
-    color: var(--ink);
-}
+.hero-scroll:hover {color: var(--ink);}
 
-.hero-scroll svg {
-    width: 14px;
-    animation: scroll-nudge 2.2s ease-in-out infinite;
-}
+.hero-scroll svg {width: 14px;
+    animation: scroll-nudge 2.2s ease-in-out infinite;}
 
 @keyframes scroll-nudge {
     0%, 100% { transform: translateY(0); opacity: 0.7; }
@@ -785,8 +590,7 @@ p, li { max-width: 70ch; }
 }
 
 /* ---------- Buttons ---------- */
-.btn {
-    display: inline-flex;
+.btn {display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.85rem 1.5rem;
@@ -798,42 +602,28 @@ p, li { max-width: 70ch; }
     cursor: pointer;
     will-change: transform;
     transition: background 0.2s ease, color 0.2s ease,
-        border-color 0.2s ease, box-shadow 0.25s ease;
-}
+        border-color 0.2s ease, box-shadow 0.25s ease;}
 
-.btn-primary {
-    background: linear-gradient(120deg, var(--primary), var(--secondary));
+.btn-primary {background: linear-gradient(120deg, var(--primary), var(--secondary));
     color: #fff;
-    box-shadow: 0 6px 22px rgba(139, 127, 240, 0.35);
-}
+    box-shadow: 0 6px 22px rgba(139, 127, 240, 0.35);}
 
-.btn-primary:hover {
-    box-shadow: var(--glow-strong);
-}
+.btn-primary:hover {box-shadow: var(--glow-strong);}
 
-.btn-ghost {
-    background: transparent;
+.btn-ghost {background: transparent;
     color: var(--ink);
-    border: 1.5px dashed var(--line-strong);
-}
+    border: 1.5px dashed var(--line-strong);}
 
-.btn-ghost:hover {
-    border-color: var(--primary);
+.btn-ghost:hover {border-color: var(--primary);
     color: var(--primary-soft);
-    box-shadow: var(--glow);
-}
+    box-shadow: var(--glow);}
 
-.theme-light .btn-ghost:hover {
-    color: var(--primary);
-}
+.theme-light .btn-ghost:hover {color: var(--primary);}
 
 /* ---------- Embroidery stitches ---------- */
 /* Cards read as fabric patches: soft edge + inset running-stitch */
-.contact-form{
-    position: relative;
-}
-.contact-form::before{
-    content: "";
+.contact-form{position: relative;}
+.contact-form::before{content: "";
     position: absolute;
     inset: 7px;
     border: 2px dashed var(--stitch);
@@ -846,38 +636,28 @@ p, li { max-width: 70ch; }
         radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat 3px 3px / 7px 7px,
         radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat calc(100% - 3px) 3px / 7px 7px,
         radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat 3px calc(100% - 3px) / 7px 7px,
-        radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat calc(100% - 3px) calc(100% - 3px) / 7px 7px;
-}
-.contact-form:hover::before{
-    border-color: var(--stitch-strong);
-}
+        radial-gradient(circle, var(--stitch-strong) 1.7px, transparent 2.4px) no-repeat calc(100% - 3px) calc(100% - 3px) / 7px 7px;}
+.contact-form:hover::before{border-color: var(--stitch-strong);}
 
 /* Pointer-tracking spotlight wash */
-.theme-light .theme-light .contact-form::before{
-    filter: drop-shadow(0 1px 1px rgba(76, 60, 192, 0.18));
-}
+.theme-light .theme-light .contact-form::before{filter: drop-shadow(0 1px 1px rgba(76, 60, 192, 0.18));}
 
 /* ---------- Sections ---------- */
-.section {
-    position: relative;
+.section {position: relative;
     z-index: 1;
-    padding: clamp(4.5rem, 10vw, 7rem) 0;
-}
+    padding: clamp(4.5rem, 10vw, 7rem) 0;}
 
-.section-title {
-    font-family: var(--font-heading);
+.section-title {font-family: var(--font-heading);
     font-size: clamp(2.4rem, 6vw, 4rem);
     font-weight: 700;
     letter-spacing: -0.03em;
     text-transform: lowercase;
     margin-bottom: 2.5rem;
     position: relative;
-    display: inline-block;
-}
+    display: inline-block;}
 
 /* Cross-stitch underline */
-.section-title::after {
-    content: "";
+.section-title::after {content: "";
     position: absolute;
     left: 0.1em;
     bottom: -0.32em;
@@ -887,116 +667,69 @@ p, li { max-width: 70ch; }
     background-repeat: repeat-x;
     background-position: left center;
     background-size: 28px 11px;
-    filter: drop-shadow(0 1px 1px rgba(2, 4, 16, 0.4));
-}
+    filter: drop-shadow(0 1px 1px rgba(2, 4, 16, 0.4));}
 
-.theme-light .section-title::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='11'%3E%3Cpath d='M2 1.5L10 9.5M10 1.5L2 9.5' fill='none' stroke='%236a5ae0' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M16 1.5L24 9.5M24 1.5L16 9.5' fill='none' stroke='%233f7fd6' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
-    filter: drop-shadow(0 1px 1px rgba(76, 60, 192, 0.2));
-}
+.theme-light .section-title::after {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='11'%3E%3Cpath d='M2 1.5L10 9.5M10 1.5L2 9.5' fill='none' stroke='%236a5ae0' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M16 1.5L24 9.5M24 1.5L16 9.5' fill='none' stroke='%233f7fd6' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+    filter: drop-shadow(0 1px 1px rgba(76, 60, 192, 0.2));}
 
 /* About */
 
-.about-lead {
-    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+.about-lead {font-size: clamp(1.15rem, 2.4vw, 1.45rem);
     max-width: 42ch;
     color: var(--ink);
-    font-weight: 300;
-}
+    font-weight: 300;}
 
 /* Blanket-stitch seam */
-.theme-light .footer { background-image: none; }
+.theme-light .footer {background-image: none;}
 
 /* Projects */
-.projects-grid {
-    display: grid;
+.projects-grid {display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-}
+    gap: 1.25rem;}
 
-.project-title {
-    font-family: var(--font-heading);
+.project-title {font-family: var(--font-heading);
     font-size: 1.25rem;
-    margin-bottom: 0.45rem;
-}
+    margin-bottom: 0.45rem;}
 
-.project-description {
-    color: var(--ink-soft);
+.project-description {color: var(--ink-soft);
     font-size: 0.95rem;
-    margin-bottom: 1rem;
-}
+    margin-bottom: 1rem;}
 
-.tag {
-    font-family: var(--font-mono);
+.tag {font-family: var(--font-mono);
     font-size: 0.72rem;
     padding: 0.3rem 0.65rem;
     border: 1.5px dashed var(--line);
     border-radius: 999px;
     color: var(--ink-soft);
-    transition: border-color 0.2s ease, color 0.2s ease;
-}
-
-/* Thread progress (styleguide) */
-.bar {
-    height: 6px;
-    border-radius: 999px;
-    background: var(--line);
-    overflow: hidden;
-}
-
-.bar-fill {
-    height: 100%;
-    width: 0;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--tertiary));
-    box-shadow: 0 0 12px rgba(139, 127, 240, 0.5);
-    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.bar-fill.is-on {
-    width: var(--w);
-}
+    transition: border-color 0.2s ease, color 0.2s ease;}
 
 /* Contact */
-.contact-layout {
-    display: grid;
+.contact-layout {display: grid;
     grid-template-columns: 0.9fr 1.1fr;
     gap: 2.5rem;
-    align-items: start;
-}
+    align-items: start;}
 
-.contact-aside p {
-    font-size: 1.15rem;
+.contact-aside p {font-size: 1.15rem;
     max-width: 28ch;
-    margin-bottom: 1.5rem;
-}
+    margin-bottom: 1.5rem;}
 
-.contact-links {
-    display: flex;
+.contact-links {display: flex;
     flex-direction: column;
-    gap: 0.65rem;
-}
+    gap: 0.65rem;}
 
-.contact-links a {
-    font-family: var(--font-mono);
+.contact-links a {font-family: var(--font-mono);
     font-size: 0.9rem;
     text-decoration: none;
     color: var(--primary-soft);
     width: fit-content;
-    transition: color 0.2s ease, text-shadow 0.2s ease;
-}
+    transition: color 0.2s ease, text-shadow 0.2s ease;}
 
-.theme-light .contact-links a {
-    color: var(--primary);
-}
+.theme-light .contact-links a {color: var(--primary);}
 
-.contact-links a:hover {
-    color: var(--ink);
-    text-shadow: 0 0 14px rgba(139, 127, 240, 0.7);
-}
+.contact-links a:hover {color: var(--ink);
+    text-shadow: 0 0 14px rgba(139, 127, 240, 0.7);}
 
-.contact-form {
-    display: grid;
+.contact-form {display: grid;
     gap: 1rem;
     padding: 1.5rem;
     border: 1px solid var(--line);
@@ -1004,109 +737,79 @@ p, li { max-width: 70ch; }
     background: var(--surface);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    box-shadow: inset 0 1px 0 var(--surface-edge);
-}
+    box-shadow: inset 0 1px 0 var(--surface-edge);}
 
-.contact-form label {
-    display: grid;
-    gap: 0.4rem;
-}
+.contact-form label {display: grid;
+    gap: 0.4rem;}
 
-.contact-form label span {
-    font-family: var(--font-mono);
+.contact-form label span {font-family: var(--font-mono);
     font-size: 0.78rem;
-    color: var(--ink-soft);
-}
+    color: var(--ink-soft);}
 
 .contact-form input,
-.contact-form textarea {
-    width: 100%;
+.contact-form textarea {width: 100%;
     border: 1.5px dashed var(--line-strong);
     border-radius: 14px;
     background: rgba(7, 9, 26, 0.35);
     color: var(--ink);
     font: inherit;
     padding: 0.85rem 1rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;}
 
 .theme-light .contact-form input,
-.theme-light .contact-form textarea {
-    background: rgba(255, 255, 255, 0.6);
-}
+.theme-light .contact-form textarea {background: rgba(255, 255, 255, 0.6);}
 
 .contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
+.contact-form textarea:focus {outline: none;
     border-color: var(--primary);
     border-style: solid;
-    box-shadow: 0 0 0 3px rgba(139, 127, 240, 0.2);
-}
+    box-shadow: 0 0 0 3px rgba(139, 127, 240, 0.2);}
 
-.contact-form .btn {
-    justify-self: start;
-}
+.contact-form .btn {justify-self: start;}
 
-.form-status {
-    font-family: var(--font-mono);
+.form-status {font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--secondary);
     min-height: 1.2em;
-    margin: 0;
-}
+    margin: 0;}
 
-.form-status.is-error {
-    color: var(--tertiary);
-}
+.form-status.is-error {color: var(--tertiary);}
 
 /* Footer */
-.footer {
-    position: relative;
+.footer {position: relative;
     z-index: 1;
     padding: 2.25rem 0 2.5rem;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='10'%3E%3Cpath d='M0 1.5H18M9 1.5V8.5' fill='none' stroke='%23c7b9ff' stroke-opacity='0.45' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: left top;
-    background-size: 18px 10px;
-}
+    background-size: 18px 10px;}
 
-.footer-inner {
-    display: flex;
+.footer-inner {display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 1rem;
-    align-items: center;
-}
+    align-items: center;}
 
-.footer-mark {
-    display: inline-flex;
+.footer-mark {display: inline-flex;
     align-items: center;
     gap: 0.55rem;
     color: var(--ink-soft);
-    font-size: 0.95rem;
-}
+    font-size: 0.95rem;}
 
-.footer-links {
-    display: flex;
-    gap: 1.25rem;
-}
+.footer-links {display: flex;
+    gap: 1.25rem;}
 
-.footer-links a {
-    font-family: var(--font-mono);
+.footer-links a {font-family: var(--font-mono);
     font-size: 0.8rem;
     text-decoration: none;
     color: var(--ink-soft);
-    transition: color 0.2s ease, text-shadow 0.2s ease;
-}
+    transition: color 0.2s ease, text-shadow 0.2s ease;}
 
-.footer-links a:hover {
-    color: var(--ink);
-    text-shadow: 0 0 12px rgba(139, 127, 240, 0.6);
-}
+.footer-links a:hover {color: var(--ink);
+    text-shadow: 0 0 12px rgba(139, 127, 240, 0.6);}
 
 /* Demo modal */
-.demo-modal {
-    position: fixed;
+.demo-modal {position: fixed;
     inset: 0;
     z-index: 200;
     display: flex;
@@ -1114,35 +817,27 @@ p, li { max-width: 70ch; }
     justify-content: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
-}
+    transition: opacity 0.3s ease;}
 
-.demo-modal.active {
-    opacity: 1;
-    pointer-events: all;
-}
+.demo-modal.active {opacity: 1;
+    pointer-events: all;}
 
-.demo-modal-overlay {
-    position: absolute;
+.demo-modal-overlay {position: absolute;
     inset: 0;
     background: rgba(2, 4, 16, 0.75);
     -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-}
+    backdrop-filter: blur(6px);}
 
-.demo-modal-content {
-    position: relative;
+.demo-modal-content {position: relative;
     width: min(900px, 92vw);
     max-height: 90vh;
     overflow: auto;
     background: var(--bg-2);
     border: 1px solid var(--line);
     border-radius: 22px;
-    box-shadow: var(--shadow);
-}
+    box-shadow: var(--shadow);}
 
-.demo-modal-close {
-    position: absolute;
+.demo-modal-close {position: absolute;
     top: 1rem;
     right: 1rem;
     width: 36px;
@@ -1152,27 +847,20 @@ p, li { max-width: 70ch; }
     background: var(--primary);
     color: #fff;
     font-size: 1.1rem;
-    cursor: pointer;
-}
+    cursor: pointer;}
 
 .demo-modal-header,
 .demo-modal-body,
-.demo-modal-footer {
-    padding: 1.5rem;
-}
+.demo-modal-footer {padding: 1.5rem;}
 
-.demo-iframe-container {
-    height: 420px;
+.demo-iframe-container {height: 420px;
     border-radius: 14px;
     overflow: hidden;
-    border: 1px solid var(--line);
-}
+    border: 1px solid var(--line);}
 
-.demo-iframe-container iframe {
-    width: 100%;
+.demo-iframe-container iframe {width: 100%;
     height: 100%;
-    border: 0;
-}
+    border: 0;}
 
 /* =========================================================
    Embroidery layer — everything reads as stitching on knit
@@ -1180,92 +868,64 @@ p, li { max-width: 70ch; }
 
 /* Real wool felt (Higgsfield), tinted by the theme via multiply blend */
 .contact-form,
-.btn.is-patch {
-    background-color: var(--felt);
-    background-image: url("../assets/felt.jpg");
+.btn.is-patch {background-color: var(--felt);
     background-size: 340px 340px;
-    background-blend-mode: multiply;
-}
+    background-blend-mode: multiply;}
 
 /* Cards sit physically on the knit: tight shadow + slight rotation */
-.contact-form{
-    box-shadow: 0 2px 3px var(--thread-shadow), 0 6px 14px rgba(10, 8, 24, 0.18),
+.contact-form{box-shadow: 0 2px 3px var(--thread-shadow), 0 6px 14px rgba(10, 8, 24, 0.18),
         inset 0 1px 0 var(--felt-edge);
     -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-}
-.contact-form { rotate: 0.3deg; }
+    backdrop-filter: none;}
+.contact-form {rotate: 0.3deg;}
 
 /* JS blanket-stitch frames replace the CSS dashed fallback */
-.has-stitch-frame::before {
-    display: none;
-}
+.has-stitch-frame::before {display: none;}
 
 /* Buttons as embroidered patches */
-.btn.is-patch {
-    color: var(--ink);
+.btn.is-patch {color: var(--ink);
     box-shadow: 0 2px 3px var(--thread-shadow), 0 4px 10px rgba(10, 8, 24, 0.15);
-    transition: box-shadow 0.25s ease, filter 0.25s ease, background-color 0.25s ease;
-}
+    transition: box-shadow 0.25s ease, filter 0.25s ease, background-color 0.25s ease;}
 
-.btn.is-patch .satin-border {
-    stroke: var(--thread-accent);
-    transition: stroke 0.25s ease;
-}
+.btn.is-patch .satin-border {stroke: var(--thread-accent);
+    transition: stroke 0.25s ease;}
 
-.btn-primary.is-patch {
-    background-color: var(--thread-accent);
+.btn-primary.is-patch {background-color: var(--thread-accent);
     background-blend-mode: soft-light;
-    color: var(--dmc-3866);
-}
+    color: var(--dmc-3866);}
 
-.btn-primary.is-patch .satin-border {
-    stroke: var(--dmc-3866);
-}
+.btn-primary.is-patch .satin-border {stroke: var(--dmc-3866);}
 
-.btn.is-patch:hover {
-    filter: saturate(1.35);
-    box-shadow: 0 4px 5px var(--thread-shadow), 0 12px 22px rgba(10, 8, 24, 0.28);
-}
+.btn.is-patch:hover {filter: saturate(1.35);
+    box-shadow: 0 4px 5px var(--thread-shadow), 0 12px 22px rgba(10, 8, 24, 0.28);}
 
-.btn.is-patch:active {
-    filter: saturate(1.1);
-    box-shadow: 0 1px 2px var(--thread-shadow), inset 0 2px 6px rgba(10, 8, 24, 0.25);
-}
+.btn.is-patch:active {filter: saturate(1.1);
+    box-shadow: 0 1px 2px var(--thread-shadow), inset 0 2px 6px rgba(10, 8, 24, 0.25);}
 
 /* Backstitch link underlines draw in */
 /* Dividers */
-.stitch-divider {
-    margin-bottom: 2rem;
-    color: var(--thread-neutral);
-}
+.stitch-divider {margin-bottom: 2rem;
+    color: var(--thread-neutral);}
 
 /* Stitched headings */
-.is-stitched-heading .stitch-heading-svg {
-    display: block;
-}
+.is-stitched-heading .stitch-heading-svg {display: block;}
 
-.stitch-text-main {
-    fill: color-mix(in srgb, var(--ink) 20%, transparent);
+.stitch-text-main {fill: color-mix(in srgb, var(--ink) 20%, transparent);
     stroke: var(--ink);
     stroke-width: 1.9;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 3.4 2.6;
-}
+    stroke-dasharray: 3.4 2.6;}
 
-.stitch-text-shadow {
-    fill: none;
+.stitch-text-shadow {fill: none;
     stroke: var(--thread-shadow);
     stroke-width: 1.9;
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-dasharray: 3.4 2.6;
-    transform: translate(1.2px, 1.6px);
-}
+    transform: translate(1.2px, 1.6px);}
 
-.sr-only {
-    position: absolute;
+.sr-only {position: absolute;
     width: 1px;
     height: 1px;
     padding: 0;
@@ -1273,118 +933,69 @@ p, li { max-width: 70ch; }
     overflow: hidden;
     clip: rect(0 0 0 0);
     white-space: nowrap;
-    border: 0;
-}
+    border: 0;}
 
 /* Body copy sits ON the fabric */
 p,
 li,
-.hero-line {
-    text-shadow: 0 1px 1px var(--thread-shadow);
-}
+.hero-line {text-shadow: 0 1px 1px var(--thread-shadow);}
 
 /* French-knot list markers */
-.timeline-points {
-    list-style: none;
-    padding-left: 1.3rem;
-}
+.timeline-points {list-style: none;
+    padding-left: 1.3rem;}
 
 /* Form fields as recessed seams */
 .contact-form input,
-.contact-form textarea {
-    border: none;
+.contact-form textarea {border: none;
     border-radius: 10px;
     background-color: rgba(10, 8, 24, 0.28);
-    background-image: var(--seam-line), var(--seam-line), url("../assets/linen.jpg");
     background-repeat: repeat-x, repeat-x, repeat;
     background-position: left 2px, left calc(100% - 2px), center;
     background-size: auto, auto, 280px 280px;
     background-blend-mode: normal, normal, multiply;
     box-shadow: inset 0 2px 6px rgba(10, 8, 24, 0.35), inset 0 -1px 0 var(--felt-edge);
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;}
 
 .theme-light .contact-form input,
-.theme-light .contact-form textarea {
-    background-color: rgba(221, 217, 195, 0.55);
-    box-shadow: inset 0 2px 6px rgba(46, 36, 23, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.6);
-}
+.theme-light .contact-form textarea {background-color: rgba(221, 217, 195, 0.55);
+    box-shadow: inset 0 2px 6px rgba(46, 36, 23, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.6);}
 
 .contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
+.contact-form textarea:focus {outline: none;
     border: none;
-    background-image: var(--seam-line-focus), var(--seam-line-focus), url("../assets/linen.jpg");
-    box-shadow: inset 0 2px 6px rgba(10, 8, 24, 0.35), 0 0 0 3px rgba(139, 127, 240, 0.18);
-}
+    box-shadow: inset 0 2px 6px rgba(10, 8, 24, 0.35), 0 0 0 3px rgba(139, 127, 240, 0.18);}
 
-.contact-form input.is-error,
-.contact-form textarea.is-error {
-    background-image: var(--seam-line-error), var(--seam-line-error), url("../assets/linen.jpg");
-}
-
-.form-status.is-error {
-    color: var(--thread-error);
-}
-
-/* Progress = thread unspooling (floss twist on the skill bars) */
-.bar {
-    background: rgba(10, 8, 24, 0.3);
-    box-shadow: inset 0 1px 2px rgba(10, 8, 24, 0.4);
-}
-
-.theme-light .bar {
-    background: rgba(133, 123, 97, 0.25);
-    box-shadow: inset 0 1px 2px rgba(46, 36, 23, 0.2);
-}
-
-.bar-fill {
-    background: url("../assets/floss.jpg") repeat;
-    background-size: 90px auto;
-    box-shadow: 0 1px 1px var(--thread-shadow);
-}
+.form-status.is-error {color: var(--thread-error);}
 
 /* Whisk cursor, 32px (the balloon of wires meets at the hotspot; the
    handle trails down-right) — cream on the lamplit ground, charcoal on
    the cream ground, peach ferrule in both */
 .theme-dark body.needle-cursor,
 .theme-dark body.needle-cursor a,
-.theme-dark body.needle-cursor button {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M18 18 L4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q16 6 4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q21 1 4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q6 16 4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q1 21 4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M17.6 17.6 L20.4 20.4' fill='none' stroke='%23f4c7b8' stroke-width='4.2' stroke-linecap='round'/%3E%3Cpath d='M20 20 L28 28' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 4 4, auto;
-}
+.theme-dark body.needle-cursor button {cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M18 18 L4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q16 6 4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q21 1 4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q6 16 4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q1 21 4 4' fill='none' stroke='%23fbf7f2' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M17.6 17.6 L20.4 20.4' fill='none' stroke='%23f4c7b8' stroke-width='4.2' stroke-linecap='round'/%3E%3Cpath d='M20 20 L28 28' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 4 4, auto;}
 
 .theme-light body.needle-cursor,
 .theme-light body.needle-cursor a,
-.theme-light body.needle-cursor button {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M18 18 L4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q16 6 4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q21 1 4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q6 16 4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q1 21 4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M19 19 L28 28' fill='none' stroke='%23fbf7f2' stroke-width='5.4' stroke-linecap='round'/%3E%3Cpath d='M18 18 L4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q16 6 4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q21 1 4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q6 16 4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q1 21 4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M17.6 17.6 L20.4 20.4' fill='none' stroke='%23f4c7b8' stroke-width='4.2' stroke-linecap='round'/%3E%3Cpath d='M20 20 L28 28' fill='none' stroke='%233a3a3a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 4 4, auto;
-}
+.theme-light body.needle-cursor button {cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M18 18 L4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q16 6 4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q21 1 4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q6 16 4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q1 21 4 4' fill='none' stroke='%23fbf7f2' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M19 19 L28 28' fill='none' stroke='%23fbf7f2' stroke-width='5.4' stroke-linecap='round'/%3E%3Cpath d='M18 18 L4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q16 6 4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q21 1 4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q6 16 4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M18 18 Q1 21 4 4' fill='none' stroke='%233a3a3a' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M17.6 17.6 L20.4 20.4' fill='none' stroke='%23f4c7b8' stroke-width='4.2' stroke-linecap='round'/%3E%3Cpath d='M20 20 L28 28' fill='none' stroke='%233a3a3a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 4 4, auto;}
 
 /* Focus = bright contrasting stitch, never removed */
-:focus-visible {
-    outline: 2.5px dashed var(--thread-accent);
+:focus-visible {outline: 2.5px dashed var(--thread-accent);
     outline-offset: 4px;
-    border-radius: 4px;
-}
+    border-radius: 4px;}
 
 
 /* Satin border specular sweep on hover */
-.btn.is-patch {
-    overflow: hidden;
-}
+.btn.is-patch {overflow: hidden;}
 
-.btn.is-patch::after {
-    content: "";
+.btn.is-patch::after {content: "";
     position: absolute;
     inset: -4px auto -4px -30%;
     width: 26%;
     transform: translateX(-140%) skewX(-18deg);
     background: linear-gradient(90deg, transparent, rgba(255, 253, 245, 0.35), transparent);
-    pointer-events: none;
-}
+    pointer-events: none;}
 
-.btn.is-patch:hover::after {
-    animation: satin-sweep 0.4s cubic-bezier(0.3, 0, 0.3, 1) 1;
-}
+.btn.is-patch:hover::after {animation: satin-sweep 0.4s cubic-bezier(0.3, 0, 0.3, 1) 1;}
 
 @keyframes satin-sweep {
     to { transform: translateX(620%) skewX(-18deg); }
@@ -1392,21 +1003,17 @@ li,
 
 
 /* Thread fuzz halo along the drawn yarn */
-.thread-fuzz {
-    fill: none;
+.thread-fuzz {fill: none;
     stroke: var(--primary-soft);
     stroke-width: 10;
     stroke-linecap: round;
-    opacity: 0.13;
-}
+    opacity: 0.13;}
 
 /* Chain rail replaces the CSS chain background */
 
 /* Seam focus: stitches visibly pull tight */
 .contact-form input:focus,
-.contact-form textarea:focus {
-    animation: seam-pull 0.35s cubic-bezier(0.2, 0, 0.2, 1.2) 1;
-}
+.contact-form textarea:focus {animation: seam-pull 0.35s cubic-bezier(0.2, 0, 0.2, 1.2) 1;}
 
 @keyframes seam-pull {
     0% { background-position: left 6px top 2px, left -6px bottom 2px, center; }
@@ -1415,9 +1022,7 @@ li,
 
 /* Error seam stitches in unevenly, like a hand working fast */
 .contact-form input.is-error,
-.contact-form textarea.is-error {
-    animation: seam-error-in 0.55s steps(7, end) 1;
-}
+.contact-form textarea.is-error {animation: seam-error-in 0.55s steps(7, end) 1;}
 
 @keyframes seam-error-in {
     0% { background-position: left 14px top 2px, left -11px bottom 2px, center; opacity: 0.7; }
@@ -1425,8 +1030,7 @@ li,
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 900px) {
-    .contact-layout,
+@media (max-width: 900px) {.contact-layout,
     .projects-grid {
         grid-template-columns: 1fr;
     }
@@ -1441,12 +1045,10 @@ li,
 
     .hero-actions {
         justify-content: center;
-    }
-}
+    };}
 
 @media (max-width: 720px) {
-    .nav-menu {
-        position: fixed;
+    .nav-menu {position: fixed;
         top: 68px;
         left: 0;
         right: 0;
@@ -1457,37 +1059,24 @@ li,
         -webkit-backdrop-filter: blur(16px);
         backdrop-filter: blur(16px);
         border-bottom: 1px solid var(--line);
-        padding: 1rem 1.25rem 1.25rem;
-    }
+        padding: 1rem 1.25rem 1.25rem;}
 
-    .nav-menu.active {
-        display: flex;
-    }
+    .nav-menu.active {display: flex;}
 
-    .nav-link {
-        padding: 0.75rem 0;
-    }
+    .nav-link {padding: 0.75rem 0;}
 
-    .menu-toggle {
-        display: flex;
-    }
+    .menu-toggle {display: flex;}
 
-    .projects-grid {
-        grid-template-columns: 1fr;
-    }
+    .projects-grid {grid-template-columns: 1fr;}
 
-    .thread-ball {
-        width: 36px;
+    .thread-ball {width: 36px;
         height: 36px;
-        margin: -18px 0 0 -18px;
-    }
+        margin: -18px 0 0 -18px;}
 
-    .hero-scroll { display: none; }
-}
+    .hero-scroll {display: none;}}
 
 /* ---------- Reduced motion ---------- */
-@media (prefers-reduced-motion: reduce) {
-    html {
+@media (prefers-reduced-motion: reduce) {html {
         scroll-behavior: auto;
     }
 
@@ -1515,69 +1104,54 @@ li,
     .nav-link::after,
     .bar-fill {
         transition: none;
-    }
-}
+    };}
 
 /* =========================================================
    Garden layout — late-cascade overrides (must beat earlier
    component rules): floss-dyed buttons and patch surfaces
    ========================================================= */
 .btn-primary,
-.btn-primary.is-patch {
-    background: var(--floss-green-deep);
+.btn-primary.is-patch {background: var(--floss-green-deep);
     background-image: none;
     color: var(--bg);
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.28), 0 6px 14px rgba(0, 0, 0, 0.14);
-}
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.28), 0 6px 14px rgba(0, 0, 0, 0.14);}
 .btn-primary:hover,
-.btn-primary.is-patch:hover {
-    background: color-mix(in srgb, var(--floss-green-deep) 80%, var(--floss-ochre));
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 12px 22px rgba(0, 0, 0, 0.18);
-}
-.btn-primary.is-patch .satin-border { stroke: var(--floss-ochre); }
+.btn-primary.is-patch:hover {background: color-mix(in srgb, var(--floss-green-deep) 80%, var(--floss-ochre));
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 12px 22px rgba(0, 0, 0, 0.18);}
+.btn-primary.is-patch .satin-border {stroke: var(--floss-ochre);}
 .btn-ghost,
-.btn-ghost.is-patch {
-    background: rgba(var(--linen-rgb), 0.55);
+.btn-ghost.is-patch {background: rgba(var(--linen-rgb), 0.55);
     background-image: none;
     color: var(--ink);
-    border: 1.5px dashed var(--floss-green);
-}
+    border: 1.5px dashed var(--floss-green);}
 .btn-ghost:hover,
-.btn-ghost.is-patch:hover { border-color: var(--floss-ochre); color: var(--ink); }
-.btn-ghost.is-patch .satin-border { stroke: var(--floss-green); }
-.theme-color-toggle { border-color: var(--floss-green); }
+.btn-ghost.is-patch:hover {border-color: var(--floss-ochre); color: var(--ink);}
+.btn-ghost.is-patch .satin-border {stroke: var(--floss-green);}
+.theme-color-toggle {border-color: var(--floss-green);}
 
 
 /* =========================================================
    Card edges: no dotted perimeter — a single clean hairline
    ========================================================= */
-.contact-form::before{
-    display: none;
-}
-.contact-form{
-    border-radius: 16px;
-}
+.contact-form::before{display: none;}
+.contact-form{border-radius: 16px;}
 
 /* ---------- masked reveals ----------
    The clip lives on a wrapper so it never fights a transform on the element
    itself. Elements slide up out of the mask as it opens; imagery inside a
    frame counter-scales. No `overflow: hidden` here — the clip-path does the
    containing, and overflow would trap card shadows. */
-.reveal-mask {
-    display: block;
-    will-change: clip-path;
-}
+.reveal-mask {display: block;
+    will-change: clip-path;}
 
 /* nothing is hidden without JS, and reduced motion gets the final state */
-@media (prefers-reduced-motion: reduce) {
-    .reveal-mask {
+@media (prefers-reduced-motion: reduce) {.reveal-mask {
         clip-path: none !important;
         will-change: auto;
     }
     .reveal-mask > * {
         transform: none !important;
-    }
-}
+    };}
 
 /* =========================================================
    HERO COMPOSITION
@@ -1586,8 +1160,7 @@ li,
    The name is set on ONE line at every size — `nowrap` plus a viewport-scaled
    size that stays inside the free column.
    ========================================================= */
-.hero-copy {
-    justify-self: stretch;
+.hero-copy {justify-self: stretch;
     text-align: center;
     max-width: none;
     margin-inline: auto;
@@ -1595,39 +1168,29 @@ li,
        amount the space above/below differed by — the grid centring is the
        only thing that should position this */
     margin-top: 0;
-    padding-right: 0;
-}
+    padding-right: 0;}
 
-.hero-brand {
-    white-space: nowrap;
+.hero-brand {white-space: nowrap;
     font-size: clamp(2.3rem, 7.4vw, 7rem);
     /* `background-clip: text` paints only inside the line box, so at
        line-height 1 the descender of the y falls outside it and is cut.
        Give the box room below the baseline. */
     line-height: 1.16;
     padding-bottom: 0.06em;
-    margin-bottom: 0.85rem;
-}
+    margin-bottom: 0.85rem;}
 
-.hero-line {
-    max-width: none;
+.hero-line {max-width: none;
     margin-inline: auto;
-    letter-spacing: 0.01em;
-}
+    letter-spacing: 0.01em;}
 
-.hero-actions {
-    justify-content: center;
-}
+.hero-actions {justify-content: center;}
 
 @media (min-width: 900px) {
     /* centred in the band to the RIGHT of the tree: same derivation the
        section columns use, so the copy and the body text agree on where
        the art ends */
-    .hero-copy {
-        margin-left: calc(var(--tree-x, 26vw) + 0.45 * var(--tree-h) + 1rem);
-        margin-right: clamp(1rem, 3vw, 3rem);
-    }
-}
+    .hero-copy {margin-left: calc(var(--tree-x, 26vw) + 0.45 * var(--tree-h) + 1rem);
+        margin-right: clamp(1rem, 3vw, 3rem);}}
 
 /* =========================================================
    SCENE PROPS — flora on the ground line, fliers above
@@ -1635,30 +1198,10 @@ li,
    maps to viewport (--tree-x, 50vh), so offsetting by that puts this box
    exactly over the viewport at rotation 0 — and it then turns with the world.
    ========================================================= */
-.garden-scene {
-    position: absolute;
+.garden-scene {position: absolute;
     z-index: 2;                             /* meadow sits between the two */
     inset: 0;
-    --ground-h: clamp(60px, 11vh, 130px);
-    pointer-events: none;
-}
-
-/* A continuous wildflower meadow along the horizon. This is the planting —
-   the individual sprites below only break its silhouette. Tiled on X so it
-   spans any width; a meadow is visually noisy enough to hide the repeat. */
-.garden-meadow {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: calc(var(--ground-h) * 0.52);
-    /* Height is set by STITCH WEIGHT, not by taste: this band carries tall
-       stems, so showing it short renders its yarn far finer than the tree's.
-       Measured at 36vh its stroke is ~6.6 screen-px against the tree's branch
-       cord at 9.9 — not identical, but the mismatch was 4x before. Taller
-       would match exactly and swallow the tree. */
-    height: 30vh;
-    background: url("../assets/garden/meadow.webp") repeat-x left bottom / auto 100%;
-}
+    pointer-events: none;}
 
 /* Accents GROW OUT OF the meadow rather than sitting on it: bases are sunk
    below the horizon so no stem-end is ever visible, and there is no drop
@@ -1669,28 +1212,20 @@ li,
    for the whole of `about` reads as a bug, not as whimsy. */
 
 
-@media (max-width: 767px) {
-    /* the small screen already feels busy — keep only the nearest props */
-    .garden-meadow { height: 22vh; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-}
+@media (max-width: 767px) {/* the small screen already feels busy — keep only the nearest props */
+    .garden-meadow { height: 22vh; };}
 
 /* A few of the meadow's own flowers, in front of the trunk.
    Same asset at the SAME height, so the yarn scale matches exactly — only the
    horizontal offset differs, so different blooms show than in the band behind.
    Masked to a couple of soft clumps near the trunk instead of a full band. */
-.garden-fore {
-    position: absolute;
+.garden-fore {position: absolute;
     z-index: 4;                             /* in FRONT of the tree (3) */
     left: 0;
     right: 0;
     bottom: calc(var(--ground-h, 90px) * 0.52);
     height: 30vh;
-    --ground-h: clamp(60px, 11vh, 130px);
     pointer-events: none;
-    background: url("../assets/garden/meadow.webp") repeat-x left bottom / auto 100%;
     background-position-x: -21vw;           /* different blooms than the layer behind */
     -webkit-mask-image:
         radial-gradient(5.5vw 17vh at 15vw 86%, #000 44%, transparent 76%),
@@ -1701,55 +1236,20 @@ li,
         radial-gradient(4.5vw 14vh at 27vw 90%, #000 44%, transparent 76%),
         radial-gradient(5vw 15vh at 37vw 87%, #000 44%, transparent 76%);
     -webkit-mask-composite: source-over;
-    mask-composite: add;
-}
-
-@media (max-width: 767px) {
-    .garden-fore { height: 22vh; }
-}
+    mask-composite: add;}
 
 
 /* Gull silhouettes. Solid, not dashed: at this size a stitched bird reads as
    a shape, and a dash pattern just looks like a broken line. The embroidered
    quality comes from the thread shadow beneath it. */
-.garden-birds {
-    position: absolute;
+.garden-birds {position: absolute;
     z-index: 5;
     inset: 0;
-    pointer-events: none;
-}
-
-.bird {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: calc(var(--s, 1) * 4.2vw);
-    min-width: 28px;
-    height: auto;
-    overflow: visible;
-    rotate: var(--r, 0deg);
-    animation: bird-glide 13s ease-in-out infinite;
-    animation-delay: var(--d, 0s);
-}
-
-.bird path {
-    fill: var(--color-soft-charcoal);
-    opacity: 0.88;
-    filter: drop-shadow(0.5px 1px 0.6px rgba(0, 0, 0, 0.32));
-}
+    pointer-events: none;}
 
 @keyframes bird-glide {
     0%, 100% { translate: 0 0; }
     50%      { translate: 2.6vw -1.8vh; }
-}
-
-@media (max-width: 767px) {
-    .bird { width: calc(var(--s, 1) * 8.5vw); }
-    .garden-birds .bird:nth-child(n+7) { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .bird { animation: none; }
 }
 
 
@@ -1758,89 +1258,68 @@ li,
    Replaces the three-card grid plus three big numerals, which read as a
    template rather than as a person.
    ========================================================= */
-.about-lead {
-    font-family: var(--font-hellenictypewriter);
+.about-lead {font-family: var(--font-hellenictypewriter);
     font-size: clamp(1.45rem, 3.1vw, 2.5rem);
     line-height: 1.34;
     font-weight: 600;
     color: var(--ink);
     max-width: 22ch;
     margin: 0 0 clamp(2rem, 5vh, 3.5rem);
-    text-wrap: balance;
-}
+    text-wrap: balance;}
 
 /* the three things worth catching, marked like couched floss */
-.about-lead em {
-    font-style: normal;
+.about-lead em {font-style: normal;
     color: var(--floss-green-deep);
     background-image: linear-gradient(var(--floss-ochre), var(--floss-ochre));
     background-repeat: repeat-x;
     background-size: 6px 2px;
     background-position: 0 calc(100% - 0.04em);
-    padding-bottom: 0.06em;
-}
+    padding-bottom: 0.06em;}
 
-.about-facts {
-    display: grid;
+.about-facts {display: grid;
     grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
     gap: 0 clamp(1.5rem, 4vw, 3rem);
     margin: 0;
-    max-width: 46rem;
-}
+    max-width: 46rem;}
 
-.about-facts > div {
-    padding: 0.9rem 0;
-    border-top: 1px dashed color-mix(in srgb, var(--floss-green-deep) 45%, transparent);
-}
+.about-facts > div {padding: 0.9rem 0;
+    border-top: 1px dashed color-mix(in srgb, var(--floss-green-deep) 45%, transparent);}
 
-.about-facts dt {
-    font-size: 0.72rem;
+.about-facts dt {font-size: 0.72rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--floss-green-deep);
-    margin-bottom: 0.3rem;
-}
+    margin-bottom: 0.3rem;}
 
-.about-facts dd {
-    margin: 0;
+.about-facts dd {margin: 0;
     font-size: 1rem;
     line-height: 1.45;
-    color: var(--ink);
-}
+    color: var(--ink);}
 
 @media (max-width: 767px) {
-    .about-lead { max-width: none; }
-}
+    .about-lead {max-width: none;}}
 
 /* =========================================================
    ABOUT — full-bleed statement
    It takes the whole screen rather than a reading column: the sentence is
    the section, so it gets the width and a full viewport of height to sit in.
    ========================================================= */
-@media (min-width: 900px) {
-    #about > .container {
+@media (min-width: 900px) {#about > .container {
         margin-left: clamp(2rem, 7vw, 7rem);
         margin-right: clamp(2rem, 7vw, 7rem);
         max-width: none;
-    }
-}
+    };}
 
-.about {
-    min-height: 62vh;
+.about {min-height: 62vh;
     display: grid;
-    align-content: center;
-}
+    align-content: center;}
 
-.about .about-lead {
-    font-size: clamp(1.6rem, 5.2vw, 4.2rem);
+.about .about-lead {font-size: clamp(1.6rem, 5.2vw, 4.2rem);
     max-width: 19ch;
-    line-height: 1.24;
-}
+    line-height: 1.24;}
 
-.about .about-facts {
-    max-width: none;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-}
+.about .about-facts {max-width: none;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));}
 
 /* =========================================================
    TYPE SCALE + COMPARTMENTS
@@ -1849,16 +1328,14 @@ li,
    pinned into a ~340px column by a 46vw right margin, which read as two
    different websites.
    ========================================================= */
-:root {
-    --fs-xs:   clamp(0.7rem,  0.68rem + 0.08vw, 0.78rem);
+:root {--fs-xs:   clamp(0.7rem,  0.68rem + 0.08vw, 0.78rem);
     --fs-sm:   clamp(0.82rem, 0.8rem  + 0.1vw,  0.9rem);
     --fs-base: clamp(0.95rem, 0.92rem + 0.14vw, 1.05rem);
     --fs-md:   clamp(1rem,    0.96rem + 0.22vw, 1.18rem);
     --fs-lg:   clamp(1.15rem, 1.05rem + 0.42vw, 1.5rem);
 
     --pad-card: clamp(1rem, 1.7vw, 1.5rem);
-    --radius-card: 18px;
-}
+    --radius-card: 18px;}
 
 @media (min-width: 900px) {
     /* every section shares the same column. The max-width still leaves a
@@ -1868,66 +1345,58 @@ li,
     #about > .container,
     #experience > .container,
     #projects > .container,
-    #contact > .container {
-        /* auto margins so the column is actually CENTRED. With a fixed
+    #contact > .container {/* auto margins so the column is actually CENTRED. With a fixed
            margin-left plus a max-width the leftover space all landed on the
            right, which read as left-aligned. 68rem (not 72) keeps enough
            clear band on the right for the margin threads at 1440. */
         width: min(68rem, 100% - clamp(2rem, 6vw, 5rem) * 2);
         max-width: none;
         margin-left: auto;
-        margin-right: auto;
-    }
-}
+        margin-right: auto;}}
 
-body { font-size: var(--fs-base); }
+body {font-size: var(--fs-base);}
 
 /* ---- projects ---- */
-.projects-grid { gap: clamp(1.2rem, 2.5vw, 2rem); }
+.projects-grid {gap: clamp(1.2rem, 2.5vw, 2rem);}
 
 /* ---- contact ---- */
-.contact-form { padding: var(--pad-card); border-radius: var(--radius-card); }
-.contact-aside p { font-size: var(--fs-md); line-height: 1.5; max-width: 32ch; }
-.contact-links a { font-size: var(--fs-base); }
-.contact-form label span { font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase; }
+.contact-form {padding: var(--pad-card); border-radius: var(--radius-card);}
+.contact-aside p {font-size: var(--fs-md); line-height: 1.5; max-width: 32ch;}
+.contact-links a {font-size: var(--fs-base);}
+.contact-form label span {font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase;}
 .contact-form input,
-.contact-form textarea { font-size: var(--fs-base); }
+.contact-form textarea {font-size: var(--fs-base);}
 
 /* ---- about facts share the scale ---- */
-.about-facts dt { font-size: var(--fs-xs); }
-.about-facts dd { font-size: var(--fs-base); }
+.about-facts dt {font-size: var(--fs-xs);}
+.about-facts dd {font-size: var(--fs-base);}
 
 /* =========================================================
    SIZING PASS
-   A global `p, li { max-width: 70ch }` keeps prose readable. Structural
+   A global `p, li {max-width: 70ch;}` keeps prose readable. Structural
    lists opt out; prose keeps the cap.
    ========================================================= */
 .about-facts,
 .about-facts > div,
 .projects-grid,
-.contact-links { max-width: none; }
+.contact-links {max-width: none;}
 
 /* section headings carry each section the way the wordmark carries the hero */
-.section-title {
-    font-size: clamp(1.7rem, 2.6vw, 2.6rem);
-    margin-bottom: clamp(1.1rem, 2.4vh, 1.8rem);
-}
+.section-title {font-size: clamp(1.7rem, 2.6vw, 2.6rem);
+    margin-bottom: clamp(1.1rem, 2.4vh, 1.8rem);}
 
-.section {
-    padding-top: clamp(3rem, 6.5vh, 5rem);
-    padding-bottom: clamp(3rem, 6.5vh, 5rem);
-}
+.section {padding-top: clamp(3rem, 6.5vh, 5rem);
+    padding-bottom: clamp(3rem, 6.5vh, 5rem);}
 
 /* compartments: more room now that the type inside them is bigger */
-:root { --pad-card: clamp(1rem, 1.7vw, 1.5rem); }
+:root {--pad-card: clamp(1rem, 1.7vw, 1.5rem);}
 
-.contact-aside p { font-size: clamp(0.98rem, 0.92rem + 0.3vw, 1.18rem); max-width: 30ch; }
+.contact-aside p {font-size: clamp(0.98rem, 0.92rem + 0.3vw, 1.18rem); max-width: 30ch;}
 
-.nav-link, .nav-brand span { font-size: clamp(0.8rem, 0.78rem + 0.1vw, 0.88rem); }
+.nav-link, .nav-brand span {font-size: clamp(0.8rem, 0.78rem + 0.1vw, 0.88rem);}
 
 @media (max-width: 767px) {
-    .section-title { font-size: clamp(1.5rem, 6.5vw, 2rem); }
-}
+    .section-title {font-size: clamp(1.5rem, 6.5vw, 2rem);}}
 
 /* =========================================================
    ABOUT LEAD — a lead paragraph, not a billboard
@@ -1935,27 +1404,22 @@ body { font-size: var(--fs-base); }
    into a tall narrow slab that overflowed the section. Same idea, sane size:
    larger than body copy, wide enough to read in a few lines.
    ========================================================= */
-.about .about-lead {
-    font-size: clamp(1rem, 0.94rem + 0.42vw, 1.32rem);
+.about .about-lead {font-size: clamp(1rem, 0.94rem + 0.42vw, 1.32rem);
     max-width: 52ch;
     line-height: 1.4;
     font-weight: 600;
-    margin-bottom: clamp(2rem, 5vh, 3.25rem);
-}
+    margin-bottom: clamp(2rem, 5vh, 3.25rem);}
 
 /* the scrim is there so copy never fights the meadow behind it — keep it,
    but it should read as a soft wash, not as a card */
-.about-lead {
-    padding: 0.85rem 1.1rem;
+.about-lead {padding: 0.85rem 1.1rem;
     border-radius: 10px;
     background: rgba(var(--linen-rgb), 0.82);
     -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
-}
+    backdrop-filter: blur(3px);}
 
 @media (max-width: 767px) {
-    .about .about-lead { max-width: none; font-size: clamp(1.1rem, 4.6vw, 1.45rem); }
-}
+    .about .about-lead {max-width: none; font-size: clamp(1.1rem, 4.6vw, 1.45rem);}}
 
 /* =========================================================
    PROJECTS — numbered editorial rows
@@ -1963,65 +1427,48 @@ body { font-size: var(--fs-base); }
    which is the most template-looking pattern on the page. A numbered row
    with a dashed rule reads as an index, and matches `about`'s facts.
    ========================================================= */
-.projects-list {
-    display: block;
-    max-width: none;
-}
+.projects-list {display: block;
+    max-width: none;}
 
-.project-row {
-    display: grid;
+.project-row {display: grid;
     grid-template-columns: auto 1fr auto;
     gap: 0 clamp(1rem, 2.5vw, 2.25rem);
     align-items: baseline;
     padding: clamp(0.95rem, 2vh, 1.5rem) 0;
-    border-top: 1px dashed color-mix(in srgb, var(--floss-green-deep) 45%, transparent);
-}
+    border-top: 1px dashed color-mix(in srgb, var(--floss-green-deep) 45%, transparent);}
 
-.project-row:last-child {
-    border-bottom: 1px dashed color-mix(in srgb, var(--floss-green-deep) 45%, transparent);
-}
+.project-row:last-child {border-bottom: 1px dashed color-mix(in srgb, var(--floss-green-deep) 45%, transparent);}
 
-.project-index {
-    font-family: var(--font-hellenictypewriter);
+.project-index {font-family: var(--font-hellenictypewriter);
     font-size: clamp(0.78rem, 0.74rem + 0.16vw, 0.9rem);
     color: var(--floss-green-deep);
     opacity: 0.55;
-    line-height: 1.2;
-}
+    line-height: 1.2;}
 
-.project-title {
-    font-family: var(--font-chromatica);
+.project-title {font-family: var(--font-chromatica);
     font-size: clamp(1.02rem, 0.96rem + 0.42vw, 1.35rem);
     line-height: 1.25;
     margin: 0 0 0.35rem;
-    color: var(--ink);
-}
+    color: var(--ink);}
 
-.project-desc {
-    margin: 0 0 0.6rem;
+.project-desc {margin: 0 0 0.6rem;
     font-size: var(--fs-base);
     line-height: 1.6;
     color: var(--ink);
-    max-width: 62ch;
-}
+    max-width: 62ch;}
 
 /* the stack as running text, not a row of pills */
-.project-tech {
-    margin: 0;
+.project-tech {margin: 0;
     font-size: var(--fs-xs);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--floss-green-deep);
-}
+    color: var(--floss-green-deep);}
 
-.project-links {
-    display: flex;
+.project-links {display: flex;
     gap: 0.9rem;
-    align-self: center;
-}
+    align-self: center;}
 
-.project-out {
-    font-size: var(--fs-xs);
+.project-out {font-size: var(--fs-xs);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--floss-green-deep);
@@ -2030,34 +1477,28 @@ body { font-size: var(--fs-base); }
     border-bottom: 1px dashed currentColor;
     padding: 0 0 2px;
     cursor: pointer;
-    white-space: nowrap;
-}
+    white-space: nowrap;}
 
-.project-out:hover { color: var(--ink); }
+.project-out:hover {color: var(--ink);}
 
 @media (max-width: 767px) {
-    .project-row { grid-template-columns: auto 1fr; }
-    .project-links { grid-column: 2; margin-top: 0.75rem; align-self: start; }
-}
+    .project-row {grid-template-columns: auto 1fr;}
+    .project-links {grid-column: 2; margin-top: 0.75rem; align-self: start;}}
 
 /* =========================================================
    PROJECTS — tiles
    Same craft language as the experience swatches: linen wash, stitched
    dashed edge. Two per row on desktop so four projects sit as a clean 2x2.
    ========================================================= */
-.projects-tiles {
-    display: grid;
+.projects-tiles {display: grid;
     grid-template-columns: 1fr;
     gap: clamp(0.9rem, 2vw, 1.4rem);
-    max-width: none;
-}
+    max-width: none;}
 
 @media (min-width: 900px) {
-    .projects-tiles { grid-template-columns: repeat(2, 1fr); }
-}
+    .projects-tiles {grid-template-columns: repeat(2, 1fr);}}
 
-.project-tile {
-    display: flex;
+.project-tile {display: flex;
     flex-direction: column;
     gap: 0.45rem;
     padding: var(--pad-card);
@@ -2067,42 +1508,32 @@ body { font-size: var(--fs-base); }
     box-shadow: 0 8px 20px rgba(10, 8, 24, 0.09);
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
-}
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;}
 
-.project-tile:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 30px rgba(10, 8, 24, 0.14);
-}
+.project-tile:hover {transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(10, 8, 24, 0.14);}
 
-.project-tile .project-title { margin: 0; }
+.project-tile .project-title {margin: 0;}
 
-.project-tile .project-desc {
-    margin: 0;
+.project-tile .project-desc {margin: 0;
     max-width: none;
-    flex: 1;
-}
+    flex: 1;}
 
-.project-tile .project-tech {
-    margin: 0;
+.project-tile .project-tech {margin: 0;
     padding-top: 0.55rem;
-    border-top: 1px dashed color-mix(in srgb, var(--floss-green-deep) 35%, transparent);
-}
+    border-top: 1px dashed color-mix(in srgb, var(--floss-green-deep) 35%, transparent);}
 
-.project-tile .project-links {
-    align-self: flex-start;
-    margin-top: 0.15rem;
-}
+.project-tile .project-links {align-self: flex-start;
+    margin-top: 0.15rem;}
 
 @media (prefers-reduced-motion: reduce) {
-    .project-tile { transition: none; }
-    .project-tile:hover { transform: none; }
-}
+    .project-tile {transition: none;}
+    .project-tile:hover {transform: none;}}
 
 /* the cross-stitch tally under each section heading reads as stray xxx */
 .section-title::after,
 .theme-light .section-title::after,
-.theme-dark .section-title::after { content: none; }
+.theme-dark .section-title::after {content: none;}
 
 /* =========================================================
    SKY MARKS — gulls by day, stitched stars after dark
@@ -2111,76 +1542,32 @@ body { font-size: var(--fs-base); }
    reads as scattered stitching rather than a row of identical stars.
    ========================================================= */
 .bird-star,
-.bird-knot { display: none; }
-
-/* --- dark theme --- */
-.theme-dark .bird-gull,
-:root:not(.theme-light) .bird-gull { display: none; }
-
-.theme-dark .is-sparkle .bird-star,
-:root:not(.theme-light) .is-sparkle .bird-star { display: block; }
-
-.theme-dark .is-knot .bird-knot,
-:root:not(.theme-light) .is-knot .bird-knot { display: block; }
-
-.theme-dark .bird-star,
-:root:not(.theme-light) .bird-star,
-.theme-dark .bird-knot,
-:root:not(.theme-light) .bird-knot {
-    fill: var(--color-cream-paper);
-    /* a stitched star sits ON the cloth: soft bloom plus a thread shadow */
-    filter: drop-shadow(0 0 3px rgba(244, 239, 226, 0.55))
-            drop-shadow(0.4px 0.8px 0.5px rgba(0, 0, 0, 0.45));
-}
+.bird-knot {display: none;}
 
 /* knots are small, so give them a touch more presence than the sparkles */
 .theme-dark .is-knot,
-:root:not(.theme-light) .is-knot { opacity: 0.9; }
-
-.theme-dark .bird,
-:root:not(.theme-light) .bird { opacity: 0.95; }
-
-/* The tree is dark brown thread; on the dark linen it all but disappears.
-   Lift it in dark mode so it reads against the night ground. */
-.theme-dark .garden-tree,
-:root:not(.theme-light) .garden-tree {
-    filter: brightness(1.75) saturate(0.85) contrast(0.95)
-            drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
-}
-
-.theme-dark .garden-meadow,
-:root:not(.theme-light) .garden-meadow,
-.theme-dark .garden-fore,
-:root:not(.theme-light) .garden-fore {
-    filter: brightness(0.86) saturate(0.9);
-}
+:root:not(.theme-light) .is-knot {opacity: 0.9;}
 
 /* =========================================================
    Section headings take the find-out face (Syne)
    stitchHeading() copies the element's computed font-family onto the SVG
    text it draws, so setting it here changes the stitched headings too.
    ========================================================= */
-.section-title {
-    font-family: "Syne", "Segoe UI", sans-serif;
+.section-title {font-family: "Syne", "Segoe UI", sans-serif;
     font-weight: 700;
-    letter-spacing: -0.02em;
-}
+    letter-spacing: -0.02em;}
 
 .exp-panel-role,
-.project-title {
-    font-family: "Syne", "Segoe UI", sans-serif;
+.project-title {font-family: "Syne", "Segoe UI", sans-serif;
     font-weight: 600;
-    letter-spacing: -0.015em;
-}
+    letter-spacing: -0.015em;}
 
 /* honeypot: off-screen for people, irresistible to bots */
-.contact-form .hp {
-    position: absolute;
+.contact-form .hp {position: absolute;
     left: -9999px;
     width: 1px;
     height: 1px;
-    overflow: hidden;
-}
+    overflow: hidden;}
 
 
 /* =========================================================
@@ -2196,23 +1583,17 @@ body { font-size: var(--fs-base); }
 .contact-form input:focus,
 .contact-form textarea:focus,
 .contact-form input.is-error,
-.contact-form textarea.is-error {
-    background-image: none;
-    animation: none;
-}
+.contact-form textarea.is-error {background-image: none;
+    animation: none;}
 
 .contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
+.contact-form textarea:focus {outline: none;
     box-shadow: inset 0 2px 5px rgba(46, 36, 23, 0.14),
-                0 0 0 2px color-mix(in srgb, var(--floss-green-deep) 55%, transparent);
-}
+                0 0 0 2px color-mix(in srgb, var(--floss-green-deep) 55%, transparent);}
 
 .contact-form input.is-error,
-.contact-form textarea.is-error {
-    box-shadow: inset 0 2px 5px rgba(46, 36, 23, 0.14),
-                0 0 0 2px color-mix(in srgb, var(--thread-error) 65%, transparent);
-}
+.contact-form textarea.is-error {box-shadow: inset 0 2px 5px rgba(46, 36, 23, 0.14),
+                0 0 0 2px color-mix(in srgb, var(--thread-error) 65%, transparent);}
 
 /* =========================================================
    Stitched headings: solid fill, no dashed outline
@@ -2220,18 +1601,14 @@ body { font-size: var(--fs-base); }
    read as a dotted cut-out rather than as lettering. Solid ink fill, and the
    thread-shadow twin becomes a soft offset fill instead of a dashed outline.
    ========================================================= */
-.stitch-text-main {
-    fill: var(--ink);
+.stitch-text-main {fill: var(--ink);
     stroke: none;
-    stroke-dasharray: none;
-}
+    stroke-dasharray: none;}
 
-.stitch-text-shadow {
-    fill: var(--thread-shadow);
+.stitch-text-shadow {fill: var(--thread-shadow);
     stroke: none;
     stroke-dasharray: none;
-    opacity: 0.45;
-}
+    opacity: 0.45;}
 
 /* =========================================================
    Footer clearance
@@ -2245,48 +1622,39 @@ body { font-size: var(--fs-base); }
    sizing the footer bar to that height drops the text straight onto it.
    The padding above is the meadow's own clearance (same figure the hero
    uses) minus the band we just claimed back. */
-.footer {
-    position: relative;
+.footer {position: relative;
     z-index: 2;
     padding: calc(30vh + var(--ground-h) * 0.52 - var(--ground-h)) 0 0;
     /* the blanket-stitch seam drew a rule across bare linen mid-air */
-    background-image: none;
-}
+    background-image: none;}
 
 /* The meadow is PLANTED IN the soil — its stems overlap the top ~52% of the
    band — so the text is bottom-aligned into the clear brown below them
    rather than centred, which ran it through the flower bases. */
-.footer-inner {
-    min-height: var(--ground-h);
+.footer-inner {min-height: var(--ground-h);
     align-items: flex-end;
     flex-wrap: nowrap;
-    padding-bottom: max(0.5rem, calc(var(--ground-h) * 0.13));
-}
+    padding-bottom: max(0.5rem, calc(var(--ground-h) * 0.13));}
 
 /* Soil is dark in both themes, so the footer keeps one palette rather than
    inheriting the theme ink — which went near-black on brown in light mode. */
 .footer-mark,
-.footer-links a {
-    color: rgba(255, 255, 255, 0.82);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
-}
+.footer-links a {color: rgba(255, 255, 255, 0.82);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);}
 
 .footer-links a:hover,
-.footer-links a:focus-visible {
-    color: #fff;
+.footer-links a:focus-visible {color: #fff;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
     text-decoration: underline;
     text-underline-offset: 4px;
-    text-decoration-thickness: 1px;
-}
+    text-decoration-thickness: 1px;}
 
 
 /* The clear soil below the stems is only ~43px on a phone — two rows cannot
    fit in it, and nowrap crushed "made with care by diyaa" into a 70px column
    three lines deep. The top nav already carries these links on mobile, so the
    band keeps the signature alone, centred. */
-@media (max-width: 639px) {
-    .footer-links { display: none; }
+@media (max-width: 639px) {.footer-links { display: none; }
 
     .footer-inner {
         justify-content: center;
@@ -2295,14 +1663,11 @@ body { font-size: var(--fs-base); }
     .footer-mark {
         font-size: 0.85rem;
         white-space: nowrap;
-    }
-}
+    };}
 
-.form-status-mail {
-    color: inherit;
+.form-status-mail {color: inherit;
     text-decoration: underline;
-    text-underline-offset: 2px;
-}
+    text-underline-offset: 2px;}
 
 
 /* =========================================================
@@ -2312,8 +1677,7 @@ body { font-size: var(--fs-base); }
    panel that mirrors the form beside them: same border, radius, surface
    and blur, with each address a full row that lights up on hover.
    ========================================================= */
-.contact-links {
-    display: flex;
+.contact-links {display: flex;
     flex-direction: column;
     gap: 0;
     padding: 0.4rem;
@@ -2322,32 +1686,23 @@ body { font-size: var(--fs-base); }
     background: var(--surface);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    max-width: 22rem;
-}
+    max-width: 22rem;}
 
-.contact-links a {
-    /* rows, not fitted text — the whole row is the hit area */
+.contact-links a {/* rows, not fitted text — the whole row is the hit area */
     width: auto;
     padding: 0.72rem 0.85rem;
     border-radius: 12px;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
+    transition: background-color 0.2s ease, color 0.2s ease;}
 
 /* hairline rule between rows, drawn inside so it never meets the card edge */
-.contact-links a + a {
-    box-shadow: inset 0 1px 0 var(--line);
-}
+.contact-links a + a {box-shadow: inset 0 1px 0 var(--line);}
 
 .contact-links a:hover,
-.contact-links a:focus-visible {
-    background: rgba(var(--linen-rgb), 0.55);
+.contact-links a:focus-visible {background: rgba(var(--linen-rgb), 0.55);
     color: var(--ink);
     /* the lavender glow belonged to the stitched underline */
-    text-shadow: none;
-}
+    text-shadow: none;}
 
 /* a hovered row owns its rounded corners, so hide the rule above it */
 .contact-links a:hover + a,
-.contact-links a:focus-visible + a {
-    box-shadow: none;
-}
+.contact-links a:focus-visible + a {box-shadow: none;}
