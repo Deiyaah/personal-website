@@ -897,7 +897,9 @@
     height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    object-position: center top;
+    /* full-length shot: a top-anchored crop cut the hem and shoes off, so the
+       square takes an even slice from top and bottom instead */
+    object-position: center;
     position: relative;
     z-index: 2;
     border-radius: 58% 42% 49% 51% / 52% 47% 53% 48%;
